@@ -8,8 +8,10 @@ import TodayIcon from "@mui/icons-material/Today";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import Button from "@/app/components/Button";
 import VerticalTabs from "@/app/components/Tabs";
+import { useRouter } from "next/navigation";
 
 const Event = () => {
+  const router = useRouter();
   return (
     <S.Section>
       <Container maxWidth={"lg"} sx={{ paddingX: "1.5rem", marginY: "1rem" }}>
@@ -50,6 +52,7 @@ const Event = () => {
                   MERCOLEDI 15 MAGGIO 2024 20:30
                 </Typography>
                 <Button
+                  onClick={() => router.push("/ticket-selection")}
                   sx={{
                     padding: "0.75rem 1.25rem",
                     fontSize: "16px",

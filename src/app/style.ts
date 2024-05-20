@@ -1,5 +1,6 @@
 "use client";
-import { Box, styled } from "@mui/material";
+import { styled } from "@mui/material";
+import Link from "next/link";
 
 export const OrderRow = styled("div")(({}) => ({
   "& button": {
@@ -25,5 +26,14 @@ export const BgMainWrapper = styled("section")(({ theme }) => ({
 
   "& .MuiCardContent-root": {
     padding: 0,
+  },
+}));
+
+export const ALink = styled(Link)(({ theme }) => ({
+  color: "#FFF",
+  fontSize: "14px",
+  "&:hover": {
+    textDecoration: "underline",
+    textDecorationColor: theme.palette.secondary.main,
   },
 }));

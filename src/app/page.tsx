@@ -4,7 +4,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import * as S from "./style";
 import { Divider } from "@mui/material";
-import MatchCard from "./components/Card";
+import MatchCard from "./components/Card/EventCard";
 
 export default function Home() {
   return (

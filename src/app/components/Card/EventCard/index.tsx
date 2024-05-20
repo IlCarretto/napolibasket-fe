@@ -4,7 +4,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import TodayIcon from "@mui/icons-material/Today";
 import Image from "next/image";
 import Poster from "@/../../public/napoli-basket-logo.png";
-import Button from "../Button";
+import Button from "../../Button";
 import * as S from "./style";
 import { useRouter } from "next/navigation";
 

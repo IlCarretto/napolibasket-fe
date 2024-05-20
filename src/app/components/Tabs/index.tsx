@@ -2,9 +2,11 @@ import * as React from "react";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import * as S from "./style";
 import PlaceIcon from "@mui/icons-material/Place";
+import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import Map from "../../components/Map/index";
 
 interface InfoTabsPanelProps {
   children?: React.ReactNode;
@@ -18,6 +20,7 @@ const InfoTabsPanel = ({ ...props }: InfoTabsPanelProps) => {
 
   return (
     <div
+      className="w-full"
       role="InfoTabsPanel"
       hidden={value !== index}
       id={`vertical-InfoTabsPanel-${index}`}
@@ -26,9 +29,7 @@ const InfoTabsPanel = ({ ...props }: InfoTabsPanelProps) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography sx={{ color: theme.palette.primary.main }}>
-            {children}
-          </Typography>
+          <Box sx={{ color: theme.palette.primary.main }}>{children}</Box>
         </Box>
       )}
     </div>
@@ -49,6 +50,9 @@ export default function VerticalTabs() {
     setValue(newValue);
   };
 
+  const theme = useTheme();
+  const isTabletScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       sx={{
@@ -56,10 +60,11 @@ export default function VerticalTabs() {
         bgcolor: "background.paper",
         display: "flex",
         height: 224,
+        flexDirection: `${isTabletScreen ? "column" : "row"}`,
       }}
     >
       <S.CustomTabs
-        orientation="vertical"
+        orientation={isTabletScreen ? "horizontal" : "vertical"}
         variant="scrollable"
         value={value}
         onChange={handleChange}
@@ -74,10 +79,10 @@ export default function VerticalTabs() {
         <InfoTabLocation />
       </InfoTabsPanel>
       <InfoTabsPanel value={value} index={1}>
-        Item Two
+        <InfoTabConsegna />
       </InfoTabsPanel>
       <InfoTabsPanel value={value} index={2}>
-        Item Three
+        <InfoTabOrganizzatore />
       </InfoTabsPanel>
     </Box>
   );
@@ -91,6 +96,26 @@ const InfoTabLocation = () => {
         <PlaceIcon />
         <Typography variant="body1">via Medina 40, Pozzuoli (CA)</Typography>
       </Box>
+      <S.MapWrapper>
+        <Map />
+      </S.MapWrapper>
+    </Box>
+  );
+};
+
+const InfoTabConsegna = () => {
+  return (
+    <Box display={"flex"}>
+      <BookOnlineIcon />
+      <Typography variant="body1">Stampa a casa</Typography>
+    </Box>
+  );
+};
+
+const InfoTabOrganizzatore = () => {
+  return (
+    <Box>
+      <Typography>Unitiva S.R.L</Typography>
     </Box>
   );
 };

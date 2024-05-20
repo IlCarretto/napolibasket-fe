@@ -12,3 +12,7 @@ export const CustomTabs = styled(Tabs)(({}) => ({
     },
   },
 }));
+
+export const MapWrapper = styled("div")(() => ({
+  marginTop: "1rem",
+}));
