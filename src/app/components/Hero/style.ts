@@ -11,5 +11,4 @@ export const Hero = styled("section")(({ theme }) => ({
     borderRadius: "0.25rem",
     marginRight: "1rem",
   },
-  
 }));

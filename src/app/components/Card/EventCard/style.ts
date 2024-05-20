@@ -10,6 +10,12 @@ export const CustomCard = styled(Card)(({ theme }) => ({
   padding: "2rem",
   gap: "1rem",
   height: "100%",
+  borderRadius: "20px",
+  transition: "all .3s",
+  "&:hover": {
+    transform: "scale(0.950)",
+  },
+  cursor: "pointer",
   "@media only screen and (min-width: 768px)": {
     flexWrap: "nowrap",
   },

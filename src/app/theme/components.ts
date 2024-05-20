@@ -1,5 +1,5 @@
 import { ThemeOptions } from "@mui/material";
-import { DARK_BLUE } from "./palette";
+import { DARK_BLUE, LIGHT_BLUE } from "./palette";
 
 const components: ThemeOptions["components"] = {
   MuiButton: {
@@ -41,3 +41,7 @@ const components: ThemeOptions["components"] = {
 };
 
 export default components;
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {}
+}

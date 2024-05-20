@@ -1,16 +1,17 @@
 "use client";
-import { styled } from "@mui/material";
+import { Container, styled } from "@mui/material";
 import Link from "next/link";
 
-export const OrderRow = styled("div")(({}) => ({
+export const CustomContainer = styled(Container)(({}) => ({
+  display: "flex",
   "& button": {
     padding: "0 0.25rem",
     "& svg": {
       height: "24px",
     },
-    "&:first-child": {
-      "& svg:first-of-type": {
-        color: "#9ca3af",
+    "&:last-child": {
+      "& svg": {
+        color: "unset",
       },
     },
   },
@@ -23,7 +24,8 @@ export const BgMainWrapper = styled("section")(({ theme }) => ({
   backgroundPosition: "top center",
   backgroundRepeat: "no-repeat",
   height: "100%",
-
+  borderLeft: `10px solid ${theme.palette.secondary.main}`,
+  borderRight: `10px solid ${theme.palette.secondary.main}`,
   "& .MuiCardContent-root": {
     padding: 0,
   },

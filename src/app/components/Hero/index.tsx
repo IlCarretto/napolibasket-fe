@@ -4,7 +4,7 @@ import { Container, Typography } from "@mui/material";
 
 const Hero = () => {
   return (
-    <S.Hero>
+    <S.Hero id="events-list">
       <Container maxWidth={"lg"} className="mt-auto px-6 mb-2">
         <Typography variant="h1">FRUIT VILLAGE ARENA - Palabarbuto</Typography>
         <div className="flex items-center">
