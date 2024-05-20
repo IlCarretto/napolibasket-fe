@@ -17,6 +17,10 @@ html {
   scroll-behavior: smooth;
 }
 
+main {
+  position: relative;
+}
+
 img {
   max-width: 100%;
 }
@@ -25,4 +29,12 @@ img {
 
 .MuiSvgIcon-root {
   color: white;
+}
+
+.b-0 {
+  bottom: 0!important;
+}
+
+.b-100 {
+  bottom: -200px!important;
 }

@@ -1,12 +1,12 @@
 "use client";
-import { Box, ButtonGroup, Divider, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import React from "react";
 import Button from "../Button";
 import SettoreAccordion from "../SettoreAccordion";
 
 const SettoreList = () => {
   return (
-    <section>
+    <section className="p-6 flex flex-col grow">
       <div className="flex">
         <Button className="w-1/2" variant="contained" label={"Miglior posto"} />
         <Button

@@ -11,6 +11,7 @@ import { Box } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import * as S from "./style";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -50,8 +51,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedAccordions() {
-  const [expanded, setExpanded] = React.useState<string | false>("panel1");
+export default function SettoreAccordion() {
+  const [expanded, setExpanded] = React.useState<string | false>("");
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -59,7 +60,7 @@ export default function CustomizedAccordions() {
     };
 
   return (
-    <div>
+    <div className="overflow-y-auto h-0 flex flex-col grow pe-2">
       <Accordion
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
@@ -75,7 +76,7 @@ export default function CustomizedAccordions() {
           </Box>
         </AccordionSummary>
         <AccordionDetails className="bg-gray-100">
-          <SettoreCard />
+          <SettoreContent />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -85,22 +86,60 @@ export default function CustomizedAccordions() {
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
           <Box>
             <Typography mb={0} variant="h5">
-              SETTORE 1
+              SETTORE 2
             </Typography>
             {expanded !== "panel2" && (
               <Typography variant="body2">A partire da 8,00</Typography>
             )}
           </Box>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>Test</Typography>
+        <AccordionDetails className="bg-gray-100">
+          <SettoreContent />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel3"}
+        onChange={handleChange("panel3")}
+      >
+        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+          <Box>
+            <Typography mb={0} variant="h5">
+              SETTORE 3
+            </Typography>
+            {expanded !== "panel3" && (
+              <Typography variant="body2">A partire da 8,00</Typography>
+            )}
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails className="bg-gray-100">
+          <SettoreContent />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel4"}
+        onChange={handleChange("panel4")}
+      >
+        <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
+          <Box>
+            <Typography mb={0} variant="h5">
+              SETTORE 4
+            </Typography>
+            {expanded !== "panel4" && (
+              <Typography variant="body2">A partire da 8,00</Typography>
+            )}
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails className="bg-gray-100">
+          <SettoreContent />
         </AccordionDetails>
       </Accordion>
     </div>
   );
 }
 
-const SettoreCard = () => {
+const SettoreContent = () => {
+  const { tickets, addTicket, removeTicket } = useEventTotal();
+
   return (
     <>
       <S.Row
@@ -115,11 +154,11 @@ const SettoreCard = () => {
           <Typography>16,00</Typography>
         </Box>
         <Box display={"flex"} alignItems={"center"} gap={1}>
-          <S.TicketSelectorButton>
+          <S.TicketSelectorButton onClick={removeTicket}>
             <RemoveIcon />
           </S.TicketSelectorButton>
-          <Box>0</Box>
-          <S.TicketSelectorButton>
+          <Box>{tickets}</Box>
+          <S.TicketSelectorButton onClick={addTicket}>
             <AddIcon />
           </S.TicketSelectorButton>
         </Box>
