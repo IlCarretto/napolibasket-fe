@@ -10,7 +10,7 @@ export const Header = styled("header")(({ theme }) => ({
   padding: "0.5rem 0",
 }));
 
-export const LogoContainer = styled(Box)(({ theme }) => ({}));
+export const LogoContainer = styled("a")(({ theme }) => ({}));
 
 export const Nav = styled("ul")(({ theme }) => ({
   gap: "1rem",

@@ -8,6 +8,7 @@ export const CustomContainer = styled(Container)(({}) => ({
     padding: "0 0.25rem",
     "& svg": {
       height: "24px",
+      color: "inherit",
     },
     "&:last-child": {
       "& svg": {
@@ -28,6 +29,11 @@ export const BgMainWrapper = styled("section")(({ theme }) => ({
   borderRight: `10px solid ${theme.palette.secondary.main}`,
   "& .MuiCardContent-root": {
     padding: 0,
+  },
+  "& > div": {
+    "& > div": {
+      padding: "0 15px 15px",
+    },
   },
 }));
 

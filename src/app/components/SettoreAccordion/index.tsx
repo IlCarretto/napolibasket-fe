@@ -11,7 +11,11 @@ import { Box } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import * as S from "./style";
-import { useEventTotal } from "@/app/context/EventTotalContext";
+import {
+  SectorType,
+  TicketType,
+  useEventTotal,
+} from "@/app/context/EventTotalContext";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -41,6 +45,10 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
+  "& .MuiAccordionSummary-content": {
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
@@ -59,6 +67,8 @@ export default function SettoreAccordion() {
       setExpanded(newExpanded ? panel : false);
     };
 
+  const { sectorPrice } = useEventTotal();
+
   return (
     <div className="overflow-y-auto h-0 flex flex-col grow pe-2">
       <Accordion
@@ -74,9 +84,16 @@ export default function SettoreAccordion() {
               <Typography variant="body2">A partire da 8,00</Typography>
             )}
           </Box>
+          <Box>
+            {sectorPrice("SETTORE 1") > 0 && (
+              <Typography mb={0} variant="h5" marginRight={1}>
+                {sectorPrice("SETTORE 1")},00
+              </Typography>
+            )}
+          </Box>
         </AccordionSummary>
         <AccordionDetails className="bg-gray-100">
-          <SettoreContent />
+          <SettoreContent sector="SETTORE 1" />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -92,9 +109,16 @@ export default function SettoreAccordion() {
               <Typography variant="body2">A partire da 8,00</Typography>
             )}
           </Box>
+          <Box>
+            {sectorPrice("SETTORE 2") > 0 && (
+              <Typography mb={0} variant="h5" marginRight={1}>
+                {sectorPrice("SETTORE 2")},00
+              </Typography>
+            )}
+          </Box>
         </AccordionSummary>
         <AccordionDetails className="bg-gray-100">
-          <SettoreContent />
+          <SettoreContent sector="SETTORE 2" />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -110,9 +134,16 @@ export default function SettoreAccordion() {
               <Typography variant="body2">A partire da 8,00</Typography>
             )}
           </Box>
+          <Box>
+            {sectorPrice("SETTORE 3") > 0 && (
+              <Typography mb={0} variant="h5" marginRight={1}>
+                {sectorPrice("SETTORE 3")},00
+              </Typography>
+            )}
+          </Box>
         </AccordionSummary>
         <AccordionDetails className="bg-gray-100">
-          <SettoreContent />
+          <SettoreContent sector="SETTORE 3" />
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -128,46 +159,86 @@ export default function SettoreAccordion() {
               <Typography variant="body2">A partire da 8,00</Typography>
             )}
           </Box>
+          <Box>
+            {sectorPrice("SETTORE 4") > 0 && (
+              <Typography mb={0} variant="h5" marginRight={1}>
+                {sectorPrice("SETTORE 4")},00
+              </Typography>
+            )}
+          </Box>
         </AccordionSummary>
         <AccordionDetails className="bg-gray-100">
-          <SettoreContent />
+          <SettoreContent sector="SETTORE 4" />
         </AccordionDetails>
       </Accordion>
     </div>
   );
 }
 
-const SettoreContent = () => {
-  const { tickets, addTicket, removeTicket } = useEventTotal();
+const SettoreContent = ({ sector }: { sector: SectorType }) => {
+  const { sectors, addTicket, removeTicket } = useEventTotal();
+  const sectorInfo = sectors[sector] || {};
 
   return (
     <>
-      <S.Row
-        display={"flex"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Box>
-          <Typography variant="h6">INTERO OVER 24</Typography>
-        </Box>
-        <Box marginLeft={"auto"} marginRight={4}>
-          <Typography>16,00</Typography>
-        </Box>
-        <Box display={"flex"} alignItems={"center"} gap={1}>
-          <S.TicketSelectorButton onClick={removeTicket}>
-            <RemoveIcon />
-          </S.TicketSelectorButton>
-          <Box>{tickets}</Box>
-          <S.TicketSelectorButton onClick={addTicket}>
-            <AddIcon />
-          </S.TicketSelectorButton>
-        </Box>
-      </S.Row>
-      <S.Row>
-        <Box>
-          <Typography variant="h6">RIDOTTO 3-24 ANNI</Typography>
-        </Box>
-      </S.Row>
+      <TicketRow
+        sector={sector}
+        type="INTERO OVER 24"
+        price={16}
+        count={sectorInfo["INTERO OVER 24"]?.count || 0}
+        addTicket={addTicket}
+        removeTicket={removeTicket}
+      />
+      <TicketRow
+        sector={sector}
+        type="RIDOTTO 3-24 ANNI"
+        price={8}
+        count={sectorInfo["RIDOTTO 3-24 ANNI"]?.count || 0}
+        addTicket={addTicket}
+        removeTicket={removeTicket}
+      />
     </>
+  );
+};
+
+interface TicketRowProps {
+  sector: SectorType;
+  type: TicketType;
+  price: number;
+  count: number;
+  addTicket: (sector: SectorType, type: TicketType) => void;
+  removeTicket: (sector: SectorType, type: TicketType) => void;
+}
+
+const TicketRow = ({
+  sector,
+  type,
+  price,
+  count,
+  addTicket,
+  removeTicket,
+}: TicketRowProps) => {
+  return (
+    <S.Row
+      display={"flex"}
+      justifyContent={"space-between"}
+      alignItems={"center"}
+    >
+      <Box>
+        <Typography variant="h6">{type}</Typography>
+      </Box>
+      <Box marginLeft={"auto"} marginRight={4}>
+        <Typography>{price},00</Typography>
+      </Box>
+      <Box display={"flex"} alignItems={"center"} gap={1}>
+        <S.TicketSelectorButton onClick={() => removeTicket(sector, type)}>
+          <RemoveIcon />
+        </S.TicketSelectorButton>
+        <Box>{count}</Box>
+        <S.TicketSelectorButton onClick={() => addTicket(sector, type)}>
+          <AddIcon />
+        </S.TicketSelectorButton>
+      </Box>
+    </S.Row>
   );
 };

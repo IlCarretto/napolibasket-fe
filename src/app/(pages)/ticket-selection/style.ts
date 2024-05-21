@@ -14,8 +14,7 @@ export const MainRow = styled("div")(({}) => ({
 }));
 
 export const MenuTotal = styled("div")(({ theme }) => ({
-  bottom: 0,
-  "& [class^='event-total__']": {
+    "& [class^='event-total__']": {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

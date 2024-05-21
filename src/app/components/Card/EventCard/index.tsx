@@ -8,10 +8,14 @@ import Button from "../../Button";
 import * as S from "./style";
 import { useRouter } from "next/navigation";
 
-const MatchCard = () => {
+type TMatchCard = {
+  layout: boolean;
+};
+
+const MatchCard = ({ layout }: TMatchCard) => {
   const router = useRouter();
   return (
-    <S.CustomCard>
+    <S.CustomCard sx={{ flexDirection: layout ? "row" : "column" }}>
       <CardMedia>
         <Image
           style={{ minWidth: 100 }}

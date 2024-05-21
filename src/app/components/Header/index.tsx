@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <S.Header>
       <S.CustomContainer maxWidth={"lg"}>
-        <S.LogoContainer>
+        <S.LogoContainer href="/">
           <Image src={Logo.src} alt="Napoli Basket" width={50} height={50} />
         </S.LogoContainer>
         <S.Nav>

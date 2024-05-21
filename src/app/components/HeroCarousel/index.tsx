@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -41,6 +41,9 @@ const Item = ({ item }: any) => {
         {"Vai agli eventi"}
         <ArrowDownwardIcon />
       </CtaLink>
+      <Typography fontSize={48} lineHeight={1.5} variant="h1">
+        Generazione Vincente Napoli Basket
+      </Typography>
     </ImageWrapper>
   );
 };
@@ -62,9 +65,18 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
       zIndex: 1,
     },
+  },
+  "& h1": {
+    textAlign: "center",
+    textTransform: "uppercase",
+    position: "absolute",
+    top: "40%",
+    left: "50%",
+    transform: "translate(-50%, -40%)",
+    zIndex: 2,
   },
 }));
 

@@ -16,6 +16,7 @@ import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Button from "@/app/components/Button";
 import { useEventTotal } from "@/app/context/EventTotalContext";
+import { useRouter } from "next/navigation";
 
 const TicketSelection = () => {
   return (
@@ -28,7 +29,7 @@ const TicketSelection = () => {
         <div className="w-full md:w-1/2 ps-3">
           <EventMap />
         </div>
-        <div className="w-full md:w-1/2 bg-gray-100 pe-3 flex">
+        <div className="w-full md:w-1/2   bg-gray-100 pe-3 flex">
           <SettoreList />
         </div>
       </S.MainRow>
@@ -40,6 +41,7 @@ const TicketSelection = () => {
 export default TicketSelection;
 
 const EventTotal = () => {
+  const router = useRouter();
   const theme = useTheme();
   const [checked, setChecked] = React.useState(true);
 
@@ -47,12 +49,12 @@ const EventTotal = () => {
     setChecked(event.target.checked);
   };
 
-  const { tickets } = useEventTotal();
+  const { totalTickets, totalPrice } = useEventTotal();
 
   return (
     <S.MenuTotal
       className={`${
-        tickets > 0 ? "b-0" : "translate-y-full b-100"
+        totalTickets > 0 ? "" : "translate-y-full"
       } transition-all sticky mt-auto md:ms-auto md:w-1/2`}
     >
       <div className="event-total__top px-3 py-2">
@@ -60,10 +62,10 @@ const EventTotal = () => {
           Totale
         </Typography>
         <div>
-          1 <ConfirmationNumberIcon />
+          {totalTickets} <ConfirmationNumberIcon />
         </div>
         <Typography variant="h6" mb={0}>
-          16,00
+          {totalPrice()},00
         </Typography>
       </div>
       <div className="event-total__bottom px-3 py-2">
@@ -74,6 +76,7 @@ const EventTotal = () => {
           />
         </FormGroup>
         <Button
+          onClick={() => router.push("/cart")}
           sx={{ ":hover": { svg: { color: "#FFF" } } }}
           variant="outlined"
           startIcon={
