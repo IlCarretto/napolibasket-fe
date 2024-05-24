@@ -7,7 +7,7 @@ export const Header = styled("header")(({ theme }) => ({
   position: "sticky",
   top: 0,
   zIndex: 10,
-  padding: "0.5rem 0",
+  height: 66,
 }));
 
 export const LogoContainer = styled("a")(({ theme }) => ({}));
@@ -23,4 +23,13 @@ export const CustomContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  height: "100%",
+}));
+
+export const LoginButton = styled("button")(() => ({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+  color: "#FFF",
+  fontSize: 14,
 }));

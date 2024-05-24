@@ -39,8 +39,22 @@ type TEventTotalProvider = {
   children: ReactNode;
 };
 
+const mockSectors = {
+  "SETTORE 1": {
+    "INTERO OVER 24": { count: 1, price: 16 },
+  },
+  "SETTORE 2": {
+    "INTERO OVER 24": { count: 1, price: 16 },
+    "RIDOTTO 3-24 ANNI": { count: 1, price: 8 },
+  },
+  "SETTORE 4": {
+    "RIDOTTO 3-24 ANNI": { count: 2, price: 8 },
+  },
+};
+
 export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
-  const [sectors, setSectors] = useState<IEventTotalContext["sectors"]>({});
+  const [sectors, setSectors] =
+    useState<IEventTotalContext["sectors"]>(mockSectors);
 
   const addTicket = (sector: SectorType, type: TicketType) => {
     setSectors((prevSectors) => {

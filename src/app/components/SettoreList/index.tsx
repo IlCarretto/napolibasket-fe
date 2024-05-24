@@ -3,12 +3,15 @@ import { Box, Typography, styled } from "@mui/material";
 import React, { useState } from "react";
 import Button from "../Button";
 import SettoreAccordion from "../SettoreAccordion";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import PrezziTrasparentiModal from "../Modal/PrezziTrasparentiModal";
 
 const SettoreList = () => {
   const [isMigliorePosto, setIsMigliorePosto] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <section className="p-6 flex flex-col grow">
+    <section className="p-4 flex flex-col grow">
       <div className="flex">
         <CustomButton
           onClick={() => setIsMigliorePosto(true)}
@@ -36,6 +39,16 @@ const SettoreList = () => {
             posti a disposizione
           </Typography>
           <SettoreAccordion />
+          <Box>
+            <PrezziButton onClick={() => setShowModal(true)}>
+              <AddCircleIcon fontSize="small" sx={{ color: "#000" }} />
+              dettaglio prezzi
+            </PrezziButton>
+          </Box>
+          <PrezziTrasparentiModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
         </>
       ) : (
         <Box>
@@ -61,4 +74,13 @@ const CustomButton = styled(Button)(({ theme }) => ({
     color: "#FFF",
     border: "none",
   },
+}));
+
+export const PrezziButton = styled("button")(() => ({
+  textDecoration: "underline",
+  alignSelf: "flex-start",
+  display: "flex",
+  alignItems: "center",
+  fontSize: 14,
+  gap: 4,
 }));

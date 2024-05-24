@@ -1,26 +1,31 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./style";
 import Image from "next/image";
-import Logo from "@/../../public/napoli-basket-logo.png";
+import Logo from "@/../../public/napoli-basket-bianco-celeste.svg";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import LoginModal from "../Modal/LoginModal";
 
 const Header = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <S.Header>
       <S.CustomContainer maxWidth={"lg"}>
         <S.LogoContainer href="/">
-          <Image src={Logo.src} alt="Napoli Basket" width={50} height={50} />
+          <Image src={Logo.src} alt="Napoli Basket" width={175} height={175} />
         </S.LogoContainer>
         <S.Nav>
           <S.NavItem>
             <SearchIcon />
           </S.NavItem>
           <S.NavItem className="flex items-center gap-2">
-            <AccountCircleIcon />
-            <Typography variant="body2">Accedi</Typography>
+            <S.LoginButton type="button" onClick={() => setShowModal(true)}>
+              <AccountCircleIcon />
+              Accedi
+            </S.LoginButton>
           </S.NavItem>
           <S.NavItem>
             <button style={{ height: 25 }}>
@@ -35,6 +40,7 @@ const Header = () => {
           </S.NavItem>
         </S.Nav>
       </S.CustomContainer>
+      <LoginModal showModal={showModal} setShowModal={setShowModal} />
     </S.Header>
   );
 };

@@ -70,7 +70,7 @@ export default function SettoreAccordion() {
   const { sectorPrice } = useEventTotal();
 
   return (
-    <div className="overflow-y-auto h-0 flex flex-col grow pe-2">
+    <div className="overflow-y-auto h-0 flex flex-col grow pe-2 mb-4">
       <Accordion
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
