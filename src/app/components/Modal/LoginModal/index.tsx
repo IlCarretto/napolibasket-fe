@@ -8,9 +8,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
-import Button from "../../Button";
+import React, { CSSProperties, useState } from "react";
 import * as S from "./style";
+import Login from "../../Forms/Login";
+import Register from "../../Forms/Register";
+import Link from "next/link";
 
 type TLoginModal = {
   showModal: boolean;
@@ -19,7 +21,8 @@ type TLoginModal = {
 
 const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
   const theme = useTheme();
-  const isTabletScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isLgScreen = useMediaQuery(theme.breakpoints.down("lg"));
+  const [isLoginForm, setIsLoginForm] = useState(true);
 
   const style = {
     position: "absolute",
@@ -32,7 +35,17 @@ const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
     "& .MuiTypography-root": {
       color: "inherit",
     },
+    width: "50%",
   };
+
+  const underlinedStyle: CSSProperties = {
+    textDecoration: "underline",
+    fontSize: 14,
+    textAlign: "center",
+    display: "block",
+    marginTop: 8,
+  };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -50,27 +63,67 @@ const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
       <Box sx={style}>
         <S.LoginHero />
         <Grid container>
-          <Grid xs={12} md={5}>
+          <Grid xs={12} lg={5}>
             <Box p={3}>
-              <Typography id="transition-modal-title" variant="body1" mb={3}>
-                Vivi le tue emozioni!
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                textTransform={"uppercase"}
+              >
+                {isLoginForm ? "Accedi" : "Registrati"}
               </Typography>
-              <Typography>Sei un nuovo utente?</Typography>
-              <button type="button">
-                Clicca qui per registrarti gratuitamente
-              </button>
+              {isLoginForm ? <Login /> : <Register />}
+              {isLoginForm && (
+                <>
+                  <Typography mt={1} variant="body2" className="text-center">
+                    Sei un nuovo utente?
+                  </Typography>
+                  <button
+                    onClick={() => setIsLoginForm(false)}
+                    type="button"
+                    className="text-sm hover:underline w-full"
+                  >
+                    Clicca qui per registrarti gratuitamente
+                  </button>
+                </>
+              )}
+              <Typography mt={1} variant="body1" fontSize={12}>
+                Questo sito è protetto da reCAPTCHA e si applicano le norme
+                sulla Privacy e i Termini di Servizio di Google
+              </Typography>
+              {isLoginForm ? (
+                <Link style={underlinedStyle} href="/">
+                  Ho dimenticato la password
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsLoginForm(true)}
+                  style={underlinedStyle}
+                >
+                  Hai già un account? Clicca qui per accedere
+                </button>
+              )}
             </Box>
           </Grid>
           <Grid
             xs={12}
-            md={2}
+            lg={2}
             className="md:flex md:items-center md:justify-center"
           >
-            <Divider orientation={isTabletScreen ? "horizontal" : "vertical"}>
+            <Divider
+              sx={{
+                "&::before, &::after": {
+                  borderColor: "rgba(0,0,0,.22)",
+                },
+              }}
+              className="pl-3 pe-3 lg:pl-0 lg:pe-0 lg:pt-3 lg:pb-3"
+              orientation={isLgScreen ? "horizontal" : "vertical"}
+            >
               oppure
             </Divider>
           </Grid>
-          <Grid xs={12} md={5}>
+          <Grid xs={12} lg={5}>
             <Box p={3}>Accedi con google</Box>
           </Grid>
         </Grid>

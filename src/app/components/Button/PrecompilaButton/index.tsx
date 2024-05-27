@@ -4,7 +4,7 @@ import React from "react";
 const PrecompilaButton = () => {
   return (
     <Tooltip title="Precompila con i dati dell'utente loggato">
-      <span className="self-end">
+      <span className="self-center">
         <CustomButton>Usa i miei dati</CustomButton>
       </span>
     </Tooltip>

@@ -18,6 +18,7 @@ const HeroCarousel = () => {
 
   return (
     <Carousel
+      swipe={false}
       stopAutoPlayOnHover={false}
       interval={3000}
       navButtonsAlwaysInvisible

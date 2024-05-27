@@ -73,6 +73,23 @@ const components: ThemeOptions["components"] = {
       },
     },
   },
+  MuiFormLabel: {
+    styleOverrides: {
+      asterisk: { display: "none" },
+    },
+  },
+  MuiFormControlLabel: {
+    styleOverrides: {
+      asterisk: { display: "none" },
+    },
+  },
+  MuiBackdrop: {
+    styleOverrides: {
+      root: {
+        backdropFilter: "blur(5px)",
+      },
+    },
+  },
 };
 
 export default components;

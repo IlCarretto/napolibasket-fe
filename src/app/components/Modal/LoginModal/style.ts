@@ -2,7 +2,7 @@
 
 import Hero from "@/../../public/login_hero.jpeg";
 import { styled } from "@mui/material";
-import Image from "next/image";
+import Link from "next/link";
 
 export const LoginHero = styled("div")(() => ({
   width: "100%",
@@ -10,4 +10,7 @@ export const LoginHero = styled("div")(() => ({
   backgroundImage: `url(${Hero.src})`,
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
+}));
+
+export const CustomLink = styled(Link)(() => ({
 }));

@@ -1,0 +1,97 @@
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
+import React, { useState } from "react";
+import Button from "../../Button";
+import { useFormState } from "react-dom";
+import { registerUserAction } from "@/data/actions/auth-actions";
+import { ZodErrors } from "../ZodErrors";
+
+const initialState = {
+  data: null,
+  zodErrors: null,
+  message: null,
+};
+
+const Register = () => {
+  const [formState, formAction] = useFormState(
+    registerUserAction,
+    initialState
+  );
+
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
+  return (
+    <form action={formAction}>
+      <Box mt={2}>
+        <TextField
+          fullWidth
+          className="contained"
+          placeholder="Email"
+          name="email"
+        />
+        <ZodErrors error={formState?.zodErrors?.email} />
+      </Box>
+      <Box mt={2}>
+        <TextField
+          fullWidth
+          className="contained"
+          placeholder="Password"
+          name="password"
+        />
+        <ZodErrors error={formState?.zodErrors?.password} />
+      </Box>
+      <Box mt={2}>
+        <TextField
+          fullWidth
+          className="contained"
+          placeholder="Conferma password"
+          name="confirmPassword"
+        />
+        <ZodErrors error={formState?.zodErrors?.confirmPassword} />
+      </Box>
+      <Box mt={2}>
+        <FormGroup>
+          <CustomFormControlLabel
+            required
+            control={<Checkbox checked={checked} onChange={handleChange} />}
+            label={
+              <Typography ml={0} fontSize={12}>
+                Dichiaro di aver letto e accettato l'informativa sul trattamento
+                dei dati personali
+              </Typography>
+            }
+          />
+        </FormGroup>
+      </Box>
+      <Box mt={2}>
+        <Button
+          disabled={!checked}
+          type="submit"
+          className="w-full"
+          variant="contained"
+          label={"Crea il mio account"}
+        />
+      </Box>
+    </form>
+  );
+};
+
+export default Register;
+
+const CustomFormControlLabel = styled(FormControlLabel)(() => ({
+  margin: 0,
+  "& .MuiSvgIcon-root": {
+    color: "inherit",
+  },
+}));
