@@ -1,9 +1,10 @@
 import { Box, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../Button";
 import { useFormState } from "react-dom";
 import { loginUserAction } from "@/data/actions/auth-actions";
 import { ZodErrors } from "../ZodErrors";
+import { useAuthDispatch } from "@/app/context/AuthContext";
 
 const initialState = {
   data: null,
@@ -11,8 +12,20 @@ const initialState = {
   message: null,
 };
 
-const Login = () => {
+const Login = ({
+  setShowModal,
+}: {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [formState, formAction] = useFormState(loginUserAction, initialState);
+  const dispatch = useAuthDispatch();
+
+  useEffect(() => {
+    if (formState.login) {
+      dispatch({ type: "LOGIN" });
+      setShowModal(false);
+    }
+  }, [formState]);
 
   return (
     <form action={formAction}>

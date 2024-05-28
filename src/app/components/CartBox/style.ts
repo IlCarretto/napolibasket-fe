@@ -8,10 +8,7 @@ const spinAnimation = keyframes`
   }
 `;
 
-export const CartWrapper = styled(Box)(({ theme }) => ({
-  borderRadius: 6,
-  border: `1px solid ${theme.palette.primary.main}`,
-  padding: "0.75rem",
+export const CartWrapper = styled(Box)(() => ({
   background: "#f3f4f6",
 }));
 

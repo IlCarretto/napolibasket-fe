@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, Container, styled } from "@mui/material";
+import { Container, styled } from "@mui/material";
 
-export const Header = styled("header")(({ theme }) => ({
+export const Header = styled("header")(() => ({
   background: "rgba(0,0,0,.9)",
   position: "sticky",
   top: 0,
@@ -10,20 +10,26 @@ export const Header = styled("header")(({ theme }) => ({
   height: 66,
 }));
 
-export const LogoContainer = styled("a")(({ theme }) => ({}));
-
-export const Nav = styled("ul")(({ theme }) => ({
-  gap: "1rem",
-  display: "flex",
-}));
-
-export const NavItem = styled("li")(({ theme }) => ({}));
-
-export const CustomContainer = styled(Container)(({ theme }) => ({
+export const CustomContainer = styled(Container)(() => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   height: "100%",
+  "& img": {
+    width: "100%",
+    height: 60,
+    objectFit: "contain",
+  },
+  "& a:first-child": {
+    "& img": {
+      width: "100%",
+      height: 60,
+      "@media only screen and (min-width: 768px)": {
+        height: "100%",
+        width: 200,
+      },
+    },
+  },
 }));
 
 export const LoginButton = styled("button")(() => ({

@@ -7,12 +7,9 @@ import {
   Box,
   Divider,
   FormControl,
-  FormControlLabel,
   FormLabel,
   Grid,
-  InputLabel,
   MenuItem,
-  Radio,
   RadioGroup,
   Select,
   SelectChangeEvent,
@@ -26,6 +23,8 @@ import Image from "next/image";
 import DatiUtilizzatoreModal from "../Modal/DatiUtilizzatoreModal";
 import Button from "../Button";
 import PrecompilaButton from "../Button/PrecompilaButton";
+import CustomRadioGroup from "../Radio";
+import CustomRadio from "../Radio";
 
 const TicketInfoBox = () => {
   const theme = useTheme();
@@ -77,6 +76,11 @@ const ConsegnaBiglietti = () => {
     setValue((event.target as HTMLInputElement).value);
   };
 
+  const options = [
+    { label: "biglietto elettronico", value: "biglietto-elettronico" },
+    { label: "stampa a casa", value: "stampa-a-casa" },
+  ];
+
   return (
     <>
       <Typography variant="h6">Consegna Biglietti</Typography>
@@ -95,28 +99,13 @@ const ConsegnaBiglietti = () => {
             name="consegna-biglietti"
             sx={{ flexDirection: "row", padding: "0 0.75rem", gap: 2 }}
           >
-            <S.CustomFormControlLabel
-              value="biglietto-elettronico"
-              label={
-                <>
-                  <S.CustomRadio className="custom-radio" />
-                  biglietto elettronico
-                </>
-              }
-              name="consegna-biglietti"
-              control={<Radio sx={{ display: "none" }} />}
-            ></S.CustomFormControlLabel>
-            <S.CustomFormControlLabel
-              value="stampa-a-casa"
-              label={
-                <>
-                  <S.CustomRadio className="custom-radio" />
-                  stampa a casa
-                </>
-              }
-              name="consegna-biglietti"
-              control={<Radio sx={{ display: "none" }} />}
-            ></S.CustomFormControlLabel>
+            {options.map((option) => (
+              <CustomRadio
+                key={option.value}
+                value={option.value}
+                label={option.label}
+              />
+            ))}
           </RadioGroup>
         </FormControl>
       </Box>

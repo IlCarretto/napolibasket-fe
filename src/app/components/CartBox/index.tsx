@@ -29,6 +29,7 @@ const CartBox = () => {
 
   return (
     <S.CartWrapper
+      className="border-solid border-2 border-gray-500 rounded-md p-3"
       color={theme.palette.primary.main}
       sx={{ ".MuiTypography-root": { color: "inherit" } }}
     >

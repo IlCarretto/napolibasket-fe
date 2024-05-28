@@ -20,6 +20,7 @@ export async function registerUserAction(prevState: any, formData: FormData) {
 
   return {
     data: validatedRegisterFields,
+    login: true
   };
 }
 
@@ -39,5 +40,6 @@ export async function loginUserAction(prevState: any, formData: FormData) {
 
   return {
     data: validatedLoginFields,
+    login: true,
   };
 }

@@ -5,10 +5,13 @@ import {
   Modal,
   TextField,
   styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import Button from "../../Button";
 import PrecompilaButton from "../../Button/PrecompilaButton";
+import DatiUtilizzatore from "../../Forms/DatiUtilizzatore";
 
 const style = {
   position: "absolute",
@@ -31,6 +34,10 @@ const DatiUtilizzatoreModal = ({
   showModal,
   setShowModal,
 }: TDatiUtilizzatoreModal) => {
+  const theme = useTheme();
+
+  const isTabletScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <div>
       <Modal
@@ -48,25 +55,19 @@ const DatiUtilizzatoreModal = ({
       >
         <Box sx={style}>
           <Box display={"flex"} flexWrap={"wrap"}>
-            <CustomTextField
-              className="flex-100 md:flex-50"
-              label="Nome/Name"
-              focused
-            />
-            <CustomTextField
-              className="flex-100 md:flex-50"
-              label="Cognome/LastName"
-              focused
-            />
-            <CustomTextField
-              className="flex-100 md:flex-50"
-              type="number"
-              label="Numero/Mobile"
-              focused
-            />
+            <DatiUtilizzatore />
           </Box>
-          <Box display={"flex"} justifyContent={"space-between"}>
-            <ButtonGroup sx={{ gap: 1 }}>
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            flexDirection={isTabletScreen ? "column" : "row"}
+          >
+            <ButtonGroup
+              sx={{
+                gap: 1,
+                flexDirection: isTabletScreen ? "column-reverse" : "row",
+              }}
+            >
               <Button
                 label={"Cancella"}
                 variant="contained"
@@ -76,7 +77,11 @@ const DatiUtilizzatoreModal = ({
               <PrecompilaButton />
             </ButtonGroup>
             <Button
-              sx={{ display: "block", marginLeft: "auto" }}
+              sx={{
+                display: "block",
+                marginLeft: isTabletScreen ? 0 : "auto",
+                marginTop: isTabletScreen ? 1 : 0,
+              }}
               label={"Salva"}
               variant="contained"
               onClick={() => setShowModal(false)}
@@ -90,6 +95,3 @@ const DatiUtilizzatoreModal = ({
 
 export default DatiUtilizzatoreModal;
 
-const CustomTextField = styled(TextField)(() => ({
-  padding: "0 15px 15px 0",
-}));

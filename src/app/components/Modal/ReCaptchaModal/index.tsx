@@ -11,6 +11,9 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 3,
+  "& .MuiTypography-root": {
+    color: "inherit",
+  },
 };
 
 type TReCaptchaModal = {
@@ -35,12 +38,7 @@ const ReCaptchaModal = ({ showModal, setShowModal }: TReCaptchaModal) => {
         }}
       >
         <Box sx={style}>
-          <Typography
-            sx={{ color: "#000" }}
-            id="transition-modal-title"
-            variant="body1"
-            mb={3}
-          >
+          <Typography id="transition-modal-title" variant="body1" mb={3}>
             Conferma che non sei un robot.
           </Typography>
           <Button

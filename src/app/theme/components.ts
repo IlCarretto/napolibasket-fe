@@ -83,10 +83,12 @@ const components: ThemeOptions["components"] = {
       asterisk: { display: "none" },
     },
   },
-  MuiBackdrop: {
+  MuiModal: {
     styleOverrides: {
       root: {
-        backdropFilter: "blur(5px)",
+        "&:not(.MuiMenu-root)": {
+          backdropFilter: "blur(5px)",
+        },
       },
     },
   },

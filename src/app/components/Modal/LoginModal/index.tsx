@@ -72,7 +72,7 @@ const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
               >
                 {isLoginForm ? "Accedi" : "Registrati"}
               </Typography>
-              {isLoginForm ? <Login /> : <Register />}
+              {isLoginForm ? <Login setShowModal={setShowModal}/> : <Register setShowModal={setShowModal}/>}
               {isLoginForm && (
                 <>
                   <Typography mt={1} variant="body2" className="text-center">

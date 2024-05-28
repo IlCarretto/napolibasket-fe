@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                hostname: "napolibasket.it",
+            },
+            {
+                hostname: "backendcdn.vivaticket.it"
+            }
+        ]
+    }
+};
 
 export default nextConfig;

@@ -7,19 +7,26 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../Button";
 import { useFormState } from "react-dom";
 import { registerUserAction } from "@/data/actions/auth-actions";
 import { ZodErrors } from "../ZodErrors";
+import { useAuthDispatch } from "@/app/context/AuthContext";
 
 const initialState = {
   data: null,
   zodErrors: null,
   message: null,
+  login: null,
 };
 
-const Register = () => {
+const Register = ({
+  setShowModal,
+}: {
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const dispatch = useAuthDispatch();
   const [formState, formAction] = useFormState(
     registerUserAction,
     initialState
@@ -30,6 +37,13 @@ const Register = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
+
+  useEffect(() => {
+    if (formState.login) {
+      dispatch({ type: "LOGIN" });
+      setShowModal(false);
+    }
+  }, [formState]);
 
   return (
     <form action={formAction}>
