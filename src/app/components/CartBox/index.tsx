@@ -21,7 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 
-const CartBox = () => {
+const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const theme = useTheme();
   const router = useRouter();
 
@@ -64,18 +64,20 @@ const CartBox = () => {
           <InfoIcon className="!text-gray-400" />
         </Tooltip>
       </S.Row>
-      <Box display="flex" flexDirection="column" gap={1}>
-        <Button
-          onClick={() => router.push("/payment")}
-          label="Procedi con il pagamento"
-          variant="contained"
-        />
-        <Button
-          onClick={() => router.push("/ticket-selection")}
-          label="Torna agli acquisti"
-          variant="outlined"
-        />
-      </Box>
+      {!isPayment && (
+        <Box display="flex" flexDirection="column" gap={1}>
+          <Button
+            onClick={() => router.push("/payment")}
+            label="Procedi con il pagamento"
+            variant="contained"
+          />
+          <Button
+            onClick={() => router.push("/ticket-selection")}
+            label="Torna agli acquisti"
+            variant="outlined"
+          />
+        </Box>
+      )}
     </S.CartWrapper>
   );
 };

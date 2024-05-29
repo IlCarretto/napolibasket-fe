@@ -6,7 +6,7 @@ export const Header = styled("header")(() => ({
   background: "rgba(0,0,0,.9)",
   position: "sticky",
   top: 0,
-  zIndex: 10,
+  zIndex: 1001,
   height: 66,
 }));
 

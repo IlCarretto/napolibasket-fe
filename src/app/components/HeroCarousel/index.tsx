@@ -2,6 +2,7 @@ import { Box, Typography, styled } from "@mui/material";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import Navbar from "../Navbar";
 
 const HeroCarousel = () => {
   const carouselEls = [
@@ -38,6 +39,7 @@ const Item = ({ item }: any) => {
   return (
     <ImageWrapper>
       <div style={{ backgroundImage: `url(${item.url})` }} />
+      <Navbar />
       <CtaLink href="#events-list">
         {"Vai agli eventi"}
         <ArrowDownwardIcon />
@@ -53,7 +55,7 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
   width: "100vw",
   height: "100%",
   position: "relative",
-  "& div": {
+  "& > div": {
     height: "100%",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -74,10 +76,10 @@ const ImageWrapper = styled(Box)(({ theme }) => ({
     textAlign: "center",
     textTransform: "uppercase",
     position: "absolute",
-    top: "40%",
+    top: "50%",
     left: "50%",
     transform: "translate(-50%, -40%)",
-    zIndex: 2,
+    zIndex: 1,
   },
 }));
 
@@ -93,7 +95,7 @@ const CtaLink = styled("a")(({ theme }) => ({
   justifyContent: "space-between",
   gap: "1rem",
   position: "absolute",
-  top: "70%",
+  top: "80%",
   left: "50%",
   transform: "translate(-50%, -70%)",
   zIndex: 2,

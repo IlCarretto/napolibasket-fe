@@ -26,7 +26,7 @@ const MatchCard = ({ layout }: TMatchCard) => {
         ></Image>
       </CardMedia>
       <CardContent className="flex-1 md:flex-auto">
-        <Typography variant="h4">Napoli Basket 15.05.2024</Typography>
+        <Typography variant="h4">Napoli Basket - Scafati Basket</Typography>
         <div className="flex gap-1 mb-2">
           <PlaceIcon />
           <Typography variant="body2">paoloBlasio - Pozzuoli (CA)</Typography>

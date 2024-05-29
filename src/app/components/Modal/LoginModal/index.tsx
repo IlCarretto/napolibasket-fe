@@ -13,6 +13,8 @@ import * as S from "./style";
 import Login from "../../Forms/Login";
 import Register from "../../Forms/Register";
 import Link from "next/link";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
 
 type TLoginModal = {
   showModal: boolean;
@@ -72,7 +74,11 @@ const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
               >
                 {isLoginForm ? "Accedi" : "Registrati"}
               </Typography>
-              {isLoginForm ? <Login setShowModal={setShowModal}/> : <Register setShowModal={setShowModal}/>}
+              {isLoginForm ? (
+                <Login setShowModal={setShowModal} />
+              ) : (
+                <Register setShowModal={setShowModal} />
+              )}
               {isLoginForm && (
                 <>
                   <Typography mt={1} variant="body2" className="text-center">
@@ -117,14 +123,41 @@ const LoginModal = ({ showModal, setShowModal }: TLoginModal) => {
                   borderColor: "rgba(0,0,0,.22)",
                 },
               }}
-              className="pl-3 pe-3 lg:pl-0 lg:pe-0 lg:pt-3 lg:pb-3"
+              className="pl-5 pe-5 lg:pl-0 lg:pe-0 lg:pt-5 lg:pb-5"
               orientation={isLgScreen ? "horizontal" : "vertical"}
             >
               oppure
             </Divider>
           </Grid>
           <Grid xs={12} lg={5}>
-            <Box p={3}>Accedi con google</Box>
+            <Box
+              height="100%"
+              flexDirection="column"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              gap={1}
+              p={isLgScreen ? 2 : 0}
+            >
+              <div className="bg-blue-800 w-5/6 p-2 flex items-center">
+                <FacebookIcon />
+                <Typography
+                  variant="body1"
+                  className="!text-white text-center w-full"
+                >
+                  Continua con Facebook
+                </Typography>
+              </div>
+              <div className="bg-gray-500 w-5/6 p-2 flex items-center">
+                <GoogleIcon />
+                <Typography
+                  variant="body1"
+                  className="!text-white text-center w-full"
+                >
+                  Continua con Google
+                </Typography>
+              </div>
+            </Box>
           </Grid>
         </Grid>
         <Box></Box>

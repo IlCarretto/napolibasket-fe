@@ -6,6 +6,7 @@ import { montserrat } from "./theme/typography";
 import Header from "./components/Header";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { AuthProvider } from "./context/AuthContext";
+import Footer from "./components/Footer";
 
 export default function RootLayout({
   children,
@@ -21,6 +22,7 @@ export default function RootLayout({
               <ThemeProvider theme={theme}>
                 <Header />
                 <main>{children}</main>
+                <Footer />
               </ThemeProvider>
             </AppRouterCacheProvider>
           </ReCaptchaProvider>
