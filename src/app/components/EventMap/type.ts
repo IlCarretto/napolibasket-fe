@@ -8,6 +8,9 @@ export enum SectorColor {
     SETTORE_2 = "#f7941d",
     SETTORE_1 = "#af7de1",
     TRIBUNA_CENTRALE = "#3c9",
+    SETTORE_3 = "#d9cd21",
+    SETTORE_4 = "#d921c9",
+    SETTORE_5 = "#2193d9",
     DEFAULT = "#062f6e"
 }
 

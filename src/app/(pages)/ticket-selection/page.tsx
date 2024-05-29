@@ -51,7 +51,22 @@ const EventTotal = () => {
     setChecked(event.target.checked);
   };
 
-  const { totalTickets, totalPrice } = useEventTotal();
+  const { totalTickets, totalPrice, tickets } = useEventTotal();
+
+
+  //TO DO: Sisteamre quando ci sarà il BE
+  const handleButton = () => {
+    router.push("/cart")
+    if (!!tickets.length) {
+      const cartData = {
+        time: Date.now(),
+        tickets: tickets
+      };
+      localStorage.setItem("Cart", JSON.stringify(cartData));
+    }
+  }
+
+
 
   return (
     <S.MenuTotal
@@ -77,7 +92,7 @@ const EventTotal = () => {
           />
         </FormGroup>
         <Button
-          onClick={() => router.push("/cart")}
+          onClick={() => handleButton()}
           sx={{ ":hover": { svg: { color: "#FFF" } } }}
           variant="outlined"
           startIcon={

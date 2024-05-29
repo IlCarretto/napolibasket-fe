@@ -46,12 +46,17 @@ export type IManualTicket = {
     place: ITicket["place"]
 }
 
+export enum IChoiceMode {
+    BEST_PLACE = "best_place",
+    MANUAL_CHOICE = "manual_choice"
+}
+
+
 export type IEventTotalContext = {
     tickets: ITicket[];
     addManualTicket: (el: IManualTicket) => void;
-    removeTicket: (el: ITicket) => void;
-    clearTickets: () => void;
-    changeTicket: () => void;
+    removeTicket: (ticketId: string) => void;
+    changeTicket: (ticket: ITicket) => void;
     totalTickets: number;
     totalPrice: () => number,
     setHoverArea: (hoverArea: null | ITicket["section_id"]) => void,
@@ -59,11 +64,10 @@ export type IEventTotalContext = {
     jsonMap: any
     pricesForSector: IPriceForSection | null
     addBestTicket: (el: IBestTicket) => void
-    removeBestTicket: (el: ITicket) => void
+    removeBestTicket: (sectorId: number,price:number) => void
+    changeChoiceMode: (el: IChoiceMode) => void;
+    mode: IChoiceMode
 };
-
-
-
 
 export type TEventTotalProvider = {
     children: ReactNode;

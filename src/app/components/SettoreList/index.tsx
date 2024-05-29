@@ -5,17 +5,15 @@ import Button from "../Button";
 import MigliorPosto from "../MigliorPosto";
 import ManualChoice from "../ManualChoice";
 import { useEventTotal } from "@/app/context/EventTotalContext";
+import { IChoiceMode } from "@/app/context/type";
 
 
 const SettoreList = () => {
-  const [isMigliorePosto, setIsMigliorePosto] = useState<"migliore_posto" | "manual_choice">("migliore_posto");
-  const { clearTickets } = useEventTotal();
+  const { changeChoiceMode, mode } = useEventTotal();
 
-  const handleButton = (el: "migliore_posto" | "manual_choice") => {
-   
-    if (el !== isMigliorePosto) {
-      setIsMigliorePosto(el)
-       clearTickets()
+  const handleButton = (el: IChoiceMode) => {
+    if (mode !== el) {
+      changeChoiceMode(el)
     }
   }
 
@@ -23,19 +21,19 @@ const SettoreList = () => {
     <section className="p-6 flex flex-col grow">
       <div className="flex">
         <CustomButton
-          onClick={() => handleButton("migliore_posto")}
+          onClick={() => handleButton(IChoiceMode.BEST_PLACE)}
           className="w-1/2"
-          variant={`${isMigliorePosto === "migliore_posto" ? "contained" : "outlined"}`}
+          variant={`${mode === IChoiceMode.BEST_PLACE ? "contained" : "outlined"}`}
           label={"Miglior posto"}
         />
         <CustomButton
-          onClick={() => handleButton("manual_choice")}
+          onClick={() => handleButton(IChoiceMode.MANUAL_CHOICE)}
           className="w-1/2"
-          variant={`${isMigliorePosto === "manual_choice" ? "contained" : "outlined"}`}
+          variant={`${mode === IChoiceMode.MANUAL_CHOICE ? "contained" : "outlined"}`}
           label={"Selezione manuale"}
         />
       </div>
-      {isMigliorePosto === "migliore_posto" ? (
+      {mode === IChoiceMode.BEST_PLACE ? (
         <>
           <Typography
             fontSize={14}

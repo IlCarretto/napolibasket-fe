@@ -11,7 +11,7 @@ const isClickedInside = (e, element) => {
   return false;
 };
 
-const Popup = ({ position, seatId, onClose }) => {
+const Popup = ({ position, seat, onClose }) => {
   const containerRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -26,7 +26,7 @@ const Popup = ({ position, seatId, onClose }) => {
     };
   }, []);
   return (<>
-   <div
+    <div
       ref={containerRef}
       style={{
         position: "absolute",
@@ -39,10 +39,9 @@ const Popup = ({ position, seatId, onClose }) => {
         backgroundColor: "white"
       }}
     >
-      <div>Seat {seatId}</div>
-      <div>Click on the seat to select</div>
-    </div> 
-</>  );
+      <div>Fila: {seat.line} Posto: {seat.place}</div>
+    </div>
+  </>);
 };
 
 export default Popup;

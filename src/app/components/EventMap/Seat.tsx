@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Circle } from "./react-konva";
 import { SEAT_SIZE } from "./layout";
 import { ISeatData, SeatStatus } from "./type";
 import { ColorSelector, getColor } from "./utils";
 import { useEventTotal } from "@/app/context/EventTotalContext";
+import { IChoiceMode } from "@/app/context/type";
 
 interface ISeatProps {
     data: ISeatData;
@@ -14,24 +15,25 @@ interface ISeatProps {
     onHover: (name: string | null, position?: { x: number; y: number }) => void;
     onDeselect: (name: string) => void;
     onSelect: (name: string) => void;
-    price: { description: string }[];
     line: string
 }
 
-const Seat: React.FC<ISeatProps > = ({ isSelected, data, settoreId, x, y, onHover, onDeselect, onSelect, line, price }) => {
-    const { hoverArea, addManualTicket, removeTicket, } = useEventTotal();
+const Seat: React.FC<ISeatProps> = ({ isSelected, data, settoreId, x, y, onHover, onDeselect, onSelect, line }) => {
+    const { hoverArea, addManualTicket, removeTicket, mode, tickets } = useEventTotal();
     const isBooked = data.status === SeatStatus.BOOKED;
     const isHided = data.status === SeatStatus.HIDE;
+    const isSeatSelected = !!tickets.find(el => el.line === line && el.section_id === settoreId && el.place === data.number);
 
-    const color = getColor(isBooked, isSelected, isHided, ColorSelector[settoreId], hoverArea, settoreId);
+
+    const color = getColor(isBooked, isSeatSelected, isHided, ColorSelector[settoreId], hoverArea, settoreId);
 
     const handleMouseEnter = (e: any) => {
         if (isHided) return;
         e.target._clearCache();
-        onHover(data.name, e.target.getAbsolutePosition());
+        onHover({ line: line, place: data.number }, e.target.getAbsolutePosition());
         const container = e?.target?.getStage()?.container();
         if (container) {
-            container.style.cursor = isBooked ? "not-allowed" : "pointer";
+            container.style.cursor = isBooked ? "not-allowed" : mode === IChoiceMode.BEST_PLACE ? "cursor" : "pointer";
         }
     };
 
@@ -43,21 +45,16 @@ const Seat: React.FC<ISeatProps > = ({ isSelected, data, settoreId, x, y, onHove
         }
     };
 
-    const handleClick = () => {
-        if (isBooked || isHided) return;
 
-        if (isSelected) {
-            removeTicket({
-                id: settoreName + line + data.number,
-                sector: settoreName,
-                line: line,
-                description: price[0].description,
-                place: data.number
-            })
-            onDeselect(data.name)
+    const handleClick = () => {
+        if (isBooked || isHided || mode === IChoiceMode.BEST_PLACE) return;
+
+        if (isSeatSelected) {
+            removeTicket(settoreId + line + data.number)
+            // onDeselect(data.name)
 
         } else {
-            onSelect(data.name)
+            // onSelect(data.name)
             addManualTicket({
                 id: settoreId + line + data.number,
                 line: line,
@@ -95,6 +92,11 @@ export default React.memo(Seat, (prevProps, nextProps) => {
         prevProps.settoreId === nextProps.settoreId &&
         prevProps.x === nextProps.x &&
         prevProps.y === nextProps.y &&
-        prevProps.hoverArea === nextProps.hoverArea
+        prevProps.onHover === nextProps.onHover && // Ensure correct comparison
+        prevProps.onDeselect === nextProps.onDeselect && // Ensure correct comparison
+        prevProps.onSelect === nextProps.onSelect && // Ensure correct comparison
+        prevProps.line === nextProps.line && // Ensure correct comparison
+        prevProps.hoverArea === nextProps.hoverArea &&
+        prevProps.tickets === nextProps.tickets
     );
 });

@@ -25,9 +25,9 @@ const EventMap = () => {
   const [selectedSeatsIds, setSelectedSeatsIds] = React.useState([]);
 
   const [popup, setPopup] = React.useState({ seat: null });
-  const { jsonMap } = useEventTotal();
 
 
+  const { jsonMap, tickets } = useEventTotal();
 
 
   // calculate available space for drawing
@@ -77,22 +77,23 @@ const EventMap = () => {
     });
   }, []);
 
-  const handleSelect = React.useCallback(
-    seatId => {
-      const newIds = selectedSeatsIds.concat([seatId]);
-      setSelectedSeatsIds(newIds);
-    },
-    [selectedSeatsIds]
-  );
-
-  const handleDeselect = React.useCallback(
-    seatId => {
-      const ids = selectedSeatsIds.slice();
-      ids.splice(ids.indexOf(seatId), 1);
-      setSelectedSeatsIds(ids);
-    },
-    [selectedSeatsIds]
-  );
+  // const handleSelect = React.useCallback(
+  //   seatId => {
+  //     const newIds = selectedSeatsIds.concat([seatId]);
+  //     setSelectedSeatsIds(newIds);
+  //   },
+  //   [selectedSeatsIds]
+  // );
+  const handleSelect = ()=>{}
+  const handleDeselect = ()=>{}
+  // const handleDeselect = React.useCallback(
+  //   seatId => {
+  //     const ids = selectedSeatsIds.slice();
+  //     ids.splice(ids.indexOf(seatId), 1);
+  //     setSelectedSeatsIds(ids);
+  //   },
+  //   [selectedSeatsIds]
+  // );
 
   if (jsonMap === null) {
     { console.log("jsonMap", jsonMap) }
@@ -135,7 +136,7 @@ const EventMap = () => {
         scaleY={scale}
       >
         <Layer>
-          {jsonMap.seats.sections.map((section, index) => {
+          {jsonMap.seats.sections.map((section, index:number) => {
             const height = layout.getSectionHeight(section);
             const position = lastSectionPosition + layout.SECTIONS_MARGIN + (section.image ? courtHeight : 0);
             lastSectionPosition = position + height;
@@ -151,7 +152,7 @@ const EventMap = () => {
                     x={offset}
                     y={position}
                     section={section}
-                    selectedSeatsIds={selectedSeatsIds}
+                    selectedSeatsIds={tickets.map(el=>el.id)}
                     onHoverSeat={handleHover}
                     onSelectSeat={handleSelect}
                     onDeselectSeat={handleDeselect}
@@ -170,7 +171,7 @@ const EventMap = () => {
       {popup.seat && (
         <SeatPopup
           position={popup.position}
-          seatId={popup.seat}
+          seat={popup.seat}
           onClose={() => {
             setPopup({ seat: null });
           }}

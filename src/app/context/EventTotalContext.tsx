@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import { IBestTicket, IEventTotalContext, IManualTicket, ITicket } from "./type";
+import { IBestTicket, IChoiceMode, IEventTotalContext, IManualTicket, ITicket } from "./type";
 import { allPricesForSector } from "./utils";
 
 
@@ -13,18 +13,12 @@ const EventTotalContext = createContext<IEventTotalContext>({
   setHoverArea: () => { },
   hoverArea: null,
   jsonMap: {},
-  clearTickets: () => {},
+  changeChoiceMode: () => { },
   pricesForSector: null,
-  removeBestTicket: () => {},
-  changeTicket:()=> {},
-  addBestTicket: ({
-    sector = "",
-    section_id = 0,
-    price = 0,
-    description = "",
-    prevendita = 0,
-    commissione = 0
-  }: IBestTicket) => null
+  removeBestTicket: () => { },
+  changeTicket: () => { },
+  addBestTicket: ({ }: IBestTicket) => null,
+  mode: IChoiceMode.BEST_PLACE
 });
 
 export const useEventTotal = () => useContext(EventTotalContext);
@@ -47,11 +41,10 @@ const useFetch = (url: string) => {
 export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
   const jsonMap = useFetch("./seats-data.json");
   const pricesForSector = useFetch("./MockData/price.json");
+
   const [hoverArea, setHoverArea] = useState<null | ITicket["section_id"]>(null);
-
   const [tickets, setTickets] = useState<IEventTotalContext["tickets"]>([]);
-
-  const clearTickets = () => setTickets([])
+  const [mode, setMode] = useState<IEventTotalContext["mode"]>(IChoiceMode.BEST_PLACE);
 
   const totalTickets = tickets.length
 
@@ -59,7 +52,10 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
     return tickets.reduce((total, ticket) => total + ticket.price, 0);
   };
 
-
+  const changeChoiceMode = (elMode: IChoiceMode) => {
+    setTickets([])
+    setMode(elMode)
+  }
 
   const addManualTicket = (newManualTicket: IManualTicket) => {
     const { description, prevendita, commissione, price, sector } = allPricesForSector(newManualTicket.section_id, pricesForSector!)
@@ -67,8 +63,6 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
       ...newManualTicket,
       description, prevendita, commissione, price, sector
     }
-
-
     if (tickets.length > 0) {
       setTickets((prevTickets) => {
         return [...prevTickets, newTicket];
@@ -78,69 +72,78 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
     }
   };
 
+  const removeTicket = (ticketToRemove: string) => {
+    const index = tickets.findIndex(ticket => ticket.id === ticketToRemove
+    );
+    if (index >= 0) {
+      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
+      setTickets(ticketTemp);
+    }
+  };
+
+  //TO DO: implemtare una logica per best place
   const addBestTicket = (newTicket: IBestTicket) => {
-    //AGGIUNGERE LOGICA PER IL MIGLIOR POSTO
-    let bestTicket: ITicket = {
+
+    let bestPlace = newTicket.sector === "Settore 2" ? 29 : newTicket.sector === "Tribuna Centrale" ? 5 : 1;
+    let bestLine = newTicket.sector === "Tribuna Centrale" ? "F" : "A";
+    console.log(newTicket.sector, newTicket.sector === "Tribuna Centrale")
+    console.log(tickets)
+
+    const lastTicketIndex = tickets.map(ticket => ticket.sector).lastIndexOf(newTicket.sector);
+
+    if (lastTicketIndex !== -1) {
+      const lastTicketInSameSector = tickets[lastTicketIndex];
+      if (newTicket.sector === "Settore 1") {
+        bestPlace = Number(lastTicketInSameSector.place) + 1;
+      } else {
+        bestPlace = Number(lastTicketInSameSector.place) - 1;
+      }
+    }
+
+
+    const newTicketTemp: ITicket = {
       ...newTicket,
-      id: "-1",
-      line: "Z",
-      place: "0"
-    }
+      id: newTicket.section_id + bestLine + bestPlace,
+      place: bestPlace.toString(),
+      line: bestLine
+    };
+
+
     if (tickets.length > 0) {
-      setTickets((prevTickets) => {
-        return [...prevTickets, bestTicket];
-      });
+      setTickets((prevTickets) => [...prevTickets, newTicketTemp]);
     } else {
-
-      setTickets([bestTicket])
+      setTickets([newTicketTemp]);
     }
   };
 
 
-  const changeTicket = (ticketToRemove: ITicket) => {
-    const index = tickets.findIndex(ticket => ticket.id === ticketToRemove.id
-      && ticket.description === ticketToRemove.description
-      && ticket.sector === ticketToRemove.sector
-    );
+  const changeTicket = (ticketToChange: ITicket) => {
+    const index = tickets.findIndex(ticket => ticket.id === ticketToChange.id);
+
     if (index !== -1) {
-      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
-      setTickets(ticketTemp);
+      const updatedTickets = [
+        ...tickets.slice(0, index),
+        ticketToChange,
+        ...tickets.slice(index + 1)
+      ];
+      setTickets(updatedTickets);
     }
   };
 
 
-  const removeTicket = (ticketToRemove: ITicket) => {
-    const index = tickets.findIndex(ticket => ticket.id === ticketToRemove.id
-      && ticket.description === ticketToRemove.description
-      && ticket.sector === ticketToRemove.sector
-    );
-    if (index !== -1) {
-      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
-      setTickets(ticketTemp);
+  const removeBestTicket = (elSectorId: number, price: number) => {
+    console.log(tickets.filter((el => el.price === price && el.section_id === elSectorId)))
+    const ticketIndex = tickets.findLastIndex(ticket => ticket.price === price && ticket.section_id === elSectorId);
+
+    if (ticketIndex !== -1) {
+      const updatedTickets = [
+        ...tickets.slice(0, ticketIndex),
+        ...tickets.slice(ticketIndex + 1)
+      ];
+  
+      setTickets(updatedTickets);
     }
   };
-
-
-
-
-
-  const removeBestTicket = (bestTicketToRemove: ITicket) => {
-
-    //SISTEMARE UNA VOLTA AGGIUNTA LA LOGICA PER IL MIGLIOR POSTO
-    const index = tickets.findIndex(ticket => ticket.id === bestTicketToRemove.id
-      && ticket.description === bestTicketToRemove.description
-      && ticket.sector === bestTicketToRemove.sector
-    );
-    if (index !== -1) {
-      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
-      setTickets(ticketTemp);
-
-    }
-
-  };
-
-
-
 
   return (
     <EventTotalContext.Provider
@@ -152,7 +155,8 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
         hoverArea,
         setHoverArea,
         totalPrice,
-        clearTickets,
+        changeChoiceMode,
+        mode,
         jsonMap,
         pricesForSector,
         addBestTicket,
@@ -163,4 +167,6 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
       {children}
     </EventTotalContext.Provider>
   );
+
+
 };

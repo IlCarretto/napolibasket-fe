@@ -13,7 +13,7 @@ export default function ManualChoice() {
   const { tickets, removeTicket, changeTicket, pricesForSector } = useEventTotal();
 
   const handleDelete = (ticket: ITicket) => {
-    removeTicket(ticket)
+    removeTicket(ticket.id)
   }
   const handleChange = (ticket: ITicket) => {
     changeTicket(ticket)
@@ -40,13 +40,13 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
 
   const handleChangeSelect = (event: SelectChangeEvent<string>) => {
     setPrices(JSON.parse(event?.target.value))
-    // onChangePrice({ ...ticket })
+    onChangePrice({ ...ticket, ...JSON.parse(event?.target.value) })
 
   }
 
   return (
-    <Box display={"flex"}>
-      {ticket.sector} fila: {ticket.line} posto: {ticket.place}
+    <S.Row >
+      <Typography variant="h6" marginRight={2} marginBottom={0} color={"primary"} >{ticket.sector} Fila: {ticket.line} Posto: {ticket.place}</Typography>
       <S.CustomFormControl>
         <Select
           fullWidth
@@ -57,12 +57,13 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
           onChange={(value) => handleChangeSelect(value)}
         >
           {prices.map((elPrice, index: number) => <MenuItem key={index} value={JSON.stringify(elPrice)}>
-            <Typography variant="body1" sx={{ color: "black" }}>{elPrice.price}</Typography>
+            <Typography variant="body1" sx={{ color: "black" }}>{elPrice.description} {elPrice.price}€ </Typography>
           </MenuItem>)}
         </Select>
       </S.CustomFormControl>
+      <Typography variant="h6" marginLeft={2} marginBottom={0} color={"primary"} > {ticket.price},00€ </Typography>
       <IconButton onClick={() => onDelete(ticket)}> <DeleteIcon color="primary" /></IconButton>
 
-    </Box>
+    </S.Row>
   );
 };

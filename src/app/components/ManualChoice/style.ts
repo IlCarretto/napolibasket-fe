@@ -1,8 +1,8 @@
-import { FormControl, styled } from "@mui/material";
+import { Box, FormControl, styled } from "@mui/material";
 
 export const CustomFormControl = styled(FormControl)(({ theme }) => ({
     "& input": {
-        padding: "14px",
+        padding: "6px",
 
     },
     "& label": {
@@ -20,12 +20,19 @@ export const CustomFormControl = styled(FormControl)(({ theme }) => ({
     "& legend": {
         display: "none",
     },
-    "& .MuiInputBase-root": {
-        width: "100%",
-
-    },
+   
     "&.MuiFormControl-root": {
         display: "flex",
-        flexGrow: 1
+        flexGrow: 1,
     },
+    "& .MuiSelect-select":{
+        padding:"8px"
+    }
+}));
+
+export const Row = styled(Box)(({ theme }) => ({
+    padding: "1rem",
+    borderTop: "1px solid rgba(0, 0, 0, .250)",
+    display: "flex",
+    alignItems: "center"
 }));

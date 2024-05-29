@@ -11,7 +11,7 @@ import { calculateTotalPriceBySector, countTicketsByPriceAndSector, getMinPrice 
 import { ColorSelector } from "../EventMap/utils";
 import { IBestTicket, ITicket } from "@/app/context/type";
 
-//AGIUSTARE QUANDO SARA' DEFINITA LA LOGICA MIGLIOR POSTO
+//TO DO:AGIUSTARE QUANDO SARA' DEFINITA LA LOGICA MIGLIOR POSTO
 export default function MigliorPosto() {
   const [expanded, setExpanded] = React.useState<string | false>("");
   const [hoverAccordion, setHoverAccordion] = React.useState<string | false>("");
@@ -75,8 +75,10 @@ export default function MigliorPosto() {
                 key={index}
                 sector={el.section_name}
                 description={objPrice.description}
-                sectionId={objPrice.section_id}
+                sectionId={el.section_id}
                 price={objPrice.price}
+                prevendita={objPrice.prevendita}
+                commissione={objPrice.commissione}
                 count={countTicketsByPriceAndSector(tickets, el.section_name, objPrice.description) || 0}
                 addTicket={addBestTicket}
                 removeTicket={removeBestTicket}
@@ -94,12 +96,14 @@ interface TicketRowProps {
   description: string;
   sectionId: number;
   price: number;
+  prevendita: number;
+  commissione: number;
   count: number;
   addTicket: (ticket: IBestTicket) => void;
-  removeTicket: (ticket: ITicket) => void;
+  removeTicket: (idSection: number,price:number) => void;
 }
 
-const TicketRow = ({ sector, description, price, count, addTicket, removeTicket, sectionId }: TicketRowProps) => {
+const TicketRow = ({ sector, description, price, commissione, prevendita, count, addTicket, removeTicket, sectionId }: TicketRowProps) => {
   return (
     <S.Row display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
       <Box>
@@ -109,17 +113,7 @@ const TicketRow = ({ sector, description, price, count, addTicket, removeTicket,
         <Typography>{price},00</Typography>
       </Box>
       <Box display={"flex"} alignItems={"center"} gap={1}>
-        <S.TicketSelectorButton onClick={() => removeTicket({
-          sector: sector,
-          section_id: sectionId,
-          description: description,
-          price: price,
-          prevendita: 0,
-          commissione: 0,
-          id: "-1",
-          line: "Z",
-          place: "0"
-        })}>
+        <S.TicketSelectorButton onClick={() => removeTicket(sectionId,price)}>
           <RemoveIcon />
         </S.TicketSelectorButton>
         <Box>{count}</Box>
@@ -128,8 +122,8 @@ const TicketRow = ({ sector, description, price, count, addTicket, removeTicket,
           section_id: sectionId,
           description: description,
           price: price,
-          prevendita: 0,
-          commissione: 0
+          prevendita: prevendita,
+          commissione: commissione
         })}>
           <AddIcon />
         </S.TicketSelectorButton>

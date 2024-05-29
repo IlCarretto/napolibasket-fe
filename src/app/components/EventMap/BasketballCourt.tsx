@@ -9,7 +9,7 @@ interface IBasketballCourtProps {
 }
 
 
-const courtWidth = 600;
+const courtWidth = 500;
 export const courtHeight = 300;
 const lineWidth = 2;
 const halfCourtCircleRadius = 60;
