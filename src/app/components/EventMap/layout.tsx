@@ -1,6 +1,6 @@
 export const SEAT_SIZE = 10;
 export const SEATS_DISTANCE = 15;
-export const SUBSECTION_PADDING = 30;
+export const SUBSECTION_PADDING = 15;
 
 export const SECTIONS_MARGIN = 10;
 export const SECTION_TOP_PADDING = 40;
@@ -19,18 +19,21 @@ export const getSubsectionHeight = subsection => {
 };
 
 export const getSectionWidth = section => {
-  const width = section.subsections.reduce((sum, subsection) => {
+  // Verifica che subsections sia un array, altrimenti usa un array vuoto
+  const width = (section.subsections || []).reduce((sum, subsection) => {
     return sum + getSubsectionWidth(subsection);
   }, 0);
   return width;
 };
 
+
 export const getSectionHeight = section => {
   return (
-    Math.max(...section.subsections.map(getSubsectionHeight)) +
+    Math.max(...(section.subsections || []).map(getSubsectionHeight)) +
     SECTION_TOP_PADDING
   );
 };
+
 
 export const getMaximimSectionWidth = sections => {
   return Math.max(...sections.map(getSectionWidth));

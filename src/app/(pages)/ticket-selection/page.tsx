@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const TicketSelection = () => {
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col grow overflow-y-hidden">
       <S.RiepilogoWrapper>
         <ALink href={"/event"}>Torna alla scheda evento</ALink>
         <RiepilogoCard />
@@ -29,11 +29,13 @@ const TicketSelection = () => {
         <div className="w-full md:w-1/2 ps-3">
           <EventMap />
         </div>
-        <div className="w-full md:w-1/2   bg-gray-100 pe-3 flex">
+        <div className="w-full md:w-1/2  flex-col bg-gray-100 flex">
           <SettoreList />
+          <EventTotal />
         </div>
+
       </S.MainRow>
-      <EventTotal />
+
     </div>
   );
 };
@@ -53,9 +55,8 @@ const EventTotal = () => {
 
   return (
     <S.MenuTotal
-      className={`${
-        totalTickets > 0 ? "" : "translate-y-full"
-      } transition-all sticky mt-auto md:ms-auto md:w-1/2`}
+      className={`${totalTickets > 0 ? "" : "translate-y-full"
+        } transition-all sticky mt-auto md:ms-auto md:w-full`}
     >
       <div className="event-total__top px-3 py-2">
         <Typography variant="h6" mb={0}>

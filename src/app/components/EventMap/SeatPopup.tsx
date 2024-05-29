@@ -25,8 +25,8 @@ const Popup = ({ position, seatId, onClose }) => {
       window.removeEventListener("click", onClick);
     };
   }, []);
-  return (
-    <div
+  return (<>
+   <div
       ref={containerRef}
       style={{
         position: "absolute",
@@ -41,8 +41,8 @@ const Popup = ({ position, seatId, onClose }) => {
     >
       <div>Seat {seatId}</div>
       <div>Click on the seat to select</div>
-    </div>
-  );
+    </div> 
+</>  );
 };
 
 export default Popup;

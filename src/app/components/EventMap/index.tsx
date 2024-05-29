@@ -1,22 +1,15 @@
 import React from "react";
-import { Stage, Layer } from "./react-konva";
+import { Stage, Layer, Group } from "./react-konva";
 import Section from "./Section";
 import SeatPopup from "./SeatPopup";
 import * as layout from "./layout";
-import { Image, Rect } from "react-konva";
+import BasketballCourt, { courtHeight } from "./BasketballCourt";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
-const useFetch = (url: string) => {
-  const [data, setData] = React.useState(null);
-  React.useEffect(() => {
-    fetch(url)
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, [url]);
-  return data;
-};
+
 
 const EventMap = () => {
-  const jsonData = useFetch("./seats-data.json");
+
   const containerRef = React.useRef(null);
   const stageRef = React.useRef(null);
 
@@ -32,6 +25,10 @@ const EventMap = () => {
   const [selectedSeatsIds, setSelectedSeatsIds] = React.useState([]);
 
   const [popup, setPopup] = React.useState({ seat: null });
+  const { jsonMap } = useEventTotal();
+
+
+
 
   // calculate available space for drawing
   React.useEffect(() => {
@@ -52,11 +49,15 @@ const EventMap = () => {
     const stage = stageRef.current;
     const clientRect = stage.getClientRect({ skipTransform: true });
 
-    const scaleToFit = size.width / clientRect.width;
-    setScale(scaleToFit);
-    setScaleToFit(scaleToFit);
+    const scaleToFitWidth = size.width / clientRect.width;
+    const scaleToFitHeight = size.height / clientRect.height;
+    const newScale = Math.min(scaleToFitWidth, scaleToFitHeight);
+
+
+    setScale(newScale);
+    setScaleToFit(newScale);
     setVirtualWidth(clientRect.width);
-  }, [jsonData, size]);
+  }, [jsonMap, size]);
 
   // togle scale on double clicks or taps
   const toggleScale = React.useCallback(() => {
@@ -93,24 +94,28 @@ const EventMap = () => {
     [selectedSeatsIds]
   );
 
-  if (jsonData === null) {
+  if (jsonMap === null) {
+    { console.log("jsonMap", jsonMap) }
     return <div ref={containerRef}>Loading...</div>;
   }
 
   const maxSectionWidth = layout.getMaximimSectionWidth(
-    jsonData.seats.sections
+    jsonMap.seats.sections
   );
+
+
 
   return (
     <div
       style={{
         position: "relative",
-        backgroundColor: "lightgrey",
+        backgroundColor: "white",
         width: "100%",
         height: "100%"
       }}
       ref={containerRef}
     >
+
       <Stage
         ref={stageRef}
         width={size.width}
@@ -130,22 +135,21 @@ const EventMap = () => {
         scaleY={scale}
       >
         <Layer>
-          {jsonData.seats.sections.map((section, index) => {
+          {jsonMap.seats.sections.map((section, index) => {
             const height = layout.getSectionHeight(section);
-            const position = lastSectionPosition + layout.SECTIONS_MARGIN;
+            const position = lastSectionPosition + layout.SECTIONS_MARGIN + (section.image ? courtHeight : 0);
             lastSectionPosition = position + height;
             const width = layout.getSectionWidth(section);
 
             const offset = (maxSectionWidth - width) / 2;
 
             return (
-              <div key={index}>
+              <Group key={index} style={{ backgroundColor: "white" }} >
                 {/* Render section component if there's no image */}
                 {!section.image && (
                   <Section
                     x={offset}
                     y={position}
-                    height={height}
                     section={section}
                     selectedSeatsIds={selectedSeatsIds}
                     onHoverSeat={handleHover}
@@ -153,32 +157,11 @@ const EventMap = () => {
                     onDeselectSeat={handleDeselect}
                   />
                 )}
-
-                {/* Render image component if there's an image URL in 'section.image' */}
-                {section.image && (
-                  <div style={{ backgroundColor: "red" }}>
-                    <Rect
-                      x={width/4} // Adjust these as needed for image placement
-                      y={position} // Adjust these as needed for image placement
-                    width={width/2}
-                    height={height*2.5}
-                    fill="orange"
-                    strokeWidth={1}
-                    stroke="lightgrey"
-                    cornerRadius={5}
-                />
-                    <Image
-
-                      x={offset} // Adjust these as needed for image placement
-                      y={position} // Adjust these as needed for image placement
-
-                      width={width} // Adjust these as needed for image size
-                      height={height} // Adjust these as needed for image size
-                      src={section.image} // Replace with the actual image URL from 'section.image'
-                      image={undefined} />
-                  </div>
-                )}
-              </div>
+                {!!section.image && (<BasketballCourt
+                  maxSectionWidth={maxSectionWidth}
+                  x={offset}
+                  y={position - (courtHeight / 1.15)} />)}
+              </Group>
             );
           })}
         </Layer>

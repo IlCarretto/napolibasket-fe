@@ -1,36 +1,30 @@
 "use client";
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import { IBestTicket, IEventTotalContext, IManualTicket, ITicket } from "./type";
+import { allPricesForSector } from "./utils";
 
-export type TicketType = "INTERO OVER 24" | "RIDOTTO 3-24 ANNI";
-export type SectorType = "SETTORE 1" | "SETTORE 2" | "SETTORE 3" | "SETTORE 4";
-
-type TicketInfo = {
-  count: number;
-  price: number;
-};
-
-type SectorInfo = {
-  [key in TicketType]?: TicketInfo;
-};
-
-type IEventTotalContext = {
-  sectors: {
-    [key in SectorType]?: SectorInfo;
-  };
-  addTicket: (sector: SectorType, type: TicketType) => void;
-  removeTicket: (sector: SectorType, type: TicketType) => void;
-  totalTickets: number;
-  sectorPrice: (sector: SectorType) => number;
-  totalPrice: () => number;
-};
 
 const EventTotalContext = createContext<IEventTotalContext>({
-  sectors: {},
-  addTicket: () => {},
-  removeTicket: () => {},
+  tickets: [],
+  addManualTicket: () => { },
+  removeTicket: () => { },
   totalTickets: 0,
-  sectorPrice: () => 0,
   totalPrice: () => 0,
+  setHoverArea: () => { },
+  hoverArea: null,
+  jsonMap: {},
+  clearTickets: () => {},
+  pricesForSector: null,
+  removeBestTicket: () => {},
+  changeTicket:()=> {},
+  addBestTicket: ({
+    sector = "",
+    section_id = 0,
+    price = 0,
+    description = "",
+    prevendita = 0,
+    commissione = 0
+  }: IBestTicket) => null
 });
 
 export const useEventTotal = () => useContext(EventTotalContext);
@@ -39,79 +33,131 @@ type TEventTotalProvider = {
   children: ReactNode;
 };
 
+const useFetch = (url: string) => {
+  const [data, setData] = React.useState(null);
+  React.useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setData(data));
+  }, [url]);
+  return data;
+};
+
+
 export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
-  const [sectors, setSectors] = useState<IEventTotalContext["sectors"]>({});
+  const jsonMap = useFetch("./seats-data.json");
+  const pricesForSector = useFetch("./MockData/price.json");
+  const [hoverArea, setHoverArea] = useState<null | ITicket["section_id"]>(null);
 
-  const addTicket = (sector: SectorType, type: TicketType) => {
-    setSectors((prevSectors) => {
-      const sectorInfo = prevSectors[sector] || {};
-      const ticketInfo = sectorInfo[type] || {
-        count: 0,
-        price: type === "INTERO OVER 24" ? 16 : 8,
-      };
-      const updatedSectorInfo = {
-        ...sectorInfo,
-        [type]: { ...ticketInfo, count: ticketInfo.count + 1 },
-      };
-      return { ...prevSectors, [sector]: updatedSectorInfo };
-    });
-  };
+  const [tickets, setTickets] = useState<IEventTotalContext["tickets"]>([]);
 
-  const removeTicket = (sector: SectorType, type: TicketType) => {
-    setSectors((prevSectors) => {
-      const sectorInfo = prevSectors[sector] || {};
-      const ticketInfo = sectorInfo[type] || {
-        count: 0,
-        price: type === "INTERO OVER 24" ? 16 : 8,
-      };
-      if (ticketInfo.count > 0) {
-        const updatedSectorInfo = {
-          ...sectorInfo,
-          [type]: { ...ticketInfo, count: ticketInfo.count - 1 },
-        };
-        return { ...prevSectors, [sector]: updatedSectorInfo };
-      }
-      return prevSectors;
-    });
-  };
+  const clearTickets = () => setTickets([])
 
-  const totalTickets = Object.values(sectors).reduce((acc, sector) => {
-    if (!sector) return acc;
-    return (
-      acc + Object.values(sector).reduce((acc, { count }) => (acc += count), 0)
-    );
-  }, 0);
-
-  const sectorPrice = (sector: SectorType) => {
-    const sectorInfo = sectors[sector] || {};
-    return Object.values(sectorInfo).reduce(
-      (acc, { count, price }) => acc + count * price,
-      0
-    );
-  };
+  const totalTickets = tickets.length
 
   const totalPrice = () => {
-    return Object.values(sectors).reduce((acc, sector) => {
-      if (!sector) return acc;
-      return (
-        acc +
-        Object.values(sector).reduce(
-          (acc, { count, price }) => acc + count * price,
-          0
-        )
-      );
-    }, 0);
+    return tickets.reduce((total, ticket) => total + ticket.price, 0);
   };
+
+
+
+  const addManualTicket = (newManualTicket: IManualTicket) => {
+    const { description, prevendita, commissione, price, sector } = allPricesForSector(newManualTicket.section_id, pricesForSector!)
+    const newTicket: ITicket = {
+      ...newManualTicket,
+      description, prevendita, commissione, price, sector
+    }
+
+
+    if (tickets.length > 0) {
+      setTickets((prevTickets) => {
+        return [...prevTickets, newTicket];
+      });
+    } else {
+      setTickets([newTicket])
+    }
+  };
+
+  const addBestTicket = (newTicket: IBestTicket) => {
+    //AGGIUNGERE LOGICA PER IL MIGLIOR POSTO
+    let bestTicket: ITicket = {
+      ...newTicket,
+      id: "-1",
+      line: "Z",
+      place: "0"
+    }
+    if (tickets.length > 0) {
+      setTickets((prevTickets) => {
+        return [...prevTickets, bestTicket];
+      });
+    } else {
+
+      setTickets([bestTicket])
+    }
+  };
+
+
+  const changeTicket = (ticketToRemove: ITicket) => {
+    const index = tickets.findIndex(ticket => ticket.id === ticketToRemove.id
+      && ticket.description === ticketToRemove.description
+      && ticket.sector === ticketToRemove.sector
+    );
+    if (index !== -1) {
+      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
+      setTickets(ticketTemp);
+    }
+  };
+
+
+  const removeTicket = (ticketToRemove: ITicket) => {
+    const index = tickets.findIndex(ticket => ticket.id === ticketToRemove.id
+      && ticket.description === ticketToRemove.description
+      && ticket.sector === ticketToRemove.sector
+    );
+    if (index !== -1) {
+      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
+      setTickets(ticketTemp);
+    }
+  };
+
+
+
+
+
+  const removeBestTicket = (bestTicketToRemove: ITicket) => {
+
+    //SISTEMARE UNA VOLTA AGGIUNTA LA LOGICA PER IL MIGLIOR POSTO
+    const index = tickets.findIndex(ticket => ticket.id === bestTicketToRemove.id
+      && ticket.description === bestTicketToRemove.description
+      && ticket.sector === bestTicketToRemove.sector
+    );
+    if (index !== -1) {
+      const ticketTemp = [...tickets.slice(0, index), ...tickets.slice(index + 1)];
+      setTickets(ticketTemp);
+
+    }
+
+  };
+
+
+
 
   return (
     <EventTotalContext.Provider
       value={{
-        sectors,
-        addTicket,
+        addManualTicket,
         removeTicket,
         totalTickets,
-        sectorPrice,
+        tickets,
+        hoverArea,
+        setHoverArea,
         totalPrice,
+        clearTickets,
+        jsonMap,
+        pricesForSector,
+        addBestTicket,
+        removeBestTicket,
+        changeTicket
       }}
     >
       {children}

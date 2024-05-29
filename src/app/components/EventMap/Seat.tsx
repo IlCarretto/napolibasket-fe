@@ -1,64 +1,100 @@
 import React from "react";
 import { Circle } from "./react-konva";
 import { SEAT_SIZE } from "./layout";
+import { ISeatData, SeatStatus } from "./type";
+import { ColorSelector, getColor } from "./utils";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
-function getColor(isBooked, isSelected) {
-  if (isSelected) {
-    return "red";
-  } else if (isBooked) {
-    return "lightgrey";
-  } else {
-    return "#1b728d";
-  }
+interface ISeatProps {
+    data: ISeatData;
+    isSelected: boolean;
+    settoreId: number;
+    x: number;
+    y: number;
+    onHover: (name: string | null, position?: { x: number; y: number }) => void;
+    onDeselect: (name: string) => void;
+    onSelect: (name: string) => void;
+    price: { description: string }[];
+    line: string
 }
 
-const Seat = props => {
-  const isBooked = props.data.status === "booked";
+const Seat: React.FC<ISeatProps > = ({ isSelected, data, settoreId, x, y, onHover, onDeselect, onSelect, line, price }) => {
+    const { hoverArea, addManualTicket, removeTicket, } = useEventTotal();
+    const isBooked = data.status === SeatStatus.BOOKED;
+    const isHided = data.status === SeatStatus.HIDE;
 
-  return (
-    <Circle
-      x={props.x}
-      y={props.y}
-      radius={SEAT_SIZE / 2}
-      fill={getColor(isBooked, props.isSelected)}
-      strokeWidth={1}
-      onMouseEnter={e => {
+    const color = getColor(isBooked, isSelected, isHided, ColorSelector[settoreId], hoverArea, settoreId);
+
+    const handleMouseEnter = (e: any) => {
+        if (isHided) return;
         e.target._clearCache();
-        props.onHover(props.data.name, e.target.getAbsolutePosition());
-        const container = e.target.getStage().container();
-        if (isBooked) {
-          container.style.cursor = "not-allowed";
+        onHover(data.name, e.target.getAbsolutePosition());
+        const container = e?.target?.getStage()?.container();
+        if (container) {
+            container.style.cursor = isBooked ? "not-allowed" : "pointer";
+        }
+    };
+
+    const handleMouseLeave = (e: any) => {
+        onHover(null);
+        const container = e?.target?.getStage()?.container();
+        if (container) {
+            container.style.cursor = "";
+        }
+    };
+
+    const handleClick = () => {
+        if (isBooked || isHided) return;
+
+        if (isSelected) {
+            removeTicket({
+                id: settoreName + line + data.number,
+                sector: settoreName,
+                line: line,
+                description: price[0].description,
+                place: data.number
+            })
+            onDeselect(data.name)
+
         } else {
-          container.style.cursor = "pointer";
-        }
-      }}
-      onMouseLeave={e => {
-        props.onHover(null);
-        const container = e.target.getStage().container();
-        container.style.cursor = "";
-      }}
-      onClick={e => {
-        if (isBooked) {
-          return;
-        }
-        if (props.isSelected) {
-          props.onDeselect(props.data.name);
-        } else {
-          props.onSelect(props.data.name);
-        }
-      }}
-      onTap={e => {
-        if (isBooked) {
-          return;
-        }
-        if (props.isSelected) {
-          props.onDeselect(props.data.name);
-        } else {
-          props.onSelect(props.data.name);
-        }
-      }}
-    />
-  );
+            onSelect(data.name)
+            addManualTicket({
+                id: settoreId + line + data.number,
+                line: line,
+                place: data.number,
+                section_id: settoreId
+            })
+        };
+    };
+
+    return (
+        <Circle
+            x={x}
+            y={y}
+            radius={SEAT_SIZE / 2}
+            fill={color}
+            strokeWidth={1}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+            onTap={handleClick}
+            onKeyPress={(e: React.KeyboardEvent) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    handleClick();
+                }
+            }}
+            tabIndex={0} // Makes the Circle focusable for accessibility
+        />
+    );
 };
 
-export default Seat;
+export default React.memo(Seat, (prevProps, nextProps) => {
+    return (
+        prevProps.isSelected === nextProps.isSelected &&
+        prevProps.data.status === nextProps.data.status &&
+        prevProps.settoreId === nextProps.settoreId &&
+        prevProps.x === nextProps.x &&
+        prevProps.y === nextProps.y &&
+        prevProps.hoverArea === nextProps.hoverArea
+    );
+});

@@ -1,8 +1,21 @@
 import React from "react";
 import { Group, Text } from "./react-konva";
 import Seat from "./Seat";
-
 import { SEATS_DISTANCE, SUBSECTION_PADDING, SEAT_SIZE } from "./layout";
+import { ISeatData, ISubSectionData } from "./type";
+
+
+interface ISubSectionProps {
+    data: ISubSectionData;
+    x: number;
+    y: number;
+    width: number;
+    onHoverSeat: (name: string | null, position?: { x: number; y: number }) => void;
+    onSelectSeat: (name: string) => void;
+    onDeselectSeat: (name: string) => void;
+    selectedSeatsIds: string[];
+}
+
 
 export default ({
     width,
@@ -12,17 +25,20 @@ export default ({
     onHoverSeat,
     onSelectSeat,
     onDeselectSeat,
-    selectedSeatsIds
-}: any) => {
+    selectedSeatsIds,
+}: ISubSectionProps) => {
     return (
         <Group x={x} y={y}>
             {Object.keys(data.seats_by_rows).map((rowKey, rowIndex) => {
                 const row = data.seats_by_rows[rowKey];
                 return (
                     <React.Fragment key={rowKey}>
-                        {row.map((seat, seatIndex: number) => {
+                        {row.map((seat: ISeatData, seatIndex: number) => {
                             return (
                                 <Seat
+                                    price={data.prices}
+                                    line={rowKey}
+                                    settoreId={data.section_id}
                                     key={seat.name}
                                     x={seatIndex * SEATS_DISTANCE + SUBSECTION_PADDING}
                                     y={rowIndex * SEATS_DISTANCE + SUBSECTION_PADDING}
@@ -44,22 +60,7 @@ export default ({
                     </React.Fragment>
                 );
             })}
-            {data.seats_by_rows[1].map((_, seatIndex:number) => {
-                return (
-                    <Text
-                        text={(seatIndex + 1).toString()}
-                        x={seatIndex * SEATS_DISTANCE + SUBSECTION_PADDING - 50}
-                        width={100}
-                        y={
-                            Object.keys(data.seats_by_rows).length * SEATS_DISTANCE +
-                            SUBSECTION_PADDING
-                        }
-                        key={"label-bottom" + seatIndex}
-                        align="center"
-                    />
-                );
-            })}
-            <Text text={data.name} width={width} align="center" y={-10} />
+            <Text fontSize={16} text={data.settore_name} width={width} align="center" y={-25} />
         </Group>
     );
 };
