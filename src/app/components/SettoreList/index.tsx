@@ -6,11 +6,12 @@ import MigliorPosto from "../MigliorPosto";
 import ManualChoice from "../ManualChoice";
 import { useEventTotal } from "@/app/context/EventTotalContext";
 import { IChoiceMode } from "@/app/context/type";
-
+import AddCircleIcon from "@mui/icons-material/AddCircle"
+import PrezziTrasparentiModal from "../Modal/PrezziTrasparentiModal";
 
 const SettoreList = () => {
   const { changeChoiceMode, mode } = useEventTotal();
-
+  const [showModal, setShowModal] = useState(false);
   const handleButton = (el: IChoiceMode) => {
     if (mode !== el) {
       changeChoiceMode(el)
@@ -46,6 +47,16 @@ const SettoreList = () => {
             posti a disposizione
           </Typography>
           <MigliorPosto />
+          <Box>
+            <PrezziButton onClick={() => setShowModal(true)}>
+              <AddCircleIcon fontSize="small" sx={{ color: "#000" }} />
+              dettaglio prezzi
+            </PrezziButton>
+          </Box>
+          <PrezziTrasparentiModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
         </>
       ) : (
         <>

@@ -90,7 +90,7 @@ const EventTotal = () => {
   return (
     <>
       <S.MenuTotal
-        className={`${totalTickets > 0 ? "" : "translate-y-full"
+        className={`${totalTickets > 0 ? "" : "translate-y-full h-0"
           } transition-all sticky mt-auto `}
       >
         <div className="event-total__top px-3 py-2">
