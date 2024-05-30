@@ -2,31 +2,39 @@
 import { Box, Typography, styled } from "@mui/material";
 import React, { useState } from "react";
 import Button from "../Button";
-import SettoreAccordion from "../SettoreAccordion";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import MigliorPosto from "../MigliorPosto";
+import ManualChoice from "../ManualChoice";
+import { useEventTotal } from "@/app/context/EventTotalContext";
+import { IChoiceMode } from "@/app/context/type";
+import AddCircleIcon from "@mui/icons-material/AddCircle"
 import PrezziTrasparentiModal from "../Modal/PrezziTrasparentiModal";
 
 const SettoreList = () => {
-  const [isMigliorePosto, setIsMigliorePosto] = useState(true);
+  const { changeChoiceMode, mode } = useEventTotal();
   const [showModal, setShowModal] = useState(false);
+  const handleButton = (el: IChoiceMode) => {
+    if (mode !== el) {
+      changeChoiceMode(el)
+    }
+  }
 
   return (
     <section className="p-4 flex flex-col grow">
       <div className="flex">
         <CustomButton
-          onClick={() => setIsMigliorePosto(true)}
+          onClick={() => handleButton(IChoiceMode.BEST_PLACE)}
           className="w-1/2"
-          variant={`${isMigliorePosto ? "contained" : "outlined"}`}
+          variant={`${mode === IChoiceMode.BEST_PLACE ? "contained" : "outlined"}`}
           label={"Miglior posto"}
         />
         <CustomButton
-          onClick={() => setIsMigliorePosto(false)}
+          onClick={() => handleButton(IChoiceMode.MANUAL_CHOICE)}
           className="w-1/2"
-          variant={`${isMigliorePosto ? "outlined" : "contained"}`}
+          variant={`${mode === IChoiceMode.MANUAL_CHOICE ? "contained" : "outlined"}`}
           label={"Selezione manuale"}
         />
       </div>
-      {isMigliorePosto ? (
+      {mode === IChoiceMode.BEST_PLACE ? (
         <>
           <Typography
             fontSize={14}
@@ -38,7 +46,7 @@ const SettoreList = () => {
             Indica il numero di biglietti e ti saranno assegnati i migliori
             posti a disposizione
           </Typography>
-          <SettoreAccordion />
+          <MigliorPosto />
           <Box>
             <PrezziButton onClick={() => setShowModal(true)}>
               <AddCircleIcon fontSize="small" sx={{ color: "#000" }} />
@@ -51,16 +59,18 @@ const SettoreList = () => {
           />
         </>
       ) : (
-        <Box>
-          <Typography
+        <>
+        <Typography
+            fontSize={14}
             marginTop={2}
-            textAlign={"center"}
-            variant="body1"
+            marginBottom={1}
             sx={{ color: "#000" }}
+            variant="body1"
           >
             Seleziona i tuoi biglietti dalla mappa
           </Typography>
-        </Box>
+          <ManualChoice />
+        </>
       )}
     </section>
   );

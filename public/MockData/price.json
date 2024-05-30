@@ -1,0 +1,118 @@
+{
+    "section": [
+        {
+            "id": 1,
+            "section_id": 1,
+            "section_name": "Settore 2",
+            "prices": [
+                {
+                    "price": 16,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 6,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "section_id": 2,
+            "section_name": "Tribuna Centrale",
+            "prices": [
+                {
+                    "price": 16,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 8,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "section_id": 3,
+            "section_name": "Settore 1",
+            "prices": [
+                {
+                    "price": 14,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 6,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "section_id": 5,
+            "section_name": "Settore 3",
+            "prices": [
+                {
+                    "price": 14,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 6,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        }, 
+        {
+            "id": 6,
+            "section_id": 6,
+            "section_name": "Settore 4",
+            "prices": [
+                {
+                    "price": 14,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 6,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        }, 
+        {
+            "id": 7,
+            "section_id": 7,
+            "section_name": "Settore 5",
+            "prices": [
+                {
+                    "price": 14,
+                    "description": "intero 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 6,
+                    "description": "ridotto 8-24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                }
+            ]
+        }
+    ]
+}
