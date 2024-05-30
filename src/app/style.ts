@@ -27,6 +27,7 @@ export const BgMainWrapper = styled("section")(({ theme }) => ({
   height: "100%",
   borderLeft: `10px solid ${theme.palette.secondary.main}`,
   borderRight: `10px solid ${theme.palette.secondary.main}`,
+  borderBottom: "10px solid #FFF",
   "& .MuiCardContent-root": {
     padding: 0,
   },

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import FakePoster from "@/../../public/fake-poster.jpg";
-import { Box, Container, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 import * as S from "./style";
 import PlaceIcon from "@mui/icons-material/Place";
 import TodayIcon from "@mui/icons-material/Today";

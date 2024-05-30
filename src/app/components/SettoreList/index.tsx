@@ -18,7 +18,7 @@ const SettoreList = () => {
   }
 
   return (
-    <section className="p-6 flex flex-col grow">
+    <section className="p-4 flex flex-col grow">
       <div className="flex">
         <CustomButton
           onClick={() => handleButton(IChoiceMode.BEST_PLACE)}
@@ -72,4 +72,13 @@ const CustomButton = styled(Button)(({ theme }) => ({
     color: "#FFF",
     border: "none",
   },
+}));
+
+export const PrezziButton = styled("button")(() => ({
+  textDecoration: "underline",
+  alignSelf: "flex-start",
+  display: "flex",
+  alignItems: "center",
+  fontSize: 14,
+  gap: 4,
 }));
