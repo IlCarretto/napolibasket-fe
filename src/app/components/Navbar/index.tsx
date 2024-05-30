@@ -21,6 +21,18 @@ const Navbar = () => {
 
   const isLgScreen = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const navEntries = [
+    "News",
+    "Società",
+    "Prima Squadra",
+    "Settore Giovanile",
+    "Academy",
+    "Club dei 100",
+    "Stories",
+    "Summer Camp",
+    "Shop",
+  ];
+
   return (
     <S.Wrapper>
       <Box position="relative" left={20} zIndex={1}>
@@ -40,21 +52,11 @@ const Navbar = () => {
               <ListItem>
                 <ListItemText primary="Biglietti" />
               </ListItem>
-              <ListItem>
-                <ListItemText primary="Società" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Prima squadra" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="News" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Settore Giovanile" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Accademia" />
-              </ListItem>
+              {navEntries.map((entry) => (
+                <ListItem>
+                  <ListItemText primary={entry} />
+                </ListItem>
+              ))}
             </List>
           </S.DesktopNav>
         ) : (
@@ -70,12 +72,11 @@ const Navbar = () => {
                   >
                     <ListItemText primary="Biglietti" />
                   </ListItem>
-                  <ListItem>
-                    <ListItemText primary="News" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="Società" />
-                  </ListItem>
+                  {navEntries.map((entry) => (
+                    <ListItem>
+                      <ListItemText primary={entry} />
+                    </ListItem>
+                  ))}
                 </List>
               </S.MobileNav>
             )}

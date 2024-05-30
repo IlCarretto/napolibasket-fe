@@ -20,6 +20,7 @@ import XIcon from "@mui/icons-material/X";
 const Footer = () => {
   const theme = useTheme();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
+  
   return (
     <S.FooterWrapper>
       <Grid

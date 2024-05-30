@@ -98,7 +98,7 @@ const CtaLink = styled("a")(({ theme }) => ({
   top: "80%",
   left: "50%",
   transform: "translate(-50%, -70%)",
-  zIndex: 2,
+  zIndex: 1,
   "& svg": {
     color: theme.palette.secondary.main,
     stroke: theme.palette.secondary.main,

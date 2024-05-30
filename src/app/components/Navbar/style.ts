@@ -18,7 +18,7 @@ export const NavWrapper = styled("div")(({ theme }) => ({
   background: theme.palette.secondary.main,
   padding: "20px 0",
   flexGrow: 1,
-  maxWidth: 900,
+  maxWidth: 1100,
   textAlign: "center",
   position: "relative",
 }));
