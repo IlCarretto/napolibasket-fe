@@ -31,6 +31,10 @@ const Event = () => {
               </div>
               <div>
                 <S.ParagraphRow>
+                  <BusinessCenterIcon />
+                  <Typography variant="body1">S.S. Napoli Basket</Typography>
+                </S.ParagraphRow>
+                <S.ParagraphRow>
                   <PlaceIcon />
                   <Typography variant="body1">
                     PalaBarbuto - Napoli (NA)
@@ -43,12 +47,6 @@ const Event = () => {
                   </Typography>
                 </S.ParagraphRow>
               </div>
-              <S.ParagraphRow sx={{ mt: 1 }}>
-                <BusinessCenterIcon fontSize="large" />
-                <Typography variant="h6" mb={0}>
-                  S.S. Napoli Basket
-                </Typography>
-              </S.ParagraphRow>
               <Divider sx={{ margin: "0.75rem 0" }} />
               <div className="button-group">
                 <Button
