@@ -32,6 +32,7 @@ const Login = ({
       <Box mt={2}>
         <TextField
           fullWidth
+          type="email"
           className="contained"
           placeholder="Email"
           name="email"
@@ -41,6 +42,7 @@ const Login = ({
       <Box mt={2}>
         <TextField
           fullWidth
+          type="password"
           className="contained"
           placeholder="Password"
           name="password"

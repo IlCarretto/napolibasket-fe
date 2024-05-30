@@ -13,10 +13,10 @@ const RiepilogoCard = () => {
         <Image width={75} height={75} src={Poster.src} alt="Event Poster" />
       </CardMedia>
       <CardContent>
-        <Typography variant="h6">NAPOLI BASKET - MARANO BASKET</Typography>
+        <Typography variant="h6">Gevi Napoli Basket- Scafati Basket</Typography>
         <Box display={"flex"}>
           <PlaceIcon />
-          <Typography variant="body1">Palablasio - Pozzuoli (CA)</Typography>
+          <Typography variant="body1">PalaBarbuto - Napoli (NA)</Typography>
         </Box>
         <Box display={"flex"}>
           <TodayIcon />

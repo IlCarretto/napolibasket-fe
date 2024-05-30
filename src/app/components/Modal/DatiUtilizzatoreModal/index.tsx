@@ -1,16 +1,5 @@
-import {
-  Backdrop,
-  Box,
-  ButtonGroup,
-  Modal,
-  TextField,
-  styled,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Backdrop, Box, Modal } from "@mui/material";
 import React from "react";
-import Button from "../../Button";
-import PrecompilaButton from "../../Button/PrecompilaButton";
 import DatiUtilizzatore from "../../Forms/DatiUtilizzatore";
 
 const style = {
@@ -34,9 +23,6 @@ const DatiUtilizzatoreModal = ({
   showModal,
   setShowModal,
 }: TDatiUtilizzatoreModal) => {
-  const theme = useTheme();
-
-  const isTabletScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div>
@@ -54,39 +40,7 @@ const DatiUtilizzatoreModal = ({
         }}
       >
         <Box sx={style}>
-          <Box display={"flex"} flexWrap={"wrap"}>
-            <DatiUtilizzatore />
-          </Box>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            flexDirection={isTabletScreen ? "column" : "row"}
-          >
-            <ButtonGroup
-              sx={{
-                gap: 1,
-                flexDirection: isTabletScreen ? "column-reverse" : "row",
-              }}
-            >
-              <Button
-                label={"Cancella"}
-                variant="contained"
-                id="transition-modal-title"
-                onClick={() => setShowModal(false)}
-              />
-              <PrecompilaButton />
-            </ButtonGroup>
-            <Button
-              sx={{
-                display: "block",
-                marginLeft: isTabletScreen ? 0 : "auto",
-                marginTop: isTabletScreen ? 1 : 0,
-              }}
-              label={"Salva"}
-              variant="contained"
-              onClick={() => setShowModal(false)}
-            />
-          </Box>
+          <DatiUtilizzatore setShowModal={setShowModal}/>
         </Box>
       </Modal>
     </div>
@@ -94,4 +48,3 @@ const DatiUtilizzatoreModal = ({
 };
 
 export default DatiUtilizzatoreModal;
-

@@ -6,7 +6,7 @@ import { ALink } from "@/app/style";
 import EventMap from "@/app/components/EventMap";
 import SettoreList from "@/app/components/SettoreList";
 import { FormGroup, Typography, useTheme } from "@mui/material";
-import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import TicketIcon from "@/app/../../public/ticket-bianco.svg";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Button from "@/app/components/Button";
 import { useEventTotal } from "@/app/context/EventTotalContext";
@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import ReCaptchaModal from "@/app/components/Modal/ReCaptchaModal";
 import ReCAPTCHA from "react-google-recaptcha";
+import Image from "next/image";
 
 const TicketSelection = () => {
   return (
@@ -30,9 +31,7 @@ const TicketSelection = () => {
           <SettoreList />
           <EventTotal />
         </div>
-
       </S.MainRow>
-
     </div>
   );
 };
@@ -75,30 +74,29 @@ const EventTotal = () => {
       if (!!tickets.length) {
         const cartData = {
           time: Date.now(),
-          tickets: tickets
+          tickets: tickets,
         };
         localStorage.setItem("Cart", JSON.stringify(cartData));
       }
-    } 
+    }
   };
 
   const { totalTickets, totalPrice, tickets } = useEventTotal();
 
-
-
-
   return (
     <>
       <S.MenuTotal
-        className={`${totalTickets > 0 ? "" : "translate-y-full h-0"
-          } transition-all sticky mt-auto `}
+        className={`${
+          totalTickets > 0 ? "" : "translate-y-full h-0"
+        } transition-all sticky mt-auto `}
       >
         <div className="event-total__top px-3 py-2">
           <Typography variant="h6" mb={0}>
             Totale
           </Typography>
-          <div>
-            {totalTickets} <ConfirmationNumberIcon />
+          <div className="flex gap-1">
+            {totalTickets}
+            <Image src={TicketIcon.src} alt="Ticket" width={25} height={25} />
           </div>
           <Typography variant="h6" mb={0}>
             {totalPrice()},00

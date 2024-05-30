@@ -23,7 +23,6 @@ import Image from "next/image";
 import DatiUtilizzatoreModal from "../Modal/DatiUtilizzatoreModal";
 import Button from "../Button";
 import PrecompilaButton from "../Button/PrecompilaButton";
-import CustomRadioGroup from "../Radio";
 import CustomRadio from "../Radio";
 
 const TicketInfoBox = () => {
