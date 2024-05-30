@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import ReCaptchaModal from "@/app/components/Modal/ReCaptchaModal";
 import ReCAPTCHA from "react-google-recaptcha";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 const TicketSelection = () => {
   return (
@@ -79,7 +80,7 @@ const EventTotal = () => {
         };
         localStorage.setItem("Cart", JSON.stringify(cartData));
       }
-    } 
+    }
   };
 
   const { totalTickets, totalPrice, tickets } = useEventTotal();
@@ -101,7 +102,7 @@ const EventTotal = () => {
             {totalTickets} <ConfirmationNumberIcon />
           </div>
           <Typography variant="h6" mb={0}>
-            {totalPrice()},00
+            {formatCurrency(totalPrice(), true)}
           </Typography>
         </div>
         <form onSubmit={handleSubmit} className="event-total__bottom px-3 py-2">

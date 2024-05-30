@@ -10,8 +10,8 @@ import AddCircleIcon from "@mui/icons-material/AddCircle"
 import PrezziTrasparentiModal from "../Modal/PrezziTrasparentiModal";
 
 const SettoreList = () => {
-  const { changeChoiceMode, mode } = useEventTotal();
-  const [showModal, setShowModal] = useState(false);
+  const { changeChoiceMode, mode,pricesForSector } = useEventTotal();
+  const [showModal, setShowModal, ] = useState(false);
   const handleButton = (el: IChoiceMode) => {
     if (mode !== el) {
       changeChoiceMode(el)
@@ -22,16 +22,16 @@ const SettoreList = () => {
     <section className="p-4 flex flex-col grow">
       <div className="flex">
         <CustomButton
-          onClick={() => handleButton(IChoiceMode.BEST_PLACE)}
-          className="w-1/2"
-          variant={`${mode === IChoiceMode.BEST_PLACE ? "contained" : "outlined"}`}
-          label={"Miglior posto"}
-        />
-        <CustomButton
           onClick={() => handleButton(IChoiceMode.MANUAL_CHOICE)}
           className="w-1/2"
           variant={`${mode === IChoiceMode.MANUAL_CHOICE ? "contained" : "outlined"}`}
           label={"Selezione manuale"}
+        />
+        <CustomButton
+          onClick={() => handleButton(IChoiceMode.BEST_PLACE)}
+          className="w-1/2"
+          variant={`${mode === IChoiceMode.BEST_PLACE ? "contained" : "outlined"}`}
+          label={"Miglior posto"}
         />
       </div>
       {mode === IChoiceMode.BEST_PLACE ? (
@@ -47,20 +47,16 @@ const SettoreList = () => {
             posti a disposizione
           </Typography>
           <MigliorPosto />
-          <Box>
+          <Box paddingTop={1}>
             <PrezziButton onClick={() => setShowModal(true)}>
               <AddCircleIcon fontSize="small" sx={{ color: "#000" }} />
               dettaglio prezzi
             </PrezziButton>
           </Box>
-          <PrezziTrasparentiModal
-            showModal={showModal}
-            setShowModal={setShowModal}
-          />
         </>
       ) : (
         <>
-        <Typography
+          <Typography
             fontSize={14}
             marginTop={2}
             marginBottom={1}
@@ -70,8 +66,21 @@ const SettoreList = () => {
             Seleziona i tuoi biglietti dalla mappa
           </Typography>
           <ManualChoice />
+          <Box paddingTop={1}>
+            <PrezziButton onClick={() => setShowModal(true)}>
+              <AddCircleIcon fontSize="small" sx={{ color: "#000" }} />
+              dettaglio prezzi
+            </PrezziButton>
+          </Box>
+
         </>
       )}
+      <PrezziTrasparentiModal
+        data={pricesForSector!}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+
     </section>
   );
 };

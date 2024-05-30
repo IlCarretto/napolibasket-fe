@@ -2,15 +2,18 @@ import { Backdrop, Box, Modal, Typography, useTheme } from "@mui/material";
 import React from "react";
 import Button from "../../Button";
 import PrezziTrasparentiTable from "../../Table/PrezziTrasparentiTable";
+import { IPriceForSection } from "@/app/context/type";
 
 type TPrezziTrasparentiModal = {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  data: IPriceForSection;
 };
 
 const PrezziTrasparentiModal = ({
   showModal,
   setShowModal,
+  data,
 }: TPrezziTrasparentiModal) => {
   const theme = useTheme();
 
@@ -46,7 +49,7 @@ const PrezziTrasparentiModal = ({
         <Typography id="transition-modal-title" variant="body1" mb={3}>
           Prezzi trasparenti
         </Typography>
-        <PrezziTrasparentiTable />
+        <PrezziTrasparentiTable rows={data} />
         <Box display="flex" justifyContent="flex-end">
           <Typography variant="body2" sx={{ marginTop: 2 }}>
             * Iva inclusa

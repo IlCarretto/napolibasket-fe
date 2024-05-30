@@ -5,6 +5,7 @@ import {
   Divider,
   FormControl,
   FormLabel,
+  Link,
   RadioGroup,
   Typography,
   styled,
@@ -70,11 +71,6 @@ const Payment = () => {
       img: "https://backendcdn.vivaticket.it/wms_images/secure/postepay.png",
     },
     {
-      label: "Satispay",
-      value: "satispay",
-      img: "https://backendcdn.vivaticket.it/wms_images/secure/satispay-red2.png",
-    },
-    {
       label: "Klarna",
       value: "klarna",
       img: "https://backendcdn.vivaticket.it/wms_images/secure/klarna_logo_100x40.svg",
@@ -85,6 +81,9 @@ const Payment = () => {
       img: "https://backendcdn.vivaticket.it/wms_images/secure/cartecultura_logo_h120.jpg",
     },
   ];
+
+
+
 
   const [expanded, setExpanded] = React.useState<string | boolean>("");
 
@@ -190,6 +189,14 @@ const Payment = () => {
             A breve arriverà una mail all'indirizzo indicato contenente il
             riepilogo del tuo ordine.
           </Typography>
+          {/* //TO DO:Cambiare il path dei biglietti */}
+          <Link
+            href="/MockData/ticket-NapoliBasket.pdf"
+            download
+            sx={{ display: "inline-block", mt: 2 }}
+          >
+            Clicca qui per scaricare i tuoi biglietti
+          </Link>
         </>
       )}
     </Container>

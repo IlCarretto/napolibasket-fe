@@ -1,4 +1,5 @@
 import { ITicket } from "@/app/context/type";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 interface Price {
   price: number;
@@ -10,7 +11,9 @@ export function getMinPrice(prices: Price[]): string {
   if (!prices || prices.length === 0) {
     return "--"
   }
-  return Math.min(...prices.map(priceObj => Number(priceObj.price))) + ",00 €";
+  const minorValue = Math.min(...prices.map(priceObj => Number(priceObj.price)));
+  return formatCurrency(minorValue, true);
+
 }
 
 export const calculateTotalPriceBySector = (

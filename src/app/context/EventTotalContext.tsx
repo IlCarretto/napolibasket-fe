@@ -44,7 +44,7 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
 
   const [hoverArea, setHoverArea] = useState<null | ITicket["section_id"]>(null);
   const [tickets, setTickets] = useState<IEventTotalContext["tickets"]>([]);
-  const [mode, setMode] = useState<IEventTotalContext["mode"]>(IChoiceMode.BEST_PLACE);
+  const [mode, setMode] = useState<IEventTotalContext["mode"]>(IChoiceMode.MANUAL_CHOICE);
 
   const totalTickets = tickets.length
 
