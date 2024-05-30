@@ -20,12 +20,14 @@ import { useEventTotal } from "@/app/context/EventTotalContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
+import { ITicket } from "@/app/context/type";
 
 const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const theme = useTheme();
   const router = useRouter();
-
-  const { totalTickets, totalPrice } = useEventTotal();
+    //TO DO: sistemare
+    const {tickets} = JSON.parse(localStorage.getItem("Cart")!)
+    const totalPrice= tickets.length*16
 
   return (
     <S.CartWrapper
@@ -51,7 +53,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       <CartAccordion />
       <S.Row>
         <Typography variant="body2">Commissioni</Typography>
-        <Box>{1 * totalTickets},00</Box>
+        <Box>{1 * tickets?.length},00</Box>
         <Tooltip title="Commissioni title">
           <InfoIcon className="!text-gray-400" />
         </Tooltip>
@@ -59,7 +61,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       <Divider />
       <S.Row>
         <Typography variant="h6">Totale</Typography>
-        <Box>{totalPrice()},00</Box>
+        <Box>{totalPrice + tickets?.length},00</Box>
         <Tooltip title="Commissioni title">
           <InfoIcon className="!text-gray-400" />
         </Tooltip>
@@ -137,7 +139,12 @@ const CartAccordion = () => {
       setExpanded(newExpanded ? panel : false);
     };
 
-  const { sectors, totalTickets, totalPrice } = useEventTotal();
+    //TO DO: sistemare
+  const {tickets} = JSON.parse(localStorage.getItem("Cart")!)
+const totalTickets =tickets.length
+const totalPrice= tickets.length*16
+
+
 
   return (
     <Accordion
@@ -157,48 +164,43 @@ const CartAccordion = () => {
           </Box>
         </Box>
         <Box>
-          {totalPrice() > 0 && (
+          {totalPrice > 0 && (
             <Typography mb={0} variant="h5" marginRight={1}>
-              {totalPrice()},00
+              {totalPrice},00
             </Typography>
           )}
         </Box>
       </AccordionSummary>
       <AccordionDetails className="bg-gray-100">
-        {Object.entries(sectors).map(([sector, sectorInfo]) => (
+        {tickets?.map((elTicket:ITicket) => (
           <>
-            <div key={sector}>
-              {Object.entries(sectorInfo).map(([ticketType, ticketInfo]) => (
-                <div key={ticketType}>
-                  {Array.from({ length: ticketInfo.count }).map((_, index) => (
-                    <React.Fragment key={index}>
-                      <Divider />
-                      <Box
-                        padding={1}
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Box>
-                          <Typography variant="body2">{ticketType}</Typography>
-                          <Typography variant="body2">{sector}</Typography>
-                        </Box>
-                        <Box display="flex" alignItems="center">
-                          <Typography variant="body2">
-                            {ticketInfo.price},00
-                          </Typography>
-                          <button>
-                            <DeleteIcon
-                              className="!text-gray-400"
-                              fontSize="small"
-                            />
-                          </button>
-                        </Box>
-                      </Box>
-                    </React.Fragment>
-                  ))}
-                </div>
-              ))}
+            <div key={elTicket.id}>
+
+              <div>
+                <Divider />
+                <Box
+                  padding={1}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Box>
+                    <Typography variant="body2">{elTicket.description}</Typography>
+                    <Typography variant="body2">{elTicket.sector}</Typography>
+                  </Box>
+                  <Box display="flex" alignItems="center">
+                    <Typography variant="body2">
+                      {elTicket.price},00
+                    </Typography>
+                    <button>
+                      <DeleteIcon
+                        className="!text-gray-400"
+                        fontSize="small"
+                      />
+                    </button>
+                  </Box>
+                </Box>
+              </div>
             </div>
           </>
         ))}

@@ -70,33 +70,28 @@ const EventTotal = () => {
 
     if (response?.data?.success === true) {
       router.push("/cart");
-    } else {
-    }
+
+      //TO DO: Sisteamre quando ci sarà il BE
+      if (!!tickets.length) {
+        const cartData = {
+          time: Date.now(),
+          tickets: tickets
+        };
+        localStorage.setItem("Cart", JSON.stringify(cartData));
+      }
+    } 
   };
 
   const { totalTickets, totalPrice, tickets } = useEventTotal();
 
-
-  //TO DO: Sisteamre quando ci sarà il BE
-  const handleButton = () => {
-    router.push("/cart")
-    if (!!tickets.length) {
-      const cartData = {
-        time: Date.now(),
-        tickets: tickets
-      };
-      localStorage.setItem("Cart", JSON.stringify(cartData));
-    }
-  }
 
 
 
   return (
     <>
       <S.MenuTotal
-        className={`${
-          totalTickets > 0 ? "" : "translate-y-full"
-        } transition-all sticky mt-auto md:ms-auto md:w-1/2`}
+        className={`${totalTickets > 0 ? "" : "translate-y-full"
+          } transition-all sticky mt-auto `}
       >
         <div className="event-total__top px-3 py-2">
           <Typography variant="h6" mb={0}>

@@ -9,7 +9,6 @@ import * as S from "./style";
 
 
 export default function ManualChoice() {
-
   const { tickets, removeTicket, changeTicket, pricesForSector } = useEventTotal();
 
   const handleDelete = (ticket: ITicket) => {
@@ -19,7 +18,7 @@ export default function ManualChoice() {
     changeTicket(ticket)
   }
   return (
-    <div>
+    <div className="overflow-y-auto md:h-0 flex flex-col grow pe-2">
       {tickets.map((ticket) => (
         <TicketRow ticket={ticket} onDelete={handleDelete} onChangePrice={handleChange} prices={allPricesForSector(ticket.section_id, pricesForSector!)} />
       ))}
@@ -49,7 +48,6 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
       <Typography variant="h6" marginRight={2} marginBottom={0} color={"primary"} >{ticket.sector} Fila: {ticket.line} Posto: {ticket.place}</Typography>
       <S.CustomFormControl>
         <Select
-          fullWidth
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={JSON.stringify(price)}
@@ -61,9 +59,10 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
           </MenuItem>)}
         </Select>
       </S.CustomFormControl>
-      <Typography variant="h6" marginLeft={2} marginBottom={0} color={"primary"} > {ticket.price},00€ </Typography>
-      <IconButton onClick={() => onDelete(ticket)}> <DeleteIcon color="primary" /></IconButton>
-
+      <Box display={"flex"} alignItems={"center"} >
+        <Typography variant="h6" marginLeft={2} marginBottom={0} color={"primary"} > {ticket.price},00€ </Typography>
+        <IconButton onClick={() => onDelete(ticket)}> <DeleteIcon color="primary" /></IconButton>
+      </Box>
     </S.Row>
   );
 };

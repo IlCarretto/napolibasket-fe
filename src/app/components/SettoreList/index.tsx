@@ -48,17 +48,18 @@ const SettoreList = () => {
           <MigliorPosto />
         </>
       ) : (
-        <Box>
-          <Typography
+        <>
+        <Typography
+            fontSize={14}
             marginTop={2}
-            textAlign={"center"}
-            variant="body1"
+            marginBottom={1}
             sx={{ color: "#000" }}
+            variant="body1"
           >
             Seleziona i tuoi biglietti dalla mappa
           </Typography>
           <ManualChoice />
-        </Box>
+        </>
       )}
     </section>
   );

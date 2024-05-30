@@ -20,13 +20,14 @@ export const CustomFormControl = styled(FormControl)(({ theme }) => ({
     "& legend": {
         display: "none",
     },
-   
+
     "&.MuiFormControl-root": {
         display: "flex",
         flexGrow: 1,
+        maxWidth: " max-content"
     },
-    "& .MuiSelect-select":{
-        padding:"8px"
+    "& .MuiSelect-select": {
+        padding: "8px"
     }
 }));
 
@@ -34,5 +35,6 @@ export const Row = styled(Box)(({ theme }) => ({
     padding: "1rem",
     borderTop: "1px solid rgba(0, 0, 0, .250)",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: " space-between"
 }));
