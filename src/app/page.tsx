@@ -2,7 +2,7 @@
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GridViewIcon from "@mui/icons-material/GridView";
 import * as S from "./style";
-import { Box, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import MatchCard from "./components/Card/MatchCard";
 import HeroCarousel from "./components/HeroCarousel";
 import Hero from "./components/Hero";

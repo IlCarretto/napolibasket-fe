@@ -5,7 +5,7 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import * as S from "./style";
 import PlaceIcon from "@mui/icons-material/Place";
 import TodayIcon from "@mui/icons-material/Today";
-import EventSeatIcon from "@mui/icons-material/EventSeat";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import Button from "@/app/components/Button";
 import VerticalTabs from "@/app/components/Tabs";
 import { useRouter } from "next/navigation";
@@ -24,16 +24,16 @@ const Event = () => {
           <div className="col-span-12 md:col-span-8">
             <S.EventContent className="flex flex-col justify-between h-full">
               <div>
-                <Typography variant="h1">
-                  NAPOLI BASKET - MARANO BASKET
+                <Typography variant="h1" textTransform={"uppercase"}>
+                  Gevi Napoli Basket - Scafati Napoli Basket
                 </Typography>
-                <Typography variant="h3">Unitiva Basket Cup 2024</Typography>
+                <Typography variant="h3">Lega Basket Serie A 2024</Typography>
               </div>
               <div>
                 <S.ParagraphRow>
                   <PlaceIcon />
                   <Typography variant="body1">
-                    Palablasio - Pozzuoli (CA)
+                    PalaBarbuto - Napoli (NA)
                   </Typography>
                 </S.ParagraphRow>
                 <S.ParagraphRow>
@@ -43,14 +43,14 @@ const Event = () => {
                   </Typography>
                 </S.ParagraphRow>
               </div>
-              <Box mt={2}>
-                <EventSeatIcon fontSize="large" />
-              </Box>
+              <S.ParagraphRow sx={{ mt: 1 }}>
+                <BusinessCenterIcon fontSize="large" />
+                <Typography variant="h6" mb={0}>
+                  S.S. Napoli Basket
+                </Typography>
+              </S.ParagraphRow>
               <Divider sx={{ margin: "0.75rem 0" }} />
               <div className="button-group">
-                <Typography variant="h5">
-                  MERCOLEDI 15 MAGGIO 2024 20:30
-                </Typography>
                 <Button
                   onClick={() => router.push("/ticket-selection")}
                   sx={{

@@ -36,7 +36,7 @@ const Header = () => {
             sizes="100vw"
           />
         </Link>
-        <div className="flex gap-1 md:gap-2 px-3 lg:px-0">
+        <div className="flex gap-1 md:gap-8 px-3 lg:px-0">
           <Box>
             <Image
               src="https://napolibasket.it/wp-content/uploads/2023/10/logoGevi_BIANCO.png"

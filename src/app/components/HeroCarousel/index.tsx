@@ -3,6 +3,7 @@ import React from "react";
 import Carousel from "react-material-ui-carousel";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Navbar from "../Navbar";
+import * as S from "./style";
 
 const HeroCarousel = () => {
   const carouselEls = [
@@ -18,18 +19,29 @@ const HeroCarousel = () => {
   ];
 
   return (
-    <Carousel
-      swipe={false}
-      stopAutoPlayOnHover={false}
-      interval={3000}
-      navButtonsAlwaysInvisible
-      indicators={false}
-      height={"calc(100vh - 66px)"}
-    >
-      {carouselEls.map((item, i) => (
-        <Item key={i} item={item} />
-      ))}
-    </Carousel>
+    <Box height={"calc(100vh - 66px)"} position={"relative"}>
+      <Carousel
+        sx={{ height: "100%" }}
+        swipe={false}
+        stopAutoPlayOnHover={false}
+        interval={3000}
+        navButtonsAlwaysInvisible
+        indicators={false}
+        height={"100%"}
+      >
+        {carouselEls.map((item, i) => (
+          <Item key={i} item={item} />
+        ))}
+      </Carousel>
+      <Navbar />
+      <S.CtaLink href="#events-list">
+        {"Vai agli eventi"}
+        <ArrowDownwardIcon />
+      </S.CtaLink>
+      <S.Title fontSize={48} lineHeight={1.5} variant="h1">
+        Generazione Vincente Napoli Basket
+      </S.Title>
+    </Box>
   );
 };
 
@@ -37,70 +49,8 @@ export default HeroCarousel;
 
 const Item = ({ item }: any) => {
   return (
-    <ImageWrapper>
+    <S.ImageWrapper>
       <div style={{ backgroundImage: `url(${item.url})` }} />
-      <Navbar />
-      <CtaLink href="#events-list">
-        {"Vai agli eventi"}
-        <ArrowDownwardIcon />
-      </CtaLink>
-      <Typography fontSize={48} lineHeight={1.5} variant="h1">
-        Generazione Vincente Napoli Basket
-      </Typography>
-    </ImageWrapper>
+    </S.ImageWrapper>
   );
 };
-
-const ImageWrapper = styled(Box)(({ theme }) => ({
-  width: "100vw",
-  height: "100%",
-  position: "relative",
-  "& > div": {
-    height: "100%",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    position: "relative",
-    "::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.6)",
-      zIndex: 1,
-    },
-  },
-  "& h1": {
-    textAlign: "center",
-    textTransform: "uppercase",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -40%)",
-    zIndex: 1,
-  },
-}));
-
-const CtaLink = styled("a")(({ theme }) => ({
-  cursor: "pointer",
-  color: theme.palette.secondary.main,
-  textTransform: "uppercase",
-  background: "#FFF",
-  fontSize: 16,
-  fontWeight: 600,
-  padding: "0.5rem 1.25rem 0.5rem 2rem",
-  display: "flex",
-  justifyContent: "space-between",
-  gap: "1rem",
-  position: "absolute",
-  top: "80%",
-  left: "50%",
-  transform: "translate(-50%, -70%)",
-  zIndex: 1,
-  "& svg": {
-    color: theme.palette.secondary.main,
-    stroke: theme.palette.secondary.main,
-  },
-}));

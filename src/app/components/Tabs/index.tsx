@@ -72,16 +72,12 @@ export default function VerticalTabs() {
       >
         <Tab label="Info location" {...a11yProps(0)} />
         <Tab label="Consegna biglietti" {...a11yProps(1)} />
-        <Tab label="Organizzatore" {...a11yProps(2)} />
       </S.CustomTabs>
       <InfoTabsPanel value={value} index={0}>
         <InfoTabLocation />
       </InfoTabsPanel>
       <InfoTabsPanel value={value} index={1}>
         <InfoTabConsegna />
-      </InfoTabsPanel>
-      <InfoTabsPanel value={value} index={2}>
-        <InfoTabOrganizzatore />
       </InfoTabsPanel>
     </Box>
   );
@@ -90,10 +86,12 @@ export default function VerticalTabs() {
 const InfoTabLocation = () => {
   return (
     <Box display={"flex"} flexDirection={"column"}>
-      <Typography variant="h6">Palablasio</Typography>
+      <Typography variant="h6">PalaBarbuto</Typography>
       <Box display={"flex"}>
         <PlaceIcon />
-        <Typography variant="body1">via Medina 40, Pozzuoli (CA)</Typography>
+        <Typography variant="body1">
+          Viale Giochi del Mediterraneo, 80125 Napoli (NA)
+        </Typography>
       </Box>
       <S.MapWrapper>
         <Map />
@@ -107,14 +105,6 @@ const InfoTabConsegna = () => {
     <Box display={"flex"}>
       <BookOnlineIcon />
       <Typography variant="body1">Stampa a casa</Typography>
-    </Box>
-  );
-};
-
-const InfoTabOrganizzatore = () => {
-  return (
-    <Box>
-      <Typography>Unitiva S.R.L</Typography>
     </Box>
   );
 };

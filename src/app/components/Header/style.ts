@@ -17,7 +17,7 @@ export const CustomContainer = styled(Container)(() => ({
   height: "100%",
   "& img": {
     width: "100%",
-    height: 60,
+    height: 50,
     objectFit: "contain",
   },
   "& a:first-child": {
