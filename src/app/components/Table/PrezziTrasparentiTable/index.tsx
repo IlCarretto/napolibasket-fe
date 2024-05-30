@@ -6,50 +6,53 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { TicketType } from "@/app/constants/constants";
+import { IPriceForSection } from "@/app/context/type";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
-interface TicketData {
-  ticket: TicketType;
-  prezzo: number;
-  prevendita: number;
-  commissione: number;
+interface IPrezziTrasparentiTableProps {
+  rows: IPriceForSection
 }
 
-function createData(ticket: TicketType): TicketData {
-  const prezzo = ticket.includes("Over") ? 15 : 7;
-  const prevendita = 0;
-  const commissione = 1;
-  return { ticket, prezzo, prevendita, commissione };
-}
 
-const rows = Object.values(TicketType).map(createData);
-
-export default function PrezziTrasparentiTable() {
+export default function PrezziTrasparentiTable({ rows }: IPrezziTrasparentiTableProps) {
   return (
     <TableContainer style={{ maxHeight: 400 }} component={Paper}>
       <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Biglietti</TableCell>
+            <TableCell>Settore</TableCell>
+            <TableCell align="right">Descrizione</TableCell>
             <TableCell align="right">Prezzo</TableCell>
-            <TableCell align="right">Prevendita</TableCell>
             <TableCell align="right">Commissione</TableCell>
+            <TableCell align="right">Prevendita</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.ticket}>
-              <TableCell
-                sx={{ textTransform: "uppercase" }}
-                component="th"
-                scope="row"
-              >
-                {row.ticket}
-              </TableCell>
-              <TableCell align="right">{row.prezzo}</TableCell>
-              <TableCell align="right">{row.prevendita}</TableCell>
-              <TableCell align="right">{row.commissione}</TableCell>
-            </TableRow>
+          {rows.section.map((row) => (
+            <React.Fragment key={row.section_id}>
+              <TableRow>
+                <TableCell
+                  sx={{ textTransform: "uppercase" }}
+                  component="th"
+                  scope="row"
+                  rowSpan={row.prices.length}
+                >
+                  {row.section_name}
+                </TableCell>
+                <TableCell align="right">{row.prices[0].description}</TableCell>
+                <TableCell align="right">{formatCurrency(row.prices[0].price, true)}</TableCell>
+                <TableCell align="right">{formatCurrency(row.prices[0].prevendita, true)}</TableCell>
+                <TableCell align="right">{formatCurrency(row.prices[0].commissione, true)}</TableCell>
+              </TableRow>
+              {row.prices.slice(1).map((price, index) => (
+                <TableRow key={`${row.section_id}-${index}`}>
+                  <TableCell align="right">{price.description}</TableCell>
+                  <TableCell align="right">{formatCurrency(price.price, true)}</TableCell>
+                  <TableCell align="right">{formatCurrency(price.prevendita, true)}</TableCell>
+                  <TableCell align="right">{formatCurrency(price.commissione, true)}</TableCell>
+                </TableRow>
+              ))}
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>

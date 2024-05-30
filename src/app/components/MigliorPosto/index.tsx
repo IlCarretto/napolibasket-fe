@@ -10,6 +10,7 @@ import * as S from "./style";
 import { calculateTotalPriceBySector, countTicketsByPriceAndSector, getMinPrice } from "./utils";
 import { ColorSelector } from "../EventMap/utils";
 import { IBestTicket, ITicket } from "@/app/context/type";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 //TO DO:AGIUSTARE QUANDO SARA' DEFINITA LA LOGICA MIGLIOR POSTO
 export default function MigliorPosto() {
@@ -64,7 +65,7 @@ export default function MigliorPosto() {
             <Box>
               {calculateTotalPriceBySector(tickets, el.section_name) > 0 && (
                 <Typography mb={0} variant="h5" marginRight={1}>
-                  {calculateTotalPriceBySector(tickets, el.section_name)},00
+                  {formatCurrency(calculateTotalPriceBySector(tickets, el.section_name),true)}
                 </Typography>
               )}
             </Box>
@@ -110,7 +111,7 @@ const TicketRow = ({ sector, description, price, commissione, prevendita, count,
         <Typography variant="h6">{description}</Typography>
       </Box>
       <Box marginLeft={"auto"} marginRight={4}>
-        <Typography>{price},00</Typography>
+        <Typography>{formatCurrency(price,true)}</Typography>
       </Box>
       <Box display={"flex"} alignItems={"center"} gap={1}>
         <S.TicketSelectorButton onClick={() => removeTicket(sectionId,price)}>

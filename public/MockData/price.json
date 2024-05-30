@@ -10,12 +10,6 @@
                     "description": "intero over 24 anni",
                     "prevendita": 2,
                     "commissione": 1
-                },
-                {
-                    "price": 6,
-                    "description": "ridotto 8-24 anni",
-                    "prevendita": 2,
-                    "commissione": 1
                 }
             ]
         },
@@ -75,12 +69,24 @@
                     "commissione": 1
                 }
             ]
-        }, 
+        },
         {
             "id": 6,
             "section_id": 6,
             "section_name": "Settore 4",
             "prices": [
+                {
+                    "price": 5,
+                    "description": "intero over 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
+                {
+                    "price": 14,
+                    "description": "intero over 24 anni",
+                    "prevendita": 2,
+                    "commissione": 1
+                },
                 {
                     "price": 14,
                     "description": "intero over 24 anni",
@@ -94,7 +100,7 @@
                     "commissione": 1
                 }
             ]
-        }, 
+        },
         {
             "id": 7,
             "section_id": 7,
