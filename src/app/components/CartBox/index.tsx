@@ -1,5 +1,5 @@
 "use client";
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import { Box, Divider, Tooltip, Typography, useTheme } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { ITicket } from "@/app/context/type";
 import Timer from "../Timer";
 import { formatCurrency } from "@/app/utils/formatCurrency";
-import { removeTicketFromLocalStorage } from "./utils";
+import { removeTicketFromLocalStorage } from "../../utils/utils";
 
 const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const theme = useTheme();

@@ -138,6 +138,7 @@ const Payment = () => {
                   >
                     {options.map((option, i) => (
                       <Accordion
+                      key={i}
                         expanded={expanded === `panel${i}`}
                         onChange={(event, newExpanded) =>
                           handleChange(event, newExpanded ? `panel${i}` : false)

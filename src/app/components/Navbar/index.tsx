@@ -22,7 +22,6 @@ type NavEntry =
 
 const Navbar = () => {
   const pathName = usePathname();
-  console.log(pathName);
 
   const theme = useTheme();
   const [isNavOpen, setIsNavOpen] = useState(false);
