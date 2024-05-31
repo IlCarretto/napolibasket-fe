@@ -30,6 +30,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       } else  {
         setTickets([]);
         setStartTimer(0);
+        router.push("/ticket-selection");
       }
     }
   }, [isTicketChange]);
@@ -158,7 +159,7 @@ const CartAccordion = ({
       >
         <Box>
           <Typography fontSize={14} mb={0} variant="h6">
-            NAPOLI BASKET - POZZUOLI BASKET
+          Gevi Napoli Basket vs Givova Scafati Basket
           </Typography>
           <Box display="flex" mt={1}>
             <Typography variant="body2">
