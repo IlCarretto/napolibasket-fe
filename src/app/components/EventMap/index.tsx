@@ -96,7 +96,6 @@ const EventMap = () => {
   // );
 
   if (jsonMap === null) {
-    { console.log("jsonMap", jsonMap) }
     return <div ref={containerRef}>Loading...</div>;
   }
 

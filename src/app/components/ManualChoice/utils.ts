@@ -17,7 +17,5 @@ export const allPricesForSector = (
         throw new Error(`Section with ID ${sectionId} not found.`);
     }
 
-
-    console.log(sectionSelected)
     return sectionSelected?.prices;
 };

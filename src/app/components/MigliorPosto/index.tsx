@@ -36,8 +36,9 @@ export default function MigliorPosto() {
 
   return (
     <div className="overflow-y-auto md:h-0 flex flex-col grow pe-2">
-      {pricesForSector?.section.map((el) =>
+      {pricesForSector?.section.map((el, i) =>
         <S.StyledAccordion
+          key={i}
           disableGutters elevation={0} square
           onMouseEnter={handleMouseEnter(el.section_name, el.section_id)}
           onMouseLeave={handleMouseLeave}
@@ -65,7 +66,7 @@ export default function MigliorPosto() {
             <Box>
               {calculateTotalPriceBySector(tickets, el.section_name) > 0 && (
                 <Typography mb={0} variant="h5" marginRight={1}>
-                  {formatCurrency(calculateTotalPriceBySector(tickets, el.section_name),true)}
+                  {formatCurrency(calculateTotalPriceBySector(tickets, el.section_name), true)}
                 </Typography>
               )}
             </Box>
@@ -91,7 +92,6 @@ export default function MigliorPosto() {
   );
 }
 
-// 
 interface TicketRowProps {
   sector: string;
   description: string;
@@ -101,7 +101,7 @@ interface TicketRowProps {
   commissione: number;
   count: number;
   addTicket: (ticket: IBestTicket) => void;
-  removeTicket: (idSection: number,price:number) => void;
+  removeTicket: (idSection: number, price: number) => void;
 }
 
 const TicketRow = ({ sector, description, price, commissione, prevendita, count, addTicket, removeTicket, sectionId }: TicketRowProps) => {
@@ -111,10 +111,10 @@ const TicketRow = ({ sector, description, price, commissione, prevendita, count,
         <Typography variant="h6">{description}</Typography>
       </Box>
       <Box marginLeft={"auto"} marginRight={4}>
-        <Typography>{formatCurrency(price,true)}</Typography>
+        <Typography>{formatCurrency(price, true)}</Typography>
       </Box>
       <Box display={"flex"} alignItems={"center"} gap={1}>
-        <S.TicketSelectorButton onClick={() => removeTicket(sectionId,price)}>
+        <S.TicketSelectorButton onClick={() => removeTicket(sectionId, price)}>
           <RemoveIcon />
         </S.TicketSelectorButton>
         <Box>{count}</Box>

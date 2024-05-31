@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Box, keyframes, styled } from "@mui/material";
+import { Alert, Box, keyframes, Accordion, styled, AccordionSummary, AccordionDetails } from "@mui/material";
 
 const spinAnimation = keyframes`
   to {
@@ -67,5 +67,47 @@ export const Row = styled(Box)(() => ({
   "& > :nth-child(2)": {
     marginLeft: "auto",
     marginRight: 8,
+  },
+}));
+
+
+export const CartAccordion = styled(Accordion)(()=> ({
+  borderTop: `1px solid rgba(0, 0, 0, .250)`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&::before": {
+    display: "none",
+  },
+  "& .MuiTypography-root": {
+    color: "#444",
+  },
+}));
+
+export const CartAccordionSummary =styled(AccordionSummary)(()=> ({
+  background: "#f3f4f6",
+  "& .MuiSvgIcon-root": {
+    fill: "gray",
+  },
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-root": {
+    padding: 0,
+  },
+  "& .MuiAccordionSummary-content": {
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+}));
+
+
+
+
+export const CartAccordionDetails = styled(AccordionDetails)(()=> ({
+  padding: "0 16px",
+  "& h6": {
+    fontSize: "14px",
+    lineHeight: 2,
   },
 }));

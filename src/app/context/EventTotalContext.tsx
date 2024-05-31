@@ -76,8 +76,6 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
 
     let bestPlace = newTicket.sector === "Settore 2" ? 29 : newTicket.sector === "Tribuna Centrale" ? 5 : 1;
     let bestLine = newTicket.sector === "Tribuna Centrale" ? "F" : "A";
-    console.log(newTicket.sector, newTicket.sector === "Tribuna Centrale")
-    console.log(tickets)
 
     const lastTicketIndex = tickets.map(ticket => ticket.sector).lastIndexOf(newTicket.sector);
 
@@ -122,7 +120,6 @@ export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
 
 
   const removeBestTicket = (elSectorId: number, price: number) => {
-    console.log(tickets.filter((el => el.price === price && el.section_id === elSectorId)))
     const ticketIndex = tickets.findLastIndex(ticket => ticket.price === price && ticket.section_id === elSectorId);
 
     if (ticketIndex !== -1) {

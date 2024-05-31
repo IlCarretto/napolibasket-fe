@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import RiepilogoCard from "../Card/RiepilogoCard";
 import {
@@ -26,9 +26,17 @@ import Button from "../Button";
 import PrecompilaButton from "../Button/PrecompilaButton";
 import CustomRadio from "../Radio";
 import { useFetch } from "@/app/hooks/useFetch";
+import { useRouter } from "next/navigation";
+import { ITicket } from "@/app/context/type";
 
 const TicketInfoBox = () => {
   const theme = useTheme();
+  const router = useRouter();
+  const handleDelete = () => {
+    localStorage.clear()
+
+    router.push("/ticket-selection")
+  }
   return (
     <>
       <S.TicketInfoWrapper>
@@ -41,21 +49,19 @@ const TicketInfoBox = () => {
           flexDirection="column"
         >
           <RiepilogoCard />
-          <S.RemoveButton variant="outlined" label={"Elimina"} />
+          <S.RemoveButton variant="outlined" onClick={handleDelete} label={"Elimina"} />
         </Box>
         <Box
           padding={"0.75rem"}
           color={theme.palette.primary.main}
           sx={{ ".MuiTypography-root": { color: "inherit" } }}
         >
-          <ConsegnaBiglietti />
         </Box>
         <Box
           padding={"0.75rem"}
           color={theme.palette.primary.main}
           sx={{
-            ".MuiTypography-root": { color: "inherit" },
-            borderTop: `1px solid ${theme.palette.primary.main}`,
+            ".MuiTypography-root": { color: "inherit" }
           }}
         >
           <DatiUtilizzatore />
@@ -69,58 +75,27 @@ const TicketInfoBox = () => {
 
 export default TicketInfoBox;
 
-const ConsegnaBiglietti = () => {
-  const theme = useTheme();
-  const [value, setValue] = useState("biglietto-elettronico");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
-
-  const options = [
-    { label: "biglietto elettronico", value: "biglietto-elettronico" },
-    { label: "stampa a casa", value: "stampa-a-casa" },
-  ];
-
-  return (
-    <>
-      <Typography variant="h6">Consegna Biglietti</Typography>
-      <Box display="flex" flexDirection="column">
-        <FormControl>
-          <FormLabel
-            id="consegna-biglietti"
-            sx={{ color: theme.palette.primary.main, fontSize: 14 }}
-          >
-            Indica come preferisci ricevere i biglietti
-          </FormLabel>
-          <Divider sx={{ display: "flex", margin: "0.75rem 0" }} />
-          <RadioGroup
-            value={value}
-            onChange={handleChange}
-            name="consegna-biglietti"
-            sx={{ flexDirection: "row", padding: "0 0.75rem", gap: 2 }}
-          >
-            {options.map((option) => (
-              <CustomRadio
-                key={option.value}
-                value={option.value}
-                label={option.label}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </Box>
-    </>
-  );
-};
 
 const DatiUtilizzatore = () => {
   const [showModal, setShowModal] = useState(false);
+  const [tickets, setTickets] = useState<ITicket[]>([]);
+  useEffect(() => {
+    if (typeof window !== "undefined" && localStorage) {
+      const cart = localStorage.getItem("Cart");
+
+      if (!!cart && !!JSON.parse(cart).tickets.length) {
+        const parsedCart = JSON.parse(cart);
+        setTickets(parsedCart.tickets);
+      }
+    }
+  }, []);
+
   return (
     <>
       <Typography variant="h6">Informazioni Aggiuntive</Typography>
-      <Divider sx={{ margin: "0.75rem 0" }} />
-      <Box
+      {tickets.map((elTicket) => <Box
+        key={elTicket.id}
+        marginY={2}
         display={"flex"}
         justifyContent={"space-between"}
         flexDirection={{ xs: "column", sm: "row" }}
@@ -128,8 +103,8 @@ const DatiUtilizzatore = () => {
         <Box display={"flex"}>
           <Image src={TicketIcon.src} alt="Ticket" width={25} height={25} />
           <Box>
-            <Typography variant="h6">Intero over 24</Typography>
-            <Typography variant="body2">SETTORE 1 Fila D Posto 30</Typography>
+            <Typography variant="h6">{elTicket.description}</Typography>
+            <Typography variant="body2">{elTicket.sector} Fila {elTicket.line} Posto {elTicket.place}</Typography>
           </Box>
         </Box>
         <Alert
@@ -146,7 +121,7 @@ const DatiUtilizzatore = () => {
         >
           Inserire dati utilizzatore
         </Alert>
-      </Box>
+      </Box>)}
       <DatiUtilizzatoreModal
         showModal={showModal}
         setShowModal={setShowModal}

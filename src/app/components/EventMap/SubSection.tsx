@@ -39,7 +39,7 @@ export default ({
                                     price={data.prices}
                                     line={rowKey}
                                     settoreId={data.section_id}
-                                    key={seat.name}
+                                    key={data.section_id + "_" + rowKey + "_" + seatIndex}
                                     x={seatIndex * SEATS_DISTANCE + SUBSECTION_PADDING}
                                     y={rowIndex * SEATS_DISTANCE + SUBSECTION_PADDING}
                                     data={seat}

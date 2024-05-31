@@ -76,12 +76,6 @@
             "section_name": "Settore 4",
             "prices": [
                 {
-                    "price": 5,
-                    "description": "intero over 24 anni",
-                    "prevendita": 2,
-                    "commissione": 1
-                },
-                {
                     "price": 14,
                     "description": "intero over 24 anni",
                     "prevendita": 2,
@@ -89,7 +83,7 @@
                 },
                 {
                     "price": 14,
-                    "description": "intero over 24 anni",
+                    "description": "ridotto over 60 anni",
                     "prevendita": 2,
                     "commissione": 1
                 },
