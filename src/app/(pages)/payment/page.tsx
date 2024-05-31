@@ -82,9 +82,6 @@ const Payment = () => {
     },
   ];
 
-
-
-
   const [expanded, setExpanded] = React.useState<string | boolean>("");
 
   return (
@@ -104,7 +101,7 @@ const Payment = () => {
                 </Typography>
               </div>
               <Typography variant="h5" textTransform={"uppercase"}>
-                Payment
+                Pagamento
               </Typography>
               <Typography variant="body1">
                 Codice Transazione NPLBSKT40129435310

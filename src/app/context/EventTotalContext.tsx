@@ -2,6 +2,7 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
 import { IBestTicket, IChoiceMode, IEventTotalContext, IManualTicket, ITicket } from "./type";
 import { allPricesForSector } from "./utils";
+import { useFetch } from "../hooks/useFetch";
 
 
 const EventTotalContext = createContext<IEventTotalContext>({
@@ -26,17 +27,6 @@ export const useEventTotal = () => useContext(EventTotalContext);
 type TEventTotalProvider = {
   children: ReactNode;
 };
-
-const useFetch = (url: string) => {
-  const [data, setData] = React.useState(null);
-  React.useEffect(() => {
-    fetch(url)
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, [url]);
-  return data;
-};
-
 
 export const EventTotalProvider = ({ children }: TEventTotalProvider) => {
   const jsonMap = useFetch("./seats-data.json");

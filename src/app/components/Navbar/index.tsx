@@ -15,6 +15,7 @@ import Image from "next/image";
 import Logo from "@/../public/napoli-basket-logo.png";
 import SerieA1 from "@/../public/lba_logo.png";
 import { usePathname } from "next/navigation";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 type NavEntry =
   | { [key: string]: string }
@@ -82,6 +83,7 @@ const Navbar = () => {
                   Array.isArray(entry[key]) ? (
                     <ListItem key={key + index}>
                       <ListItemText primary={key} />
+                      <ArrowDropDownIcon />
                       <DropdownMenu entries={entry[key]} />
                     </ListItem>
                   ) : (
@@ -108,6 +110,7 @@ const Navbar = () => {
                       Array.isArray(entry[key]) ? (
                         <ListItem key={key + index}>
                           <ListItemText primary={key} />
+
                           <DropdownMenu entries={entry[key]} />
                         </ListItem>
                       ) : (

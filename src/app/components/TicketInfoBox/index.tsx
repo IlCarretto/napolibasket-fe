@@ -15,6 +15,7 @@ import {
   SelectChangeEvent,
   TextField,
   Typography,
+  inputClasses,
   useTheme,
 } from "@mui/material";
 import theme from "@/app/theme";
@@ -24,6 +25,7 @@ import DatiUtilizzatoreModal from "../Modal/DatiUtilizzatoreModal";
 import Button from "../Button";
 import PrecompilaButton from "../Button/PrecompilaButton";
 import CustomRadio from "../Radio";
+import { useFetch } from "@/app/hooks/useFetch";
 
 const TicketInfoBox = () => {
   const theme = useTheme();
@@ -197,11 +199,17 @@ const CodiceSconto = () => {
 const DatiFatturazione = () => {
   const theme = useTheme();
   const [inputs, setInputs] = useState({
-    personaFisica: "Persona fisica",
-    country: "Italy",
-    provincia: "Poggioreale",
-    comune: "Pippolandia",
-    cap: "80143",
+    persona_type: "",
+    nome: "",
+    cognome: "",
+    indirizzo: "",
+    country: "",
+    provincia: "",
+    comune: "",
+    cap: "",
+    codice_fiscale: "",
+    pec: "",
+    codice_sdi: "",
   });
 
   const handleChange = (
@@ -217,6 +225,27 @@ const DatiFatturazione = () => {
     });
   };
 
+  const dati_precompilati: any = useFetch("./MockData/dati_precompilati.json");
+
+  const handlePrecompila = () => {
+    if (dati_precompilati && dati_precompilati.dati_precompilati) {
+      const { fatturazione } = dati_precompilati.dati_precompilati;
+      setInputs({
+        persona_type: fatturazione.persona_type,
+        nome: fatturazione.nome,
+        cognome: fatturazione.cognome,
+        indirizzo: fatturazione.indirizzo,
+        country: fatturazione.country,
+        provincia: fatturazione.provincia,
+        comune: fatturazione.comune,
+        cap: fatturazione.cap,
+        codice_fiscale: fatturazione.codice_fiscale,
+        pec: "",
+        codice_sdi: "",
+      });
+    }
+  };
+
   return (
     <S.DatiFatturazioneWrapper
       padding={"1.25rem"}
@@ -228,11 +257,18 @@ const DatiFatturazione = () => {
         <Grid xs={12} sm={6}>
           <S.CustomFormControl fullWidth className="contained">
             <Select
-              name="personaFisica"
-              value={inputs.personaFisica}
+              displayEmpty
+              renderValue={(val) => {
+                if (val === "") {
+                  return <span className="select-placeholder">Individuo</span>;
+                }
+                return val;
+              }}
+              name="persona_type"
+              value={inputs.persona_type}
               onChange={handleChange}
-              labelId="persona-fisica-label"
-              id="persona-fisica"
+              labelId="persona_type-label"
+              id="persona_type"
             >
               <MenuItem
                 value={"Persona fisica"}
@@ -250,24 +286,46 @@ const DatiFatturazione = () => {
           </S.CustomFormControl>
         </Grid>
         <Grid xs={12} sm={6} alignSelf={"flex-end"} textAlign={"end"}>
-          <PrecompilaButton />
+          <PrecompilaButton onClick={handlePrecompila} />
         </Grid>
       </S.CustomFirstGrid>
       <S.CustomGrid container>
         <Grid xs={12} sm={6}>
-          <TextField className="contained" placeholder="Nome" />
+          <TextField
+            value={inputs.nome}
+            name="nome"
+            className="contained"
+            placeholder="Nome"
+          />
         </Grid>
         <Grid xs={12} sm={6}>
-          <TextField className="contained" placeholder="Cognome" />
+          <TextField
+            value={inputs.cognome}
+            name="cognome"
+            className="contained"
+            placeholder="Cognome"
+          />
         </Grid>
       </S.CustomGrid>
       <S.CustomGrid container>
         <Grid xs={12} sm={8}>
-          <TextField className="contained" placeholder="Indirizzo" />
+          <TextField
+            value={inputs.indirizzo}
+            name="indirizzo"
+            className="contained"
+            placeholder="Indirizzo"
+          />
         </Grid>
         <Grid xs={12} sm={4}>
           <S.CustomFormControl fullWidth className="contained">
             <Select
+              displayEmpty
+              renderValue={(val) => {
+                if (val === "") {
+                  return <span className="select-placeholder">Paese</span>;
+                }
+                return val;
+              }}
               name="country"
               value={inputs.country}
               onChange={handleChange}
@@ -276,16 +334,16 @@ const DatiFatturazione = () => {
               id="country"
             >
               <MenuItem
-                value={"Italy"}
+                value={"Italia"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Italy
+                Italia
               </MenuItem>
               <MenuItem
-                value={"Mugnano"}
+                value={"Inghilterra"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Mugnano
+                Inghilterra
               </MenuItem>
             </Select>
           </S.CustomFormControl>
@@ -295,6 +353,13 @@ const DatiFatturazione = () => {
         <Grid xs={12} sm={4}>
           <S.CustomFormControl fullWidth className="contained">
             <Select
+              displayEmpty
+              renderValue={(val) => {
+                if (val === "") {
+                  return <span className="select-placeholder">Provincia</span>;
+                }
+                return val;
+              }}
               name="provincia"
               value={inputs.provincia}
               onChange={handleChange}
@@ -303,16 +368,16 @@ const DatiFatturazione = () => {
               id="provincia"
             >
               <MenuItem
-                value={"Poggioreale"}
+                value={"Napoli"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Poggioreale
+                Napoli
               </MenuItem>
               <MenuItem
-                value={"Bacoli"}
+                value={"Salerno"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Bacoli
+                Salerno
               </MenuItem>
             </Select>
           </S.CustomFormControl>
@@ -320,6 +385,13 @@ const DatiFatturazione = () => {
         <Grid xs={12} sm={4}>
           <S.CustomFormControl fullWidth className="contained">
             <Select
+              displayEmpty
+              renderValue={(val) => {
+                if (val === "") {
+                  return <span className="select-placeholder">Comune</span>;
+                }
+                return val;
+              }}
               name="comune"
               value={inputs.comune}
               onChange={handleChange}
@@ -328,16 +400,16 @@ const DatiFatturazione = () => {
               id="comune"
             >
               <MenuItem
-                value={"Pippolandia"}
+                value={"Torre del Greco"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Pippolandia
+                Torre del Greco
               </MenuItem>
               <MenuItem
-                value={"Altro"}
+                value={"Pozzuoli"}
                 sx={{ color: theme.palette.primary.main }}
               >
-                Altro
+                Pozzuoli
               </MenuItem>
             </Select>
           </S.CustomFormControl>
@@ -345,6 +417,13 @@ const DatiFatturazione = () => {
         <Grid xs={12} sm={4}>
           <S.CustomFormControl fullWidth className="contained">
             <Select
+              displayEmpty
+              renderValue={(val) => {
+                if (val === "") {
+                  return <span className="select-placeholder">CAP</span>;
+                }
+                return val;
+              }}
               name="cap"
               value={inputs.cap}
               onChange={handleChange}
@@ -370,13 +449,25 @@ const DatiFatturazione = () => {
       </S.CustomGrid>
       <S.CustomGrid container>
         <Grid xs={12} sm={4}>
-          <TextField className="contained" placeholder="Codice fiscale" />
-        </Grid>
-        <Grid xs={12} sm={4}>
-          <TextField className="contained" placeholder="PEC (opzionale)" />
+          <TextField
+            value={inputs.codice_fiscale}
+            name="codice_fiscale"
+            className="contained"
+            placeholder="Codice fiscale"
+          />
         </Grid>
         <Grid xs={12} sm={4}>
           <TextField
+            value={inputs.pec}
+            name="pec"
+            className="contained"
+            placeholder="PEC (opzionale)"
+          />
+        </Grid>
+        <Grid xs={12} sm={4}>
+          <TextField
+            value={inputs.codice_sdi}
+            name="codice_sdi"
             className="contained"
             placeholder="Codice SDI (opzionale)"
           />

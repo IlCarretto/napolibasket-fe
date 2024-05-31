@@ -12,6 +12,7 @@ import { useFormState } from "react-dom";
 import { addNominativoTicketAction } from "@/data/actions/ticket-action";
 import { ZodErrors } from "../ZodErrors";
 import Rubrica from "../../Rubrica";
+import { useFetch } from "@/app/hooks/useFetch";
 
 const initialState = {
   data: null,
@@ -43,12 +44,27 @@ const DatiUtilizzatore = ({
     mobile: "",
   });
 
+  const dati_precompilati: any = useFetch("./MockData/dati_precompilati.json");
+
   const handlePrecompila = () => {
-    setFormValues({
-      nome: "Mario",
-      cognome: "Rossi",
-      mobile: "123456789",
-    });
+    if (dati_precompilati) {
+      const { dati_utilizzatore } = dati_precompilati.dati_precompilati;
+      setFormValues({
+        nome: dati_utilizzatore.nome,
+        cognome: dati_utilizzatore.cognome,
+        mobile: dati_utilizzatore.mobile,
+      });
+    }
+  };
+
+  const handleAutocomplete = (value: any) => {
+    if (value) {
+      setFormValues({
+        nome: value.nome,
+        cognome: value.cognome,
+        mobile: value.mobile,
+      });
+    }
   };
 
   return (
@@ -102,7 +118,10 @@ const DatiUtilizzatore = ({
           }}
         >
           <PrecompilaButton onClick={handlePrecompila} />
-          <Rubrica />
+          <Rubrica
+            datiPrecompilati={dati_precompilati}
+            onSelect={handleAutocomplete}
+          />
         </ButtonGroup>
         <ButtonGroup
           sx={{
