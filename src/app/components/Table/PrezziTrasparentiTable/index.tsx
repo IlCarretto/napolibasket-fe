@@ -32,7 +32,7 @@ export default function PrezziTrasparentiTable({ rows }: IPrezziTrasparentiTable
             <React.Fragment key={row.section_id}>
               <TableRow>
                 <TableCell
-                  sx={{ textTransform: "uppercase" }}
+                  sx={{ textTransform: "uppercase",fontWeight:"bold" }}
                   component="th"
                   scope="row"
                   rowSpan={row.prices.length}
