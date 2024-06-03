@@ -35,10 +35,6 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
     }
   }, [isTicketChange]);
 
-  const timeIsOut = () => {
-    router.push("/ticket-selection");
-  };
-
   const totalTicketsPrice = () => {
     return tickets.reduce((total, ticket) => total + ticket.price, 0);
   };
@@ -64,7 +60,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
     <S.CartWrapper
       className="border-solid border-2 border-gray-500 rounded-md p-3"
       color={theme.palette.primary.main}
-      sx={{ ".MuiTypography-root": { color: "inherit" } }}
+
     >
       <S.Timer
         icon={
@@ -76,7 +72,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       >
         <S.Spin />
         <Box marginLeft={5}>
-          <Timer startTime={startTimer} minutes={10} handleTimeOut={timeIsOut} />
+          <Timer startTime={startTimer} minutes={10}  />
         </Box>
       </S.Timer>
       <CartAccordion

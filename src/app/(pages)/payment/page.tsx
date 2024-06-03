@@ -9,6 +9,7 @@ import {
   RadioGroup,
   Typography,
   styled,
+  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
@@ -47,7 +48,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({}));
 
 const Payment = () => {
   const [value, setValue] = useState("");
-
+  const theme = useTheme()
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement> | React.SyntheticEvent,
     panel: string | boolean
@@ -82,13 +83,18 @@ const Payment = () => {
     },
   ];
 
-
-
-
   const [expanded, setExpanded] = React.useState<string | boolean>("");
 
   return (
-    <Container maxWidth={"lg"} sx={{ paddingX: "1.5rem", marginY: "1rem" }}>
+    <Container maxWidth={"lg"} sx={{
+      paddingX: "1.5rem", marginY: "1rem",
+      minHeight: "calc(100vh - 66px)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: theme.palette.primary.main,
+      "& .MuiTypography-root": { color: theme.palette.primary.main }
+    }} >
       {!hasPayed ? (
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-8/12">
@@ -104,7 +110,7 @@ const Payment = () => {
                 </Typography>
               </div>
               <Typography variant="h5" textTransform={"uppercase"}>
-                Payment
+                Pagamento
               </Typography>
               <Typography variant="body1">
                 Codice Transazione NPLBSKT40129435310
@@ -138,7 +144,7 @@ const Payment = () => {
                   >
                     {options.map((option, i) => (
                       <Accordion
-                      key={i}
+                        key={i}
                         expanded={expanded === `panel${i}`}
                         onChange={(event, newExpanded) =>
                           handleChange(event, newExpanded ? `panel${i}` : false)

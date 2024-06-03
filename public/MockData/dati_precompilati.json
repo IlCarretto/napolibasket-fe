@@ -1,0 +1,44 @@
+{
+    "dati_precompilati": {
+        "fatturazione": 
+            {
+                "persona_type": "Persona fisica",
+                "nome": "Rosario",
+                "cognome": "Savarese",
+                "indirizzo": "Via Medina 40",
+                "country": "Italia",
+                "provincia": "Napoli",
+                "comune": "Napoli",
+                "cap": 80139,
+                "codice_fiscale": "RSRSVR01T04N259G"
+            }
+        ,
+        "dati_utilizzatore": {
+            "nome": "Mario",
+            "cognome": "Rossi",
+            "mobile": "123456789"
+        },
+        "rubrica": {
+            "Antonio": {
+                "nome": "Antonio",
+                "cognome": "Rossi",
+                "mobile": "1234"
+            },
+            "Fabrizio": {
+                "nome": "Fabrizio",
+                "cognome": "Cimmaruta",
+                "mobile": "5678"
+            },
+            "Gianluca": {
+                "nome": "Gian",
+                "cognome": "Luca",
+                "mobile": "2468"
+            },
+            "Giovanni": {
+                "nome": "Giovanni",
+                "cognome": "Botti",
+                "mobile": "9876"
+            }
+        }
+    }
+}

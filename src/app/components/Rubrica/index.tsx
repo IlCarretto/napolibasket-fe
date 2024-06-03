@@ -2,16 +2,28 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useTheme } from "@mui/material";
+import { useFetch } from "@/app/hooks/useFetch";
 
-export default function Rubrica() {
+type TRubrica = {
+  onSelect: (e: any) => void;
+};
+
+export default function Rubrica({ onSelect }: TRubrica) {
   const theme = useTheme();
-  const options = nomiRubrica.map((option) => {
-    const firstLetter = option.nome[0].toUpperCase();
-    return {
-      firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
-      ...option,
-    };
-  });
+
+  const dati_precompilati: any = useFetch("./MockData/dati_precompilati.json");
+  let options = [];
+  if (dati_precompilati && dati_precompilati.dati_precompilati) {
+    options = Object.values(dati_precompilati.dati_precompilati.rubrica).map(
+      (option) => {
+        const firstLetter = option.nome[0].toUpperCase();
+        return {
+          firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+          ...option,
+        };
+      }
+    );
+  }
 
   return (
     <Autocomplete
@@ -21,6 +33,7 @@ export default function Rubrica() {
       )}
       groupBy={(option) => option.firstLetter}
       getOptionLabel={(option) => option.nome}
+      onChange={(e, val) => onSelect(val)}
       sx={{
         width: "100%",
         "@media only screen and (min-width: 768px)": {
@@ -44,17 +57,3 @@ export default function Rubrica() {
     />
   );
 }
-
-const nomiRubrica = [
-  { nome: "Antonio Russo" },
-  { nome: "Mario Rossi" },
-  { nome: "Maura Blasio" },
-  { nome: "Gian Luca" },
-  { nome: "Fabrizio Cimmaruta" },
-  { nome: "Pippo Pluto" },
-  { nome: "Livia Cimmino" },
-  {
-    nome: "Giovanni Botti",
-  },
-  { nome: "Pietro Bacthouti" },
-];

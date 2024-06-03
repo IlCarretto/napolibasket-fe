@@ -4,7 +4,7 @@ import { Typography, TypographyProps } from "@mui/material";
 
 interface ITimerProps {
     startTime: number; // passa come valore 0 per forzare il timeout
-    handleTimeOut: () => void;
+    handleTimeOut?: () => void;
     minutes: number;
 }
 
@@ -29,7 +29,7 @@ const Timer = ({
 
                 if (remainingTime <= 0) {
                     clearInterval(interval);
-                    handleTimeOut();
+                    handleTimeOut && handleTimeOut();
                 }
             }, 1000);
 
@@ -44,7 +44,7 @@ const Timer = ({
     };
 
     return (
-        <Typography variant="h6" mb={0} lineHeight={1.5} {...props}>
+        <Typography variant="h6" mb={0} lineHeight={1.5} {...props} >
             {startTime === 0 ? "--:--" : formatTime(timeLeft)}
         </Typography>
     );

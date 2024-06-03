@@ -92,6 +92,15 @@ const components: ThemeOptions["components"] = {
       },
     },
   },
+  MuiSelect: {
+    styleOverrides: {
+      root: {
+        "& .select-placeholder": {
+          color: "#c5c8d3",
+        },
+      },
+    },
+  },
 };
 
 export default components;
