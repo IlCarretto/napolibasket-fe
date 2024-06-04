@@ -35,10 +35,9 @@ export default function Rubrica({ onSelect }: TRubrica) {
       getOptionLabel={(option) => option.nome}
       onChange={(e, val) => onSelect(val)}
       sx={{
+        flex: 1,
         width: "100%",
-        "@media only screen and (min-width: 768px)": {
-          width: 250,
-        },
+        "@media only screen and (min-width: 768px)": {},
         color: theme.palette.primary.main,
         "& *": { color: "inherit!important" },
       }}

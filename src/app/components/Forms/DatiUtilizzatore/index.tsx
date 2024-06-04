@@ -118,10 +118,7 @@ const DatiUtilizzatore = ({
           }}
         >
           <PrecompilaButton onClick={handlePrecompila} />
-          <Rubrica
-            datiPrecompilati={dati_precompilati}
-            onSelect={handleAutocomplete}
-          />
+          <Rubrica onSelect={handleAutocomplete} />
         </ButtonGroup>
         <ButtonGroup
           sx={{

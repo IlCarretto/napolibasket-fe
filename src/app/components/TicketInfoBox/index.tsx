@@ -22,13 +22,15 @@ import PrecompilaButton from "../Button/PrecompilaButton";
 import { useFetch } from "@/app/hooks/useFetch";
 import { useRouter } from "next/navigation";
 import { ITicket } from "@/app/context/type";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
 const TicketInfoBox = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { setTickets } = useEventTotal();
   const handleDelete = () => {
     localStorage.clear();
-
+    setTickets([]);
     router.push("/ticket-selection");
   };
   return (
@@ -36,7 +38,6 @@ const TicketInfoBox = () => {
       <S.TicketInfoWrapper>
         <Box
           position={"relative"}
-          borderRadius={"4px 4px 0 0"}
           bgcolor={theme.palette.primary.main}
           padding={"0.25rem 1.25rem"}
           display="flex"
@@ -51,6 +52,8 @@ const TicketInfoBox = () => {
         </Box>
         <Box
           padding={"0.75rem"}
+          bgcolor={"#f3f4f6"}
+          borderRadius={"0 0 6px 6px"}
           color={theme.palette.primary.main}
           sx={{
             ".MuiTypography-root": { color: "inherit" },
@@ -59,7 +62,7 @@ const TicketInfoBox = () => {
           <DatiUtilizzatore />
         </Box>
       </S.TicketInfoWrapper>
-      <CodiceSconto />
+      {/* <CodiceSconto /> */}
       <DatiFatturazione />
     </>
   );
@@ -218,9 +221,10 @@ const DatiFatturazione = () => {
 
   return (
     <S.DatiFatturazioneWrapper
+      bgcolor={"#f3f4f6"}
       padding={"1.25rem"}
       color={theme.palette.primary.main}
-      sx={{ ".MuiTypography-root": { color: "inherit" } }}
+      sx={{ borderWidth: 2, ".MuiTypography-root": { color: "inherit" } }}
     >
       <Typography variant="h6">Dati di fatturazione</Typography>
       <S.CustomFirstGrid container mb={2}>

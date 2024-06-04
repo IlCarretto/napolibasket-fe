@@ -13,6 +13,7 @@ import { useFormState } from "react-dom";
 import { registerUserAction } from "@/data/actions/auth-actions";
 import { ZodErrors } from "../ZodErrors";
 import { useAuthDispatch } from "@/app/context/AuthContext";
+import theme from "@/app/theme";
 
 const initialState = {
   data: null,
@@ -106,9 +107,9 @@ const Register = ({
 
 export default Register;
 
-const CustomFormControlLabel = styled(FormControlLabel)(() => ({
+const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   margin: 0,
   "& .MuiSvgIcon-root": {
-    color: "inherit",
+    color: theme.palette.primary.main,
   },
 }));

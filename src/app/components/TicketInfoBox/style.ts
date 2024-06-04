@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  styled,
-} from "@mui/material";
+import { Box, FormControl, Grid, styled } from "@mui/material";
 import Button from "../Button";
 
 const Wrapper = styled(Box)(({ theme }) => ({
-  border: `1px solid ${theme.palette.primary.main}`,
+  border: `2px solid ${theme.palette.primary.main}`,
   borderRadius: 6,
   marginBottom: 24,
   "& h5": {
@@ -43,6 +37,7 @@ export const CustomGrid = styled(Grid)(() => ({
   },
   "& .MuiGrid-grid-xs-12": {
     marginBottom: 16,
+    background: "#FFF",
   },
   "@media only screen and (min-width: 576px)": {
     "& .MuiGrid-grid-xs-12:first-child": {
@@ -55,9 +50,14 @@ export const CustomGrid = styled(Grid)(() => ({
 }));
 
 export const CustomFirstGrid = styled(Grid)(() => ({
+  "& > :first-child": {
+    background: "#FFF",
+  },
+  gap: 8,
   flexDirection: "column-reverse",
   "@media only screen and (min-width: 576px)": {
     flexDirection: "row",
+    gap: 0,
   },
 }));
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, List, styled } from "@mui/material";
+import { List, styled } from "@mui/material";
 
 export const Wrapper = styled("section")(() => ({
   top: "20%",

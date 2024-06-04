@@ -1,7 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import * as S from "./style";
-import { Box, Divider, Tooltip, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormGroup,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,6 +19,7 @@ import { ITicket } from "@/app/context/type";
 import Timer from "../Timer";
 import { formatCurrency } from "@/app/utils/formatCurrency";
 import { removeTicketFromLocalStorage } from "../../utils/utils";
+import { CustomFormControlLabel } from "../Radio/style";
 
 const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const theme = useTheme();
@@ -19,15 +28,21 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const [isTicketChange, setIsTicketChange] = useState(false);
   const router = useRouter();
 
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined" && localStorage) {
       const cart = localStorage.getItem("Cart");
-       
-      if (!!cart && !!JSON.parse(cart).tickets.length ) {
-         const parsedCart = JSON.parse(cart);
+
+      if (!!cart && !!JSON.parse(cart).tickets.length) {
+        const parsedCart = JSON.parse(cart);
         setTickets(parsedCart.tickets);
         setStartTimer(parsedCart.time);
-      } else  {
+      } else {
         setTickets([]);
         setStartTimer(0);
         router.push("/ticket-selection");
@@ -46,23 +61,24 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const totalCommissioni = () => {
     return tickets.reduce((total, ticket) => total + ticket.commissione, 0);
   };
-  const totalPrice = totalTicketsPrice() + totalCommissioni()
+  const totalPrice = totalTicketsPrice() + totalCommissioni();
 
   //TO DO; adesso pulisce tutto il local storage dovrebbe essere gestito per evento
   const deleteAllTickets = () => {
     localStorage.clear();
-    setIsTicketChange(!isTicketChange)
-  }
+    setIsTicketChange(!isTicketChange);
+  };
 
   const deleteTicket = async (id: string) => {
     await removeTicketFromLocalStorage(id);
     setIsTicketChange(!isTicketChange);
   };
 
-
   return (
     <S.CartWrapper
-      className="border-solid border-2 border-gray-500 rounded-md p-3"
+      className={`border-solid border-2 border-gray-500 rounded-md p-3 ${
+        !isPayment ? "" : "flex flex-col h-full justify-between"
+      }`}
       color={theme.palette.primary.main}
       sx={{ ".MuiTypography-root": { color: "inherit" } }}
     >
@@ -76,7 +92,11 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       >
         <S.Spin />
         <Box marginLeft={5}>
-          <Timer startTime={startTimer} minutes={10} handleTimeOut={timeIsOut} />
+          <Timer
+            startTime={startTimer}
+            minutes={10}
+            handleTimeOut={timeIsOut}
+          />
         </Box>
       </S.Timer>
       <CartAccordion
@@ -85,7 +105,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
         handleDeleteAllTickets={deleteAllTickets}
         handleDeleteTicket={deleteTicket}
       />
-      <S.Row>
+      <S.Row sx={{ paddingY: isPayment ? "0" : "1rem" }}>
         <Typography variant="body2">Commissioni</Typography>
         <Box>{formatCurrency(totalCommissioni(), true)}</Box>
         <Tooltip title="Commissioni title">
@@ -93,7 +113,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
         </Tooltip>
       </S.Row>
       <Divider />
-      <S.Row>
+      <S.Row sx={{ paddingY: isPayment ? "0" : "1rem" }}>
         <Typography variant="h6">Totale</Typography>
         <Box>{formatCurrency(totalPrice, true)}</Box>
         <Tooltip title="Commissioni title">
@@ -101,9 +121,28 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
         </Tooltip>
       </S.Row>
       {!isPayment && (
+        <Box mb={1} sx={{ color: "unset" }}>
+          <FormGroup>
+            <CustomFormControlLabel
+              sx={{
+                "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
+              }}
+              required
+              control={<Checkbox checked={checked} onChange={handleChange} />}
+              label={
+                <Typography ml={0} fontSize={12}>
+                  Dichiaro di aver letto ed accetti integralmente le 'Condizioni
+                  generali' per l'utilizzo del servizio
+                </Typography>
+              }
+            />
+          </FormGroup>
+        </Box>
+      )}
+      {!isPayment && (
         <Box display="flex" flexDirection="column" gap={1}>
           <Button
-            disabled={!tickets.length}
+            disabled={!tickets.length || !checked}
             onClick={() => router.push("/payment")}
             label="Procedi con il pagamento"
             variant="contained"
@@ -123,18 +162,17 @@ export default CartBox;
 
 interface ICartAccordionProps {
   tickets: ITicket[];
-  totalTicketsPrice: number,
-  handleDeleteAllTickets: () => void
-  handleDeleteTicket: (id: string) => void
+  totalTicketsPrice: number;
+  handleDeleteAllTickets: () => void;
+  handleDeleteTicket: (id: string) => void;
 }
 
 const CartAccordion = ({
   tickets,
   totalTicketsPrice,
   handleDeleteAllTickets,
-  handleDeleteTicket
+  handleDeleteTicket,
 }: ICartAccordionProps) => {
-
   const [expanded, setExpanded] = useState<string | false>("panel1");
   const totalTickets = tickets.length;
 
@@ -142,7 +180,6 @@ const CartAccordion = ({
     (panel: string) => (_event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
-
 
   return (
     <S.CartAccordion
@@ -159,7 +196,7 @@ const CartAccordion = ({
       >
         <Box>
           <Typography fontSize={14} mb={0} variant="h6">
-          Gevi Napoli Basket vs Givova Scafati Basket
+            Gevi Napoli Basket vs Givova Scafati Basket
           </Typography>
           <Box display="flex" mt={1}>
             <Typography variant="body2">
@@ -170,7 +207,12 @@ const CartAccordion = ({
         </Box>
         <Box>
           {totalTicketsPrice > 0 && (
-            <Typography mb={0} variant="h6" marginX={1} minWidth={"max-content"} >
+            <Typography
+              mb={0}
+              variant="h6"
+              marginX={1}
+              minWidth={"max-content"}
+            >
               {formatCurrency(totalTicketsPrice, true)}
             </Typography>
           )}
@@ -191,9 +233,16 @@ const CartAccordion = ({
                 <Typography variant="body2">{elTicket.sector}</Typography>
               </Box>
               <Box display="flex" alignItems="center">
-                <Typography variant="body2">  {formatCurrency(elTicket.price, true)}</Typography>
+                <Typography variant="body2">
+                  {" "}
+                  {formatCurrency(elTicket.price, true)}
+                </Typography>
                 <button>
-                  <DeleteIcon onClick={() => handleDeleteTicket(elTicket.id)} className="!text-gray-400" fontSize="small" />
+                  <DeleteIcon
+                    onClick={() => handleDeleteTicket(elTicket.id)}
+                    className="!text-gray-400"
+                    fontSize="small"
+                  />
                 </button>
               </Box>
             </Box>

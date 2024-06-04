@@ -1,6 +1,14 @@
 "use client";
 
-import { Alert, Box, keyframes, Accordion, styled, AccordionSummary, AccordionDetails } from "@mui/material";
+import {
+  Alert,
+  Box,
+  keyframes,
+  Accordion,
+  styled,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 
 const spinAnimation = keyframes`
   to {
@@ -63,15 +71,13 @@ export const Spin = styled("div")(({ theme }) => ({
 export const Row = styled(Box)(() => ({
   display: "flex",
   justifyContent: "space-between",
-  padding: "1rem 0",
   "& > :nth-child(2)": {
     marginLeft: "auto",
     marginRight: 8,
   },
 }));
 
-
-export const CartAccordion = styled(Accordion)(()=> ({
+export const CartAccordion = styled(Accordion)(() => ({
   borderTop: `1px solid rgba(0, 0, 0, .250)`,
   "&:not(:last-child)": {
     borderBottom: 0,
@@ -84,7 +90,7 @@ export const CartAccordion = styled(Accordion)(()=> ({
   },
 }));
 
-export const CartAccordionSummary =styled(AccordionSummary)(()=> ({
+export const CartAccordionSummary = styled(AccordionSummary)(() => ({
   background: "#f3f4f6",
   "& .MuiSvgIcon-root": {
     fill: "gray",
@@ -101,10 +107,7 @@ export const CartAccordionSummary =styled(AccordionSummary)(()=> ({
   },
 }));
 
-
-
-
-export const CartAccordionDetails = styled(AccordionDetails)(()=> ({
+export const CartAccordionDetails = styled(AccordionDetails)(() => ({
   padding: "0 16px",
   "& h6": {
     fontSize: "14px",

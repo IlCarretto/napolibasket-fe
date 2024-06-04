@@ -66,9 +66,9 @@ const Payment = () => {
       img: "https://backendcdn.vivaticket.it/wms_images/secure/accepted-cards.jpg",
     },
     {
-      label: "Postepay",
-      value: "postepay",
-      img: "https://backendcdn.vivaticket.it/wms_images/secure/postepay.png",
+      label: "PayPal",
+      value: "PayPal",
+      img: "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg",
     },
     {
       label: "Klarna",
@@ -89,7 +89,7 @@ const Payment = () => {
       {!hasPayed ? (
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-8/12">
-            <div className="relative border-solid border-2 border-gray-500 rounded-md p-3">
+            <div className="relative border-solid border-2 border-gray-500 rounded-md p-3 flex flex-col justify-around">
               <div className="absolute items-center flex top-4 right-4 gap-1">
                 <LockIcon fontSize="small" className="!text-green-500" />
                 <Typography
@@ -135,7 +135,7 @@ const Payment = () => {
                   >
                     {options.map((option, i) => (
                       <Accordion
-                      key={i}
+                        key={i}
                         expanded={expanded === `panel${i}`}
                         onChange={(event, newExpanded) =>
                           handleChange(event, newExpanded ? `panel${i}` : false)
