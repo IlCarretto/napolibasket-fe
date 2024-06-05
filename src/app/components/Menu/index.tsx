@@ -11,6 +11,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import { useAuthDispatch } from "@/app/context/AuthContext";
 import { Divider, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useRouter } from "next/navigation";
 
 interface IMenuProps {
   anchorEl: null | HTMLElement;
@@ -20,8 +21,15 @@ interface IMenuProps {
 
 export default function Menu({ anchorEl, open, handleClose }: IMenuProps) {
   const dispatch = useAuthDispatch();
+  const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const config = { method: "DELETE" };
+    const cookieDeleteRes = await fetch("api/login", config);
+    let cookie = await cookieDeleteRes.json();
+    if (cookie.status == true) {
+      router.replace("/");
+    }
     dispatch({ type: "LOGOUT" });
     handleClose();
   };

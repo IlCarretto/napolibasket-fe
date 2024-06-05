@@ -1,10 +1,10 @@
+"use client";
 import { Box, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import Button from "../../Button";
 import { useFormState } from "react-dom";
 import { loginUserAction } from "@/data/actions/auth-actions";
 import { ZodErrors } from "../ZodErrors";
-import { useAuthDispatch } from "@/app/context/AuthContext";
 
 const initialState = {
   data: null,
@@ -18,11 +18,9 @@ const Login = ({
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [formState, formAction] = useFormState(loginUserAction, initialState);
-  const dispatch = useAuthDispatch();
 
   useEffect(() => {
     if (formState.login) {
-      dispatch({ type: "LOGIN" });
       setShowModal(false);
     }
   }, [formState]);
