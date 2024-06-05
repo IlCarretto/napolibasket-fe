@@ -18,37 +18,20 @@ import { useRouter } from "next/navigation";
 import { ITicket } from "@/app/context/type";
 import Timer from "../Timer";
 import { formatCurrency } from "@/app/utils/formatCurrency";
-import { removeTicketFromLocalStorage } from "../../utils/utils";
 import { CustomFormControlLabel } from "../Radio/style";
+import { useEventTotal } from "@/app/context/EventTotalContext";
+import { useClearEvents, useRemoveTicket } from "@/app/context/hooks";
 
 const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const theme = useTheme();
-  const [tickets, setTickets] = useState<ITicket[]>([]);
-  const [startTimer, setStartTimer] = useState<number>(Date.now());
-  const [isTicketChange, setIsTicketChange] = useState(false);
   const router = useRouter();
-
+  const { startTimer, tickets } = useEventTotal();
   const [checked, setChecked] = useState(false);
-
+  const clearEvents = useClearEvents()
+  const removeTicket = useRemoveTicket()
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && localStorage) {
-      const cart = localStorage.getItem("Cart");
-
-      if (!!cart && !!JSON.parse(cart).tickets.length) {
-        const parsedCart = JSON.parse(cart);
-        setTickets(parsedCart.tickets);
-        setStartTimer(parsedCart.time);
-      } else {
-        setTickets([]);
-        setStartTimer(0);
-        router.push("/ticket-selection");
-      }
-    }
-  }, [isTicketChange]);
 
   const totalTicketsPrice = () => {
     return tickets.reduce((total, ticket) => total + ticket.price, 0);
@@ -57,17 +40,22 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const totalCommissioni = () => {
     return tickets.reduce((total, ticket) => total + ticket.commissione, 0);
   };
+
   const totalPrice = totalTicketsPrice() + totalCommissioni();
 
   //TO DO; adesso pulisce tutto il local storage dovrebbe essere gestito per evento
   const deleteAllTickets = () => {
-    localStorage.clear();
-    setIsTicketChange(!isTicketChange);
+    clearEvents()
+    router.push("/ticket-selection");
   };
 
   const deleteTicket = async (id: string) => {
-    await removeTicketFromLocalStorage(id);
-    setIsTicketChange(!isTicketChange);
+    removeTicket(id)
+    if (tickets.length < 2) {
+      clearEvents()
+      router.push("/ticket-selection");
+
+    }
   };
 
   return (
@@ -75,7 +63,6 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       className={`border-solid border-2 border-gray-500 rounded-md p-3 ${!isPayment ? "" : "flex flex-col h-full justify-between"
         }`}
       color={theme.palette.primary.main}
-
     >
       <S.Timer
         icon={
@@ -90,7 +77,6 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
           <Timer
             startTime={startTimer}
             minutes={10}
-
           />
         </Box>
       </S.Timer>

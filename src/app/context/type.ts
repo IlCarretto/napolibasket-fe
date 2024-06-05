@@ -54,19 +54,14 @@ export enum IChoiceMode {
 
 export type IEventTotalContext = {
     tickets: ITicket[];
-    addManualTicket: (el: IManualTicket) => void;
-    removeTicket: (ticketId: string) => void;
-    changeTicket: (ticket: ITicket) => void;
-    totalTickets: number;
-    totalPrice: () => number,
+    setTickets: (tickets: ITicket[]) => void,
+    setMode: (el: IChoiceMode) => void;
+    mode: IChoiceMode,
     setHoverArea: (hoverArea: null | ITicket["section_id"]) => void,
     hoverArea: null | ITicket["section_id"],
-    jsonMap: any
-    pricesForSector: IPriceForSection | null
-    addBestTicket: (el: IBestTicket) => void
-    removeBestTicket: (sectorId: number,price:number) => void
-    changeChoiceMode: (el: IChoiceMode) => void;
-    mode: IChoiceMode
+    pricesForSector: IPriceForSection | null,
+    startTimer: string | number | null,
+    setStartTimer: (time: string | number | null) => void,
 };
 
 export type TEventTotalProvider = {

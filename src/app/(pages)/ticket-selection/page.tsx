@@ -16,6 +16,7 @@ import ReCaptchaModal from "@/app/components/Modal/ReCaptchaModal";
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
 import { formatCurrency } from "@/app/utils/formatCurrency";
+import { useSetEvent, useTotalPrice, useTotalTickets } from "@/app/context/hooks";
 
 const TicketSelection = () => {
   return (
@@ -45,6 +46,10 @@ const EventTotal = () => {
   const [showModal, setShowModal] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const { tickets } = useEventTotal();
+  const totalTickets = useTotalTickets()
+  const totalPrice = useTotalPrice()
+  const setEvent = useSetEvent()
 
   const handleRecaptchaChange = (token: string | null) => {
     setRecaptchaToken(token);
@@ -77,19 +82,17 @@ const EventTotal = () => {
           time: Date.now(),
           tickets: tickets,
         };
-        localStorage.setItem("Cart", JSON.stringify(cartData));
+        setEvent(cartData);
       }
     }
   };
 
-  const { totalTickets, totalPrice, tickets } = useEventTotal();
 
   return (
     <>
       <S.MenuTotal
-        className={`${
-          totalTickets > 0 ? "" : "translate-y-full h-0"
-        } transition-all sticky mt-auto `}
+        className={`${totalTickets > 0 ? "" : "translate-y-full h-0"
+          } transition-all sticky mt-auto `}
       >
         <div className="event-total__top px-3 py-2">
           <Typography variant="h6" mb={0}>
@@ -100,7 +103,7 @@ const EventTotal = () => {
             <Image src={TicketIcon.src} alt="Ticket" width={25} height={25} />
           </div>
           <Typography variant="h6" mb={0}>
-            {formatCurrency(totalPrice(), true)}
+            {formatCurrency(totalPrice, true)}
           </Typography>
         </div>
         <form onSubmit={handleSubmit} className="event-total__bottom px-3 py-2">

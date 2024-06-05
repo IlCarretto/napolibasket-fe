@@ -11,32 +11,22 @@ import Menu from "../Menu";
 import { useAuthState } from "@/app/context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Timer from "../Timer";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [startTimer, setStartTimer] = React.useState(0);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const { startTimer } = useEventTotal();
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const { isLoggedIn } = useAuthState();
-  const cart = localStorage.getItem("Cart");
-  useEffect(() => {
-    if (typeof window !== "undefined" && localStorage) {
 
-      if (!!cart && !!JSON.parse(cart).tickets.length) {
-        const parsedCart = JSON.parse(cart);
-        setStartTimer(parsedCart.time);
-      } else {
-        setStartTimer(0);
-      }
-    }
-  }, []);
 
   return (
     <S.Header>
@@ -80,7 +70,7 @@ const Header = () => {
           </Box>
         </div>
         <Box display={"flex"} >
-          <Timer minutes={10} startTime={startTimer} />
+          {startTimer && <Timer minutes={10} startTime={startTimer} />}
           {isLoggedIn ? (
             <S.LoginButton
               id="basic-button"
