@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Typography, TypographyProps } from "@mui/material";
 
 interface ITimerProps {
-    startTime: number; // passa come valore 0 per forzare il timeout
-    handleTimeOut: () => void;
+    startTime: string | number | null; // passa come valore null per forzare il timeout a 0
+    handleTimeOut?: () => void;
     minutes: number;
 }
 
@@ -17,11 +17,11 @@ const Timer = ({
     const [timeLeft, setTimeLeft] = useState<number>(0);
 
     useEffect(() => {
-        if (startTime === 0) {
+        if (!startTime) {
             setTimeLeft(0);
             return;
         } else {
-            const targetTime = startTime + minutes * 60 * 1000;
+            const targetTime = Number(startTime) + minutes * 60 * 1000;
             const interval = setInterval(() => {
                 const currentTime = Date.now();
                 const remainingTime = Math.max(0, Math.floor((targetTime - currentTime) / 1000));
@@ -29,7 +29,7 @@ const Timer = ({
 
                 if (remainingTime <= 0) {
                     clearInterval(interval);
-                    handleTimeOut();
+                    handleTimeOut && handleTimeOut();
                 }
             }, 1000);
 
@@ -44,8 +44,8 @@ const Timer = ({
     };
 
     return (
-        <Typography variant="h6" mb={0} lineHeight={1.5} {...props}>
-            {startTime === 0 ? "--:--" : formatTime(timeLeft)}
+        <Typography variant="h6" mb={0} lineHeight={1.5} {...props} >
+            {!startTime ? "--:--" : formatTime(timeLeft)}
         </Typography>
     );
 };

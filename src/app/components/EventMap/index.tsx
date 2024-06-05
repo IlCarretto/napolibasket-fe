@@ -5,7 +5,7 @@ import SeatPopup from "./SeatPopup";
 import * as layout from "./layout";
 import BasketballCourt, { courtHeight } from "./BasketballCourt";
 import { useEventTotal } from "@/app/context/EventTotalContext";
-
+import { useFetch } from "@/app/hooks/useFetch";
 
 
 const EventMap = () => {
@@ -22,12 +22,11 @@ const EventMap = () => {
   });
   const [virtualWidth, setVirtualWidth] = React.useState(1000);
 
-  const [selectedSeatsIds, setSelectedSeatsIds] = React.useState([]);
 
   const [popup, setPopup] = React.useState({ seat: null });
 
-
-  const { jsonMap, tickets } = useEventTotal();
+  const jsonMap = useFetch("./seats-data.json");
+  const {  tickets } = useEventTotal();
 
 
   // calculate available space for drawing
@@ -77,23 +76,10 @@ const EventMap = () => {
     });
   }, []);
 
-  // const handleSelect = React.useCallback(
-  //   seatId => {
-  //     const newIds = selectedSeatsIds.concat([seatId]);
-  //     setSelectedSeatsIds(newIds);
-  //   },
-  //   [selectedSeatsIds]
-  // );
+
   const handleSelect = ()=>{}
   const handleDeselect = ()=>{}
-  // const handleDeselect = React.useCallback(
-  //   seatId => {
-  //     const ids = selectedSeatsIds.slice();
-  //     ids.splice(ids.indexOf(seatId), 1);
-  //     setSelectedSeatsIds(ids);
-  //   },
-  //   [selectedSeatsIds]
-  // );
+
 
   if (jsonMap === null) {
     return <div ref={containerRef}>Loading...</div>;

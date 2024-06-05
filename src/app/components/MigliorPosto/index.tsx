@@ -11,13 +11,15 @@ import { calculateTotalPriceBySector, countTicketsByPriceAndSector, getMinPrice 
 import { ColorSelector } from "../EventMap/utils";
 import { IBestTicket, ITicket } from "@/app/context/type";
 import { formatCurrency } from "@/app/utils/formatCurrency";
+import { useAddBestTicket, useRemoveBestTicket } from "@/app/context/hooks";
 
 //TO DO:AGIUSTARE QUANDO SARA' DEFINITA LA LOGICA MIGLIOR POSTO
 export default function MigliorPosto() {
   const [expanded, setExpanded] = React.useState<string | false>("");
   const [hoverAccordion, setHoverAccordion] = React.useState<string | false>("");
-  const { setHoverArea, pricesForSector, addBestTicket, removeBestTicket, tickets } = useEventTotal();
-
+  const { setHoverArea, pricesForSector, tickets } = useEventTotal();
+  const addBestTicket = useAddBestTicket()
+  const removeBestTicket = useRemoveBestTicket()
   const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -87,7 +89,6 @@ export default function MigliorPosto() {
               />)}
           </S.StyledAccordionDetails>
         </S.StyledAccordion>)}
-
     </div>
   );
 }
@@ -104,11 +105,13 @@ interface TicketRowProps {
   removeTicket: (idSection: number, price: number) => void;
 }
 
-const TicketRow = ({ sector, description, price, commissione, prevendita, count, addTicket, removeTicket, sectionId }: TicketRowProps) => {
+const TicketRow = ({ sector, description, price, commissione, prevendita, count, addTicket, sectionId, removeTicket }: TicketRowProps) => {
+
+
   return (
     <S.Row display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
       <Box>
-        <Typography variant="h6">{description}</Typography>
+        <Typography variant="h6">{description.toUpperCase()}</Typography>
       </Box>
       <Box marginLeft={"auto"} marginRight={4}>
         <Typography>{formatCurrency(price, true)}</Typography>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import Image from "next/image";
 import Logo from "@/../../public/napoli-basket-bianco-celeste.svg";
@@ -10,6 +10,8 @@ import Link from "next/link";
 import Menu from "../Menu";
 import { useAuthState } from "@/app/context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Timer from "../Timer";
+import { useEventTotal } from "@/app/context/EventTotalContext";
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,11 +20,13 @@ const Header = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const { startTimer } = useEventTotal();
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const { isLoggedIn } = useAuthState();
+
 
   return (
     <S.Header>
@@ -65,7 +69,8 @@ const Header = () => {
             />
           </Box>
         </div>
-        <Box>
+        <Box display={"flex"} >
+          {startTimer && <Timer minutes={10} startTime={startTimer} />}
           {isLoggedIn ? (
             <S.LoginButton
               id="basic-button"

@@ -8,10 +8,12 @@ import { useEventTotal } from "@/app/context/EventTotalContext";
 import { IChoiceMode } from "@/app/context/type";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 import PrezziTrasparentiModal from "../Modal/PrezziTrasparentiModal";
+import { useChangeChoiceMode } from "@/app/context/hooks";
 
 const SettoreList = () => {
-  const { changeChoiceMode, mode,pricesForSector } = useEventTotal();
-  const [showModal, setShowModal, ] = useState(false);
+  const { mode, pricesForSector } = useEventTotal();
+  const [showModal, setShowModal,] = useState(false);
+  const changeChoiceMode = useChangeChoiceMode()
   const handleButton = (el: IChoiceMode) => {
     if (mode !== el) {
       changeChoiceMode(el)

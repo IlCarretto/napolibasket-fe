@@ -9,8 +9,9 @@ import {
   RadioGroup,
   Typography,
   styled,
+  useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
 import CartBox from "@/app/components/CartBox";
 import CustomRadio from "@/app/components/Radio";
@@ -21,6 +22,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Button from "@/app/components/Button";
+import { useClearEvents } from "@/app/context/hooks";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -47,7 +49,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({}));
 
 const Payment = () => {
   const [value, setValue] = useState("");
-
+  const theme = useTheme()
+  const clearEvents = useClearEvents()
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement> | React.SyntheticEvent,
     panel: string | boolean
@@ -58,6 +61,11 @@ const Payment = () => {
   };
 
   const [hasPayed, setHasPayed] = useState(false);
+
+  const handlePay = () => {
+    setHasPayed(true)
+    clearEvents()
+  }
 
   const options = [
     {
@@ -85,7 +93,15 @@ const Payment = () => {
   const [expanded, setExpanded] = React.useState<string | boolean>("");
 
   return (
-    <Container maxWidth={"lg"} sx={{ paddingX: "1.5rem", marginY: "1rem" }}>
+    <Container maxWidth={"lg"} sx={{
+      paddingX: "1.5rem", marginY: "1rem",
+      minHeight: "calc(100vh - 66px)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: theme.palette.primary.main,
+      "& .MuiTypography-root": { color: theme.palette.primary.main }
+    }} >
       {!hasPayed ? (
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-8/12">
@@ -162,7 +178,7 @@ const Payment = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Button
-                            onClick={() => setHasPayed(true)}
+                            onClick={() => handlePay()}
                             variant="contained"
                             label={`PAGA CON ${option.label}`}
                           />
@@ -180,7 +196,7 @@ const Payment = () => {
         </div>
       ) : (
         <>
-          <Typography variant="h1" fontWeight="300" className="!text-black">
+          <Typography variant="h1" fontWeight="300" className="!text-black" > 
             Grazie per il tuo acquisto!
           </Typography>
           <Typography variant="body1">

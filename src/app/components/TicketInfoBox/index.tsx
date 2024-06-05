@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as S from "./style";
 import RiepilogoCard from "../Card/RiepilogoCard";
 import {
@@ -13,24 +13,22 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import theme from "@/app/theme";
 import TicketIcon from "@/app/../../public/ticket-blu.svg";
 import Image from "next/image";
 import DatiUtilizzatoreModal from "../Modal/DatiUtilizzatoreModal";
-import Button from "../Button";
 import PrecompilaButton from "../Button/PrecompilaButton";
 import { useFetch } from "@/app/hooks/useFetch";
 import { useRouter } from "next/navigation";
-import { ITicket } from "@/app/context/type";
 import { useEventTotal } from "@/app/context/EventTotalContext";
+import { useClearEvents } from "@/app/context/hooks";
 
 const TicketInfoBox = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { setTickets } = useEventTotal();
+  const clearEvents = useClearEvents()
+
   const handleDelete = () => {
-    localStorage.clear();
-    setTickets([]);
+    clearEvents()
     router.push("/ticket-selection");
   };
   return (
@@ -72,17 +70,8 @@ export default TicketInfoBox;
 
 const DatiUtilizzatore = () => {
   const [showModal, setShowModal] = useState(false);
-  const [tickets, setTickets] = useState<ITicket[]>([]);
-  useEffect(() => {
-    if (typeof window !== "undefined" && localStorage) {
-      const cart = localStorage.getItem("Cart");
+  const { tickets } = useEventTotal();
 
-      if (!!cart && !!JSON.parse(cart).tickets.length) {
-        const parsedCart = JSON.parse(cart);
-        setTickets(parsedCart.tickets);
-      }
-    }
-  }, []);
 
   return (
     <>
@@ -128,46 +117,6 @@ const DatiUtilizzatore = () => {
   );
 };
 
-const CodiceSconto = () => {
-  const label =
-    "Se sei in possesso di una Vivacard o un voucher inseriscilo in questa sezione";
-
-  return (
-    <S.CodiceScontoWrapper
-      padding={"1.25rem"}
-      color={theme.palette.primary.main}
-      sx={{ ".MuiTypography-root": { color: "inherit" } }}
-    >
-      <Typography variant="h6">
-        Utilizza un codice sconto (facoltativo)
-      </Typography>
-      <Box display={"flex"} gap={2} flexDirection={{ xs: "column", sm: "row" }}>
-        <TextField
-          className="contained"
-          sx={{
-            "& label": {
-              paddingBottom: 1,
-              overflow: "initial",
-              whiteSpace: "normal",
-              "@media only screen and (min-width: 820px)": {
-                whiteSpace: "nowrap",
-              },
-            },
-          }}
-          placeholder="Codice sconto"
-          label={label}
-          focused
-        />
-        <Button
-          className="w-full sm:w-1/4"
-          sx={{ alignSelf: "flex-end", height: 50, fontSize: 12 }}
-          label={"Conferma"}
-          variant="contained"
-        />
-      </Box>
-    </S.CodiceScontoWrapper>
-  );
-};
 
 const DatiFatturazione = () => {
   const theme = useTheme();

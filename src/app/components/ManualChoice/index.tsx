@@ -7,10 +7,12 @@ import { ITicket } from "@/app/context/type";
 import { allPricesForSector } from "./utils";
 import * as S from "./style";
 import { formatCurrency } from "@/app/utils/formatCurrency";
-
+import { useChangeTicket, useRemoveTicket } from "@/app/context/hooks";
 
 export default function ManualChoice() {
-  const { tickets, removeTicket, changeTicket, pricesForSector } = useEventTotal();
+  const { tickets, pricesForSector } = useEventTotal();
+  const removeTicket = useRemoveTicket()
+  const changeTicket = useChangeTicket()
 
   const handleDelete = (ticket: ITicket) => {
     removeTicket(ticket.id)
@@ -46,7 +48,7 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
 
   return (
     <S.Row >
-      <Typography variant="h6" marginRight={2} marginBottom={0} color={"primary"} >{ticket.sector} Fila: {ticket.line} Posto: {ticket.place}</Typography>
+      <Typography variant="h6" marginRight={2} marginBottom={0} color={"primary"} >{ticket.sector} - Fila - {ticket.line} Posto - {ticket.place}</Typography>
       <S.CustomFormControl>
         <Select
           labelId="demo-simple-select-label"
@@ -56,7 +58,7 @@ const TicketRow = ({ ticket, onDelete, onChangePrice, prices }: TicketRowProps) 
           onChange={(value) => handleChangeSelect(value)}
         >
           {prices.map((elPrice, index: number) => <MenuItem key={index} value={JSON.stringify(elPrice)}>
-            <Typography  variant="body1" sx={{ color: "black" }}>{elPrice.description} {formatCurrency(elPrice.price, true)}</Typography>
+            <Typography variant="body1" sx={{ color: "black" }}>{elPrice.description.toUpperCase()} {formatCurrency(elPrice.price, true).toUpperCase()}</Typography>
           </MenuItem>)}
         </Select>
       </S.CustomFormControl>

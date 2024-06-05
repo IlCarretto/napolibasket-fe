@@ -5,6 +5,7 @@ import { ISeatData, SeatStatus } from "./type";
 import { ColorSelector, getColor } from "./utils";
 import { useEventTotal } from "@/app/context/EventTotalContext";
 import { IChoiceMode } from "@/app/context/type";
+import { useAddManualTicket, useRemoveTicket } from "@/app/context/hooks";
 
 interface ISeatProps {
     data: ISeatData;
@@ -18,13 +19,15 @@ interface ISeatProps {
     line: string
 }
 
-const Seat: React.FC<ISeatProps> = ({ isSelected, data, settoreId, x, y, onHover, onDeselect, onSelect, line }) => {
-    const { hoverArea, addManualTicket, removeTicket, mode, tickets } = useEventTotal();
+const Seat: React.FC<ISeatProps> = ({ data, settoreId, x, y, onHover, line }) => {
+    const { hoverArea, mode, tickets } = useEventTotal();
+    const removeTicket = useRemoveTicket()
     const isBooked = data.status === SeatStatus.BOOKED;
     const isHided = data.status === SeatStatus.HIDE;
     const isSeatSelected = !!tickets.find(el => el.line === line && el.section_id === settoreId && el.place === data.number);
 
 
+    const addManualTicket = useAddManualTicket()
     const color = getColor(isBooked, isSeatSelected, isHided, ColorSelector[settoreId], hoverArea, settoreId);
 
     const handleMouseEnter = (e: any) => {

@@ -14,20 +14,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body className={montserrat.className}>
         <AuthProvider>
           <ReCaptchaProvider>
             <AppRouterCacheProvider>
-              <ThemeProvider theme={theme}>
-                <EventTotalProvider>
+              <EventTotalProvider>
+                <ThemeProvider theme={theme}>
                   <Header />
                   <main>{children}</main>
                   <Footer />
-                </EventTotalProvider>
-              </ThemeProvider>
+                </ThemeProvider>
+              </EventTotalProvider>
             </AppRouterCacheProvider>
           </ReCaptchaProvider>
         </AuthProvider>
