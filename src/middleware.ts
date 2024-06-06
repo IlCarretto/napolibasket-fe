@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getUserCredentials } from "@/utils/auth/getUserCredentials";
 
 // Define the routes that require authentication
-const protectedRoutes = ["/ticket-selection", "/cart", "/payment"];
+const protectedRoutes = ["/cart", "/payment"];
 
 // Middleware function to handle authentication and redirection
 export async function middleware(request: NextRequest) {
@@ -15,7 +15,6 @@ export async function middleware(request: NextRequest) {
   // Check if the current route is protected and user credentials are missing
   // or the refresh token is not valid
   if (protectedRoutes.includes(pathname) && !credentials) {
-
     // Delete the "user" cookie from the request to log the user out
     request.cookies.delete("tokens");
 

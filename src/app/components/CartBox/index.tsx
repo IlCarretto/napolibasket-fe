@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 import {
   Box,
   Checkbox,
+  CircularProgress,
   Divider,
   FormGroup,
   Tooltip,
@@ -27,11 +28,46 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
   const router = useRouter();
   const { startTimer, tickets } = useEventTotal();
   const [checked, setChecked] = useState(false);
-  const clearEvents = useClearEvents()
-  const removeTicket = useRemoveTicket()
+  const clearEvents = useClearEvents();
+  const removeTicket = useRemoveTicket();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [returnLoading, setReturnLoading] = useState(false);
+  const [returnSuccess, setReturnSuccess] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+
+  const handlePaymentButton = () => {
+    if (!paymentLoading) {
+      setPaymentSuccess(false);
+      setPaymentLoading(true);
+      timer.current = setTimeout(() => {
+        setPaymentSuccess(true);
+        setPaymentLoading(false);
+        router.push("/payment");
+      }, 2000);
+    }
+  };
+
+  const handleReturnButton = () => {
+    if (!returnLoading) {
+      setReturnSuccess(false);
+      setReturnLoading(true);
+      timer.current = setTimeout(() => {
+        setReturnSuccess(true);
+        setReturnLoading(false);
+        router.push("/ticket-selection");
+      }, 2000);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
 
   const totalTicketsPrice = () => {
     return tickets.reduce((total, ticket) => total + ticket.price, 0);
@@ -45,23 +81,23 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
 
   //TO DO; adesso pulisce tutto il local storage dovrebbe essere gestito per evento
   const deleteAllTickets = () => {
-    clearEvents()
+    clearEvents();
     router.push("/ticket-selection");
   };
 
   const deleteTicket = async (id: string) => {
-    removeTicket(id)
+    removeTicket(id);
     if (tickets.length < 2) {
-      clearEvents()
+      clearEvents();
       router.push("/ticket-selection");
-
     }
   };
 
   return (
     <S.CartWrapper
-      className={`border-solid border-2 border-gray-500 rounded-md p-3 ${!isPayment ? "" : "flex flex-col h-full justify-between"
-        }`}
+      className={`border-solid border-2 border-gray-500 rounded-md p-3 ${
+        !isPayment ? "" : "flex flex-col h-full justify-between"
+      }`}
       color={theme.palette.primary.main}
     >
       <S.Timer
@@ -74,10 +110,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       >
         <S.Spin />
         <Box marginLeft={5}>
-          <Timer
-            startTime={startTimer}
-            minutes={10}
-          />
+          <Timer startTime={startTimer} minutes={10} />
         </Box>
       </S.Timer>
       <CartAccordion
@@ -124,14 +157,47 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
         <Box display="flex" flexDirection="column" gap={1}>
           <Button
             disabled={!tickets.length || !checked}
-            onClick={() => router.push("/payment")}
+            onClick={handlePaymentButton}
             label="Procedi con il pagamento"
             variant="contained"
+            startIcon={
+              paymentLoading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: "#FFF",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                  }}
+                />
+              )
+            }
           />
           <Button
-            onClick={() => router.push("/ticket-selection")}
+            onClick={handleReturnButton}
             label="Torna agli acquisti"
             variant="outlined"
+            startIcon={
+              returnLoading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: theme.palette.primary.main,
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                    "&:hover": {
+                      color: "#FFF",
+                    },
+                  }}
+                />
+              )
+            }
           />
         </Box>
       )}

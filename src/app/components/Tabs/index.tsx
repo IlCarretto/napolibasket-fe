@@ -2,11 +2,13 @@ import * as React from "react";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Chip, useMediaQuery, useTheme } from "@mui/material";
 import * as S from "./style";
 import PlaceIcon from "@mui/icons-material/Place";
-import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import Map from "../../components/Map/index";
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import TrainIcon from "@mui/icons-material/Train";
+import Link from "next/link";
 
 interface InfoTabsPanelProps {
   children?: React.ReactNode;
@@ -71,13 +73,13 @@ export default function VerticalTabs() {
         sx={{ borderRight: 1, borderColor: "divider" }}
       >
         <Tab label="Info location" {...a11yProps(0)} />
-        <Tab label="Consegna biglietti" {...a11yProps(1)} />
+        <Tab label="Come arrivare" {...a11yProps(1)} />
       </S.CustomTabs>
       <InfoTabsPanel value={value} index={0}>
         <InfoTabLocation />
       </InfoTabsPanel>
       <InfoTabsPanel value={value} index={1}>
-        <InfoTabConsegna />
+        <InfoTabComeArrivare />
       </InfoTabsPanel>
     </Box>
   );
@@ -100,11 +102,71 @@ const InfoTabLocation = () => {
   );
 };
 
-const InfoTabConsegna = () => {
+const InfoTabComeArrivare = () => {
   return (
-    <Box display={"flex"}>
-      <BookOnlineIcon />
-      <Typography variant="body1">Stampa a casa</Typography>
+    <Box>
+      <Typography variant="h6">
+        Indicazioni per Palabarbuto dai principali luoghi di Napoli con i mezzi
+        pubblici
+      </Typography>
+      <Typography variant="body1" mt={2}>
+        Queste linee hanno fermate in corrispondenza del Palabarbuto
+      </Typography>
+      <Box display="flex" mt={1}>
+        <DirectionsBusIcon />
+        Bus:
+        <Box display="flex" marginLeft={2} gap={1}>
+          <Chip
+            label="01-NA"
+            component="a"
+            href="#"
+            variant="outlined"
+            clickable
+          />
+          <Chip
+            label="101"
+            variant="outlined"
+            clickable
+            component="a"
+            href="#"
+          />
+          <Chip
+            label="502"
+            variant="outlined"
+            clickable
+            component="a"
+            href="#"
+          />
+          <Chip
+            label="C3"
+            variant="outlined"
+            clickable
+            component="a"
+            href="#"
+          />
+        </Box>
+      </Box>
+      <Box display="flex" mt={1}>
+        <TrainIcon />
+        Treno:
+        <Box display="flex" marginLeft={2} gap={1}>
+          <Chip
+            label="L2"
+            variant="outlined"
+            clickable
+            component="a"
+            href="#"
+          />
+          <Chip
+            label="L9"
+            variant="outlined"
+            clickable
+            component="a"
+            href="#"
+          />
+          <Chip label="R" variant="outlined" clickable component="a" href="#" />
+        </Box>
+      </Box>
     </Box>
   );
 };

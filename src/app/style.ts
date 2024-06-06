@@ -24,18 +24,17 @@ export const BgMainWrapper = styled("section")(({ theme }) => ({
   backgroundSize: "cover",
   backgroundPosition: "top center",
   backgroundRepeat: "no-repeat",
-  height: "100%",
   borderLeft: `10px solid ${theme.palette.secondary.main}`,
   borderRight: `10px solid ${theme.palette.secondary.main}`,
   borderBottom: "10px solid #FFF",
   "& .MuiCardContent-root": {
     padding: 0,
   },
-  "& > div": {
-    "& > div": {
-      padding: "0 15px 15px",
-    },
-  },
+  minHeight: "100vh",
+  flexDirection: "column",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export const ALink = styled(Link)(({ theme }) => ({
@@ -45,4 +44,8 @@ export const ALink = styled(Link)(({ theme }) => ({
     textDecoration: "underline",
     textDecorationColor: theme.palette.secondary.main,
   },
+}));
+
+export const ClassificaWrapper = styled("div")(() => ({
+  width: "100%",
 }));

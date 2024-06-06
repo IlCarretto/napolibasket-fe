@@ -5,7 +5,12 @@ import * as S from "./style";
 import { ALink } from "@/app/style";
 import EventMap from "@/app/components/EventMap";
 import SettoreList from "@/app/components/SettoreList";
-import { FormGroup, Typography, useTheme } from "@mui/material";
+import {
+  CircularProgress,
+  FormGroup,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import TicketIcon from "@/app/../../public/ticket-bianco.svg";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import Button from "@/app/components/Button";
@@ -16,7 +21,11 @@ import ReCaptchaModal from "@/app/components/Modal/ReCaptchaModal";
 import ReCAPTCHA from "react-google-recaptcha";
 import Image from "next/image";
 import { formatCurrency } from "@/app/utils/formatCurrency";
-import { useSetEvent, useTotalPrice, useTotalTickets } from "@/app/context/hooks";
+import {
+  useSetEvent,
+  useTotalPrice,
+  useTotalTickets,
+} from "@/app/context/hooks";
 
 const TicketSelection = () => {
   return (
@@ -47,15 +56,21 @@ const EventTotal = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const { tickets } = useEventTotal();
-  const totalTickets = useTotalTickets()
-  const totalPrice = useTotalPrice()
-  const setEvent = useSetEvent()
+  const totalTickets = useTotalTickets();
+  const totalPrice = useTotalPrice();
+  const setEvent = useSetEvent();
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
 
   const handleRecaptchaChange = (token: string | null) => {
     setRecaptchaToken(token);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+    }
     event.preventDefault();
     if (!recaptchaToken) {
       setShowModal(true);
@@ -74,6 +89,8 @@ const EventTotal = () => {
     });
 
     if (response?.data?.success === true) {
+      setSuccess(true);
+      setLoading(false);
       router.push("/cart");
 
       //TO DO: Sisteamre quando ci sarà il BE
@@ -87,12 +104,12 @@ const EventTotal = () => {
     }
   };
 
-
   return (
     <>
       <S.MenuTotal
-        className={`${totalTickets > 0 ? "" : "translate-y-full h-0"
-          } transition-all sticky mt-auto `}
+        className={`${
+          totalTickets > 0 ? "" : "translate-y-full h-0"
+        } transition-all sticky mt-auto `}
       >
         <div className="event-total__top px-3 py-2">
           <Typography variant="h6" mb={0}>
@@ -118,7 +135,19 @@ const EventTotal = () => {
             sx={{ ":hover": { svg: { color: "#FFF" } } }}
             variant="outlined"
             startIcon={
-              <ShoppingBagIcon sx={{ color: theme.palette.primary.main }} />
+              loading ? (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: theme.palette.primary.main,
+                    "&:hover": {
+                      color: "#FFF",
+                    },
+                  }}
+                />
+              ) : (
+                <ShoppingBagIcon sx={{ color: theme.palette.primary.main }} />
+              )
             }
             label={"Acquista"}
           />

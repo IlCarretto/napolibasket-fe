@@ -35,7 +35,7 @@ const HeroCarousel = () => {
       </Carousel>
       <Navbar />
       <S.CtaLink href="#events-list">
-        {"Vai agli eventi"}
+        {"Vai all'evento"}
         <ArrowDownwardIcon />
       </S.CtaLink>
       <S.Title fontSize={48} lineHeight={1.5} variant="h1">

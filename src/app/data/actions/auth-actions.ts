@@ -1,7 +1,8 @@
-"use client";
+"use server";
 
 import { schemaLogin } from "@/app/components/Forms/Login/schema";
 import { schemaRegister } from "@/app/components/Forms/Register/schema";
+import { loginUserService, registerUserService } from "../services/auth-service";
 
 export async function registerUserAction(prevState: any, formData: FormData) {
   const validatedRegisterFields = schemaRegister.safeParse({
@@ -18,8 +19,19 @@ export async function registerUserAction(prevState: any, formData: FormData) {
     };
   }
 
+  const responseData = await registerUserService(validatedRegisterFields.data);
+
+  if (!responseData) {
+    return {
+      ...prevState,
+      zodErrors: null,
+      message: "Something went wrong",
+    };
+  }
+
   return {
-    data: validatedRegisterFields,
+    ...prevState,
+    data: responseData,
     login: true,
   };
 }
@@ -40,33 +52,19 @@ export async function loginUserAction(prevState: any, formData: FormData) {
     };
   }
 
-  const { email, password } = validatedLoginFields.data;
+  const responseData = await loginUserService(validatedLoginFields.data);
 
-  try {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const result = await response.json();
-    if (response.ok) {
-      return {
-        ...prevState,
-        data: result,
-        login: true,
-      };
-    } else {
-      return {
-        ...prevState,
-        message: result.message || "Failed to login",
-      };
-    }
-  } catch (error) {
+  if (!responseData) {
     return {
       ...prevState,
-      message: "An error occurred. Please try again later.",
+      zodErrors: null,
+      message: "Something went wrong",
     };
   }
+
+  return {
+    ...prevState,
+    data: responseData,
+    login: true,
+  };
 }

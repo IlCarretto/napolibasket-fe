@@ -3,14 +3,15 @@
 import { Card, styled } from "@mui/material";
 
 export const CustomCard = styled(Card)(({ theme }) => ({
+  marginBottom: "8rem",
+  width: "60%",
+  height: "auto",
   backgroundColor: theme.palette.primary.main,
   display: "flex",
   flexWrap: "wrap",
   alignItems: "center",
   padding: "2rem",
   gap: "1rem",
-  height: "100%",
-  borderRadius: "20px",
   transition: "all .3s",
   "&:hover": {
     transform: "scale(0.950)",

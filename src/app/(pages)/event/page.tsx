@@ -1,7 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import FakePoster from "@/../../public/fake-poster.jpg";
-import { Box, Container, Divider, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Container,
+  Divider,
+  Typography,
+} from "@mui/material";
 import * as S from "./style";
 import PlaceIcon from "@mui/icons-material/Place";
 import TodayIcon from "@mui/icons-material/Today";
@@ -12,6 +17,28 @@ import { useRouter } from "next/navigation";
 
 const Event = () => {
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef<ReturnType<typeof setTimeout>>();
+
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+        router.push("/ticket-selection");
+      }, 2000);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
   return (
     <S.Section>
       <Container maxWidth={"lg"} sx={{ paddingX: "1.5rem", marginY: "1rem" }}>
@@ -50,12 +77,28 @@ const Event = () => {
               <Divider sx={{ margin: "0.75rem 0" }} />
               <div className="button-group">
                 <Button
-                  onClick={() => router.push("/ticket-selection")}
+                  onClick={handleButtonClick}
                   sx={{
                     padding: "0.75rem 1.25rem",
                     fontSize: "16px",
                     lineHeight: 1.5,
+                    position: "relative",
                   }}
+                  startIcon={
+                    loading && (
+                      <CircularProgress
+                        size={24}
+                        sx={{
+                          color: "#FFF!important",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          marginTop: "-12px",
+                          marginLeft: "-12px",
+                        }}
+                      />
+                    )
+                  }
                   label={"Acquista"}
                   type="button"
                   variant="contained"

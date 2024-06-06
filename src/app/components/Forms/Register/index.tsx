@@ -1,6 +1,7 @@
 import {
   Box,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   FormGroup,
   TextField,
@@ -9,11 +10,10 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Button from "../../Button";
-import { useFormState } from "react-dom";
-import { registerUserAction } from "@/data/actions/auth-actions";
+import { useFormState, useFormStatus } from "react-dom";
+import { registerUserAction } from "@/app/data/actions/auth-actions";
 import { ZodErrors } from "../ZodErrors";
 import { useAuthDispatch } from "@/app/context/AuthContext";
-import theme from "@/app/theme";
 
 const initialState = {
   data: null,
@@ -21,6 +21,34 @@ const initialState = {
   message: null,
   login: null,
 };
+
+function Submit({ checked }: { checked: boolean }) {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      disabled={!checked}
+      type="submit"
+      className="w-full"
+      variant="contained"
+      label={"Crea il mio account"}
+      startIcon={
+        pending && (
+          <CircularProgress
+            size={24}
+            sx={{
+              color: "#FFF",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              marginTop: "-12px",
+              marginLeft: "-12px",
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 const Register = ({
   setShowModal,
@@ -93,13 +121,7 @@ const Register = ({
         </FormGroup>
       </Box>
       <Box mt={2}>
-        <Button
-          disabled={!checked}
-          type="submit"
-          className="w-full"
-          variant="contained"
-          label={"Crea il mio account"}
-        />
+        <Submit checked={checked} />
       </Box>
     </form>
   );

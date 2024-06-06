@@ -12,9 +12,15 @@ import { useAuthState } from "@/app/context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Timer from "../Timer";
 import { useEventTotal } from "@/app/context/EventTotalContext";
+import CarrelloScadutoModal from "../Modal/CarrelloScadutoModal";
+import { useClearEvents } from "@/app/context/hooks";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [showTimeOutModal, setShowTimeOutModal] = useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,6 +33,13 @@ const Header = () => {
 
   const { isLoggedIn } = useAuthState();
 
+  const clearEvent = useClearEvents();
+
+  const handleTimeOut = () => {
+    setShowTimeOutModal(true);
+    clearEvent();
+    router.push("/");
+  };
 
   return (
     <S.Header>
@@ -69,8 +82,14 @@ const Header = () => {
             />
           </Box>
         </div>
-        <Box display={"flex"} >
-          {startTimer && <Timer minutes={10} startTime={startTimer} />}
+        <Box display={"flex"}>
+          {startTimer && (
+            <Timer
+              minutes={10}
+              startTime={startTimer}
+              onTimeOut={handleTimeOut}
+            />
+          )}
           {isLoggedIn ? (
             <S.LoginButton
               id="basic-button"
@@ -91,6 +110,10 @@ const Header = () => {
         </Box>
       </S.CustomContainer>
       <LoginModal showModal={showModal} setShowModal={setShowModal} />
+      <CarrelloScadutoModal
+        showModal={showTimeOutModal}
+        setShowModal={setShowTimeOutModal}
+      />
     </S.Header>
   );
 };
