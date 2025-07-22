@@ -9,10 +9,10 @@ import React, { useEffect, useState } from "react";
 import Button from "../../Button";
 import PrecompilaButton from "../../Button/PrecompilaButton";
 import { useFormState } from "react-dom";
-import { addNominativoTicketAction } from "@/data/actions/ticket-action";
 import { ZodErrors } from "../ZodErrors";
 import Rubrica from "../../Rubrica";
 import { useFetch } from "@/app/hooks/useFetch";
+import { addNominativoTicketAction } from "@/app/data/actions/ticket-action";
 
 const initialState = {
   data: null,
