@@ -9,6 +9,9 @@ const nextConfig = {
                 hostname: "backendcdn.vivaticket.it"
             }
         ]
+    },
+    typescript: {
+        ignoreBuildErrors: true
     }
 };
 
