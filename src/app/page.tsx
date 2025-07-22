@@ -1,95 +1,50 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import * as S from "./style";
+import { Box, Divider, Typography, useTheme } from "@mui/material";
+import MatchCard from "./components/Card/MatchCard";
+import HeroCarousel from "./components/HeroCarousel";
+import Hero from "./components/Hero";
+import ClassificaCard from "./components/Card/ClassificaCard";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+    <>
+      <HeroCarousel />
+      <Hero />
+      <Divider />
+      <S.BgMainWrapper>
+        <Typography variant="h1" marginBottom={2} mt={2}>
+          Prossimo match...
+        </Typography>
+        <MatchCard />
+        <S.ClassificaWrapper>
+          <Typography textAlign={"center"} variant="h3" mb={0}>
+            Classifica attuale
+          </Typography>
+          <div className="flex flex-col md:flex-row gap-4 mt-2 justify-between items-center px-14 mb-4 md:mb-0">
+            <ClassificaCard
+              posto={9}
+              squadra="Napoli Basket"
+              squadraImg="https://napolibasket.it/wp-content/uploads/2018/10/composit-logo-NB-150x150.png"
+              pts={28}
+              g={30}
+              v={14}
+              s={16}
+              diff={-26}
             />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            <ClassificaCard
+              posto={14}
+              squadra="Scafati Basket"
+              squadraImg="https://napolibasket.it/wp-content/uploads/2023/09/scafati-1-150x150.png"
+              pts={24}
+              g={30}
+              v={12}
+              s={18}
+              diff={-145}
+            />
+          </div>
+        </S.ClassificaWrapper>
+      </S.BgMainWrapper>
+    </>
   );
 }
