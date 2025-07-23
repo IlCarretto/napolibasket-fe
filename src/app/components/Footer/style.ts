@@ -2,9 +2,10 @@
 
 import { styled } from "@mui/material";
 
-export const FooterWrapper = styled("footer")(() => ({
+export const FooterWrapper = styled("footer")(({ theme }) => ({
   backgroundImage:
     "url('https://napolibasket.it/wp-content/uploads/2023/09/background-footer.jpg')",
+  backgroundColor: theme.palette.secondary.main,
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
   padding: "1rem 0",

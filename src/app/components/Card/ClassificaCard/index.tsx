@@ -48,12 +48,12 @@ export default function ClassificaCard({ ...props }: TData) {
               align="center"
               sx={{ display: "flex", alignItems: "center" }}
             >
-              <Image
+              {/* <Image
                 src={squadraImg}
                 width={30}
                 height={30}
                 alt="Logo Squadra"
-              />
+              /> */}
               {squadra}
             </TableCell>
             <TableCell align="center">{pts}</TableCell>

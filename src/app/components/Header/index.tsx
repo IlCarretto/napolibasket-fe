@@ -54,7 +54,7 @@ const Header = () => {
           />
         </Link>
         <div className="flex gap-1 md:gap-8 px-3 lg:px-0">
-          <Box>
+          {/* <Box>
             <Image
               src="https://napolibasket.it/wp-content/uploads/2023/10/logoGevi_BIANCO.png"
               alt="Gevi Logo"
@@ -80,7 +80,7 @@ const Header = () => {
               height={0}
               sizes="100vw"
             />
-          </Box>
+          </Box> */}
         </div>
         <Box display={"flex"}>
           {startTimer && (
