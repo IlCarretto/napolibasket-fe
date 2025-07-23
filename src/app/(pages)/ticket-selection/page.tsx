@@ -1,9 +1,9 @@
 "use client";
+import dynamic from "next/dynamic";
 import RiepilogoCard from "@/app/components/Card/RiepilogoCard";
 import React, { useState } from "react";
 import * as S from "./style";
 import { ALink } from "@/app/style";
-import EventMap from "@/app/components/EventMap";
 import SettoreList from "@/app/components/SettoreList";
 import {
   CircularProgress,
@@ -26,6 +26,10 @@ import {
   useTotalPrice,
   useTotalTickets,
 } from "@/app/context/hooks";
+
+const EventMap = dynamic(() => import("@/app/components/EventMap"), {
+  ssr: false,
+});
 
 const TicketSelection = () => {
   return (
