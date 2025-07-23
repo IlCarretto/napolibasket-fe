@@ -20,7 +20,8 @@ export const CustomContainer = styled(Container)(({}) => ({
 
 export const BgMainWrapper = styled("section")(({ theme }) => ({
   backgroundImage:
-    "url('https://napolibasket.it/wp-content/uploads/2023/09/campo-up.jpg')",
+    // "url('https://napolibasket.it/wp-content/uploads/2023/09/campo-up.jpg')",
+    "url('https://napolibasketball.com/wp-content/uploads/2023/09/campo-up.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "top center",
   backgroundRepeat: "no-repeat",

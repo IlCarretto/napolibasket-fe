@@ -8,14 +8,17 @@ import * as S from "./style";
 const HeroCarousel = () => {
   const carouselEls = [
     {
-      url: "https://napolibasket.it/wp-content/uploads/2024/02/Premiazione.jpg",
+      url: "https://napolibasketball.com/wp-content/uploads/2024/10/Curva.jpg",
     },
-    {
-      url: "https://napolibasket.it/wp-content/uploads/2023/11/tLaCJWNg.jpeg",
-    },
-    {
-      url: "https://napolibasket.it/wp-content/uploads/2024/01/J7oWH8xm.jpeg",
-    },
+    // {
+    //   url: "https://napolibasket.it/wp-content/uploads/2024/02/Premiazione.jpg",
+    // },
+    // {
+    //   url: "https://napolibasket.it/wp-content/uploads/2023/11/tLaCJWNg.jpeg",
+    // },
+    // {
+    //   url: "https://napolibasket.it/wp-content/uploads/2024/01/J7oWH8xm.jpeg",
+    // },
   ];
 
   return (
