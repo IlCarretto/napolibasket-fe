@@ -120,7 +120,9 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
         handleDeleteTicket={deleteTicket}
       />
       <S.Row sx={{ paddingY: isPayment ? "0" : "1rem" }}>
-        <Typography variant="body2">Commissioni</Typography>
+        <Typography variant="body2" color={"primary.main"}>
+          Commissioni
+        </Typography>
         <Box>{formatCurrency(totalCommissioni(), true)}</Box>
         <Tooltip title="Commissioni title">
           <InfoIcon className="!text-gray-400" />
@@ -128,7 +130,9 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
       </S.Row>
       <Divider />
       <S.Row sx={{ paddingY: isPayment ? "0" : "1rem" }}>
-        <Typography variant="h6">Totale</Typography>
+        <Typography variant="h6" color={"primary.main"}>
+          Totale
+        </Typography>
         <Box>{formatCurrency(totalPrice, true)}</Box>
         <Tooltip title="Commissioni title">
           <InfoIcon className="!text-gray-400" />
@@ -144,7 +148,7 @@ const CartBox = ({ isPayment }: { isPayment?: boolean }) => {
               required
               control={<Checkbox checked={checked} onChange={handleChange} />}
               label={
-                <Typography ml={0} fontSize={12}>
+                <Typography ml={0} fontSize={12} color={"primary.main"}>
                   Dichiaro di aver letto ed accetti integralmente le 'Condizioni
                   generali' per l'utilizzo del servizio
                 </Typography>

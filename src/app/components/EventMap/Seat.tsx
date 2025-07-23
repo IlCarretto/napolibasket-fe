@@ -34,7 +34,6 @@ const Seat: React.FC<ISeatProps> = ({
   const removeTicket = useRemoveTicket();
   const isBooked = data.status === SeatStatus.BOOKED;
   const isHided = data.status === SeatStatus.HIDE;
-  console.log(data);
 
   const isSeatSelected = !!tickets.find(
     (el) =>

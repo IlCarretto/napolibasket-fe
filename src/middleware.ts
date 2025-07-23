@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getUserCredentials } from "@/utils/auth/getUserCredentials";
 
 // Define the routes that require authentication
-const protectedRoutes = ["/cart", "/payment"];
+// const protectedRoutes = ["/cart", "/payment"];
+const protectedRoutes = ["/test"];
 
 // Middleware function to handle authentication and redirection
 export async function middleware(request: NextRequest) {

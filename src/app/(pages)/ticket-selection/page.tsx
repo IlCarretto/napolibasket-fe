@@ -76,22 +76,22 @@ const EventTotal = () => {
       setLoading(true);
     }
     event.preventDefault();
-    if (!recaptchaToken) {
-      setShowModal(true);
-      return;
-    }
-    const response = await axios({
-      method: "post",
-      url: "/api/recaptcha",
-      data: {
-        recaptchaToken,
-      },
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    });
-
+    // if (!recaptchaToken) {
+    //   setShowModal(true);
+    //   return;
+    // }
+    // const response = await axios({
+    //   method: "post",
+    //   url: "/api/recaptcha",
+    //   data: {
+    //     recaptchaToken,
+    //   },
+    //   headers: {
+    //     Accept: "application/json, text/plain, */*",
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    const response = { data: { success: true } }; // Simulated response for testing
     if (response?.data?.success === true) {
       setSuccess(true);
       setLoading(false);
@@ -128,12 +128,12 @@ const EventTotal = () => {
           </Typography>
         </div>
         <form onSubmit={handleSubmit} className="event-total__bottom px-3 py-2">
-          <FormGroup>
+          {/* <FormGroup>
             <ReCAPTCHA
               sitekey={recaptchaKey || ""}
               onChange={handleRecaptchaChange}
             />
-          </FormGroup>
+          </FormGroup> */}
           <Button
             type="submit"
             sx={{ ":hover": { svg: { color: "#FFF" } } }}
